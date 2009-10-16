@@ -1,6 +1,8 @@
 package edu.usc.sirlab;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FaultDataSet implements Serializable {
 	private static final long serialVersionUID = 4195910454082481338L;
@@ -13,6 +15,7 @@ public class FaultDataSet implements Serializable {
 	private String downloadURL;
 	private int entryCount;
 	private String dataType;
+	private List<String> faultsKML;
 	
 	public FaultDataSet(String id, String name, String nickName, String title,
 			String description, String downloadURL, int entryCount, String dataType) {
@@ -24,6 +27,7 @@ public class FaultDataSet implements Serializable {
 		this.downloadURL = downloadURL;
 		this.entryCount = entryCount;
 		this.dataType = dataType;
+		this.faultsKML = new ArrayList<String>();
 	}
 	public String getId() {
 		return id;
@@ -74,12 +78,21 @@ public class FaultDataSet implements Serializable {
 		this.dataType = dataType;
 	}
 	
+	public void addFaultKML(String f) {
+		faultsKML.add(f);
+	}
+	
 	public String getKMLFolder() {
 		String myString = "";
 		
 		myString += "<Folder>";
 		myString += "<name>" + name + "</name>";
-		myString += "<description>" + description + "</description>";
+		myString += "<description><![CDATA[" + description + "]]></description>";
+		
+		for(String f : faultsKML) {
+			myString += f;
+		}
+		
 		myString += "</Folder>";
 		return myString;
 	}

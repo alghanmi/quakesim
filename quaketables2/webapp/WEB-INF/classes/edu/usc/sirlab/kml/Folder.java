@@ -53,7 +53,7 @@ public class Folder {
 		
 		if(placemarks != null && placemarks.size() > 0)
 			for(Placemark p : placemarks)
-				myString += p.getFullKML() + "\n";
+				myString += p.getKML() + "\n";
 		
 		myString += "\t\t" + "</Folder>";
 		return myString;

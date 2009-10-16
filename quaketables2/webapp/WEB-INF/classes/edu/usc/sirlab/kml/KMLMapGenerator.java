@@ -2,6 +2,7 @@ package edu.usc.sirlab.kml;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -44,10 +45,24 @@ public class KMLMapGenerator extends HttpServlet {
 				if(dss.length == 1) {
 					FaultDataSet dataset = dbQuery.getFaultDataSet(dss[0]);
 					if(dataset != null) {
+						datasetCount++;
 						fileName = "QuakeTables_" + dataset.getNickName().replace(' ', '_') + ".kml";
-						kml.addStyle(new LineStyle("lineStyle", 3));
-						kml.addFolder(dataset.getKMLFolder());
+						LineStyle style;
+						if(request.getParameter("color") != null && request.getParameter("color").length() == 8)
+							style = new LineStyle("lineStyle", request.getParameter("color"), 3);
+						else
+							style = new LineStyle("lineStyle", 3);
+						kml.addStyle(style);
 						
+						if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
+							List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
+							for(CGSFault f : faults) {
+								dataset.addFaultKML(f.getKMLPlaceMark(style));
+							}
+							
+						}
+						
+						kml.addFolder(dataset.getKMLFolder());
 						kml.setName(dataset.getTitle());
 						kml.setDescription(dataset.getDescription());
 					}

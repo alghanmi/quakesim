@@ -52,21 +52,68 @@
 				if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 					List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
 					for(CGSFault f : faults) {
+						String fName = "&nbsp;";
+						if(f.getName() != null) fName = f.getName();
+						
+						String fGeometry = "&nbsp;";
+						if(f.getGeometry() != null) fGeometry = f.getGeometry();
+						
+						String fLength = "&nbsp;";
+						if(f.getLength() != null) fLength = f.getLength().toString();
+						
+						String fLengthError = "&nbsp;";
+						if(f.getLengthError() != null) fLengthError = "&plusmn;" + f.getLengthError().toString();
+						
+						String fSlipRate = "&nbsp;";
+						if(f.getSlipRate() != null) fSlipRate = f.getSlipRate().toString();
+						
+						String fSlipRateError = "&nbsp;";
+						if(f.getSlipRateError() != null) fSlipRateError = "&plusmn;" + f.getSlipRateError().toString();
+						
+						String fMMax = "&nbsp;";
+						if(f.getmMax() != null) fMMax = f.getmMax().toString();
+						
+						String fCharRate = "&nbsp;";
+						if(f.getCharRate() != null) fCharRate = f.getCharRate().toString();
+						
+						String fRecurrence = "&nbsp;";
+						if(f.getRecurrence() != null) fRecurrence = f.getRecurrence().toString();
+						
+						String fDownDipWidth = "&nbsp;";
+						if(f.getDownDipWidth() != null) fDownDipWidth = f.getDownDipWidth().toString();
+						
+						String fDownDipWidthError = "&nbsp;";
+						if(f.getDownDipWidthError() != null) fDownDipWidthError = "&plusmn;" + f.getDownDipWidthError().toString();
+						
+						String fRupTop = "&nbsp;";
+						if(f.getRupTop() != null) fRupTop = f.getRupTop().toString();
+						
+						String fRupBottom = "&nbsp;";
+						if(f.getRupBottom() != null) fRupBottom = f.getRupBottom().toString();
+						
+						String fRake = "&nbsp;";
+						if(f.getRake() != null) fRake = f.getRake().toString();
+						
+						String fDip = "&nbsp;";
+						if(f.getDip() != null) fDip = f.getDip().toString();
+						
+						String fTraces = "&nbsp;";
+						if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
 				%>
 					<tr>
 						<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
-						<td align="center"><%= f.getName()%></td>
-						<td align="center"><%= f.getGeometry()%></td>
-						<td align="center"><%= f.getLength()%> &plusmn; <%= f.getLengthError()%></td>
-						<td align="center"><%= f.getSlipRate()%> &plusmn; <%= f.getSlipRateError() %></td>
-						<td align="center"><%= f.getmMax()%></td>
-						<td align="center"><%= f.getCharRate()%></td>
-						<td align="center"><%= f.getRecurrence()%></td>
-						<td align="center"><%= f.getDownDipWidth()%> &plusmn; <%= f.getDownDipWidthError()%></td>
-						<td align="center"><%= f.getRupTop()%>, <%= f.getRupBottom()%></td>
-						<td align="center"><%= f.getRake()%></td>
-						<td align="center"><%= f.getDip()%></td>
-						<td align="center"><%= f.getTracesString()%></td>
+						<td align="center"><%= fName%></td>
+						<td align="center"><%= fGeometry%></td>
+						<td align="center"><%= fLength%> <%= fLengthError%></td>
+						<td align="center"><%= fSlipRate%> <%= fSlipRateError %></td>
+						<td align="center"><%= fMMax%></td>
+						<td align="center"><%= fCharRate%></td>
+						<td align="center"><%= fRecurrence%></td>
+						<td align="center"><%= fDownDipWidth%> <%= fDownDipWidthError%></td>
+						<td align="center"><%= fRupTop%>, <%= fRupBottom%></td>
+						<td align="center"><%= fRake%></td>
+						<td align="center"><%= fDip%></td>
+						<td align="center"><%= fTraces%></td>
 					</tr>
 				<%	}
 				}%>

@@ -53,7 +53,7 @@ public class Placemark {
 		lines.add(l);
 	}
 	
-	public String getFullKML() {
+	public String getKML() {
 		String myString = "";
 		myString += "\t\t\t" + "<Placemark>" + "\n";
 		if(name != null)

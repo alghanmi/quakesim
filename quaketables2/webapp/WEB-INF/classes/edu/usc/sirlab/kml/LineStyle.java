@@ -18,9 +18,9 @@ public class LineStyle extends Style {
 		//String r = getRandomNumberInHex();
 		//String g = getRandomNumberInHex();
 		//String b = getRandomNumberInHex();
-		String r = "ff";
-		String g = "00";
-		String b = "00";
+		String r = "00";
+		String g = "ff";
+		String b = "ff";
 		this.color = a + r + g + b;
 	}
 	
