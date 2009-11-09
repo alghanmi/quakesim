@@ -34,4 +34,9 @@ public class FaultTracePoint {
 	public void setDepth(double depth) {
 		this.depth = depth;
 	}
+	
+	public GeoPoint getGeoPoint() {
+		//TODO: make GeoPoint and FaultTracePoint the same
+		return new GeoPoint(lat, lon);
+	}
 }

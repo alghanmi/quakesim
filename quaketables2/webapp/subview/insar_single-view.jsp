@@ -42,7 +42,7 @@
           	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>" title="">Full size Image rendering of the data</a></li>
           	<li><a href="kml?iid=<%= insar.getId() %>">KML File for Mapping [Google Earth]</a></li>
           </ul>
-          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>"><img class="center" width="800" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
+          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>"><img class="center" width="800" alt="Interferogram Thumbnail" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
           
         </div> 
         <div class="corner-content-1col-bottom"></div>

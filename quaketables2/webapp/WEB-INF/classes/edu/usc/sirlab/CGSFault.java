@@ -269,7 +269,7 @@ public class CGSFault extends Fault implements Serializable {
 		return param;
 	}
 	
-	public String getKMLPlaceMark(Style style) {
+	public String getKMLPlacemark(Style style, boolean putPlacemark) {
 		//TODO: Use getHTMLParameters() to make this short and easy
 		
 		String description = "";

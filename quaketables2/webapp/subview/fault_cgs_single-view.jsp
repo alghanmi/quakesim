@@ -15,10 +15,13 @@
 %>
 <%	CGSFault fault = dbQuery.getCGSFault(request.getParameter("dataSetID"), request.getParameter("faultID"));
 	String breadCrumbURL2 = "fault.jsp?ds=" + fault.getDataSet().getId();
-	String breadCrumbURL = "fault.jsp?ds=" + fault.getDataSet().getId() + "&fid=" + fault.getId();
+	String breadCrumbURL = "fault.jsp?ds=" + fault.getDataSet().getId() + "&amp;fid=" + fault.getId();
+	//TODO: find a better way to fix this URL
+	String kmlURL = "http://quakesim.org/quaketables/kml?ds=" + fault.getDataSet().getId() + "&amp;fid=" + fault.getId() + "&amp;color=ff00007f&amp;mark=true";
 %>
 
 <jsp:include page="header.jsp">
+	<jsp:param name="gmap" value="<%= kmlURL%>"/>
 	<jsp:param name="breadCrumb1" value="Fault Data Sets"/>
 	<jsp:param name="breadCrumb1Url" value="fault.jsp"/>
 	<jsp:param name="breadCrumb2" value="<%= fault.getDataSet().getNickName()%>"/>
@@ -51,6 +54,7 @@
         <div class="content-1col-nobox">
           <h1>Maps</h1>
 		  <p>Put Meta Data Here</p>
+		  <div id="map_canvas" style="width: 500px; height: 300px"></div>
         </div> 
         <div class="corner-content-1col-bottom"></div>
         <!-- CONTENT CELL -->                
