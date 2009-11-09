@@ -55,8 +55,12 @@
         <div class="corner-content-1col-top"></div>
         <div class="content-1col-nobox">
           <h1>Maps</h1>
-          <p><a href="<%= kmlURL%>" title="KML File">Download KML file for this fault [Google Earth]</a></p>
-		  <div id="map_canvas" style="width: 640px; height: 480px; align: center;"></div>
+          <p></p>
+          <ul>
+          	<li><a href="<%= kmlURL%>" title="KML File">Download KML file for this fault [Google Earth]</a></li>
+          	<li><a href="http://maps.google.com/?q=<%= kmlURL.replace("&", "%26")%>" title="Google Maps">View the map in Google Maps</a></li>
+          </ul>
+		  <div id="map_canvas" class="map" style="width: 640px; height: 480px; align: center;"></div>
         </div> 
         <div class="corner-content-1col-bottom"></div>
         <!-- CONTENT CELL -->                
