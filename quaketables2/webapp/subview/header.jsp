@@ -31,19 +31,22 @@
   <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
   <title>QuakeTables - The QuakeSim Database</title>
   
-  <%if(request.getParameter("gmap") != null) {%>
+  <%if(request.getParameter("gmap") != null) {
+	  String mapURL = request.getParameter("gmap");
+  %>
   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg"
           type="text/javascript"></script>
   <script type="text/javascript">
+      var map;
+      var geoXml;
       function initialize() {
         if (GBrowserIsCompatible()) {
-          var map = new GMap2(document.getElementById("map_canvas"));
-          map.setUIToDefault();
-          var kmlUrl = "<%= request.getParameter("gmap")%>";
-          var kml = new GGeoXml(kmlUrl);
-          var defaultCenter = kml.getDefaultCenter();
-          map.setCenter(defaultCenter, 13);
-          map.addOverlay(kml)
+        	geoXml = new GGeoXml("<%= mapURL%>");
+        	map = new GMap2(document.getElementById("map_canvas"));   
+        	map.setCenter(new GLatLng(<%= request.getParameter("gmapCenterLat")%>, <%= request.getParameter("gmapCenterLon")%>), 9);
+        	
+        	map.addOverlay(geoXml);
+        	map.setUIToDefault();
         }
     } 
   </script>
@@ -53,7 +56,7 @@
 <!-- Global IE fix to avoid layout crash when single word size wider than column width -->
 <!-- Following line MUST remain as a comment to have the proper effect -->
 <!--[if IE]><style type="text/css"> body {word-wrap: break-word;}</style><![endif]-->
-<%if(request.getParameter("gmap") != null && request.getParameter("gmap").equalsIgnoreCase("true")) {%>
+<%if(request.getParameter("gmap") != null) {%>
 <body onload="initialize()" onunload="GUnload()">
 <%} else {%>
 <body>

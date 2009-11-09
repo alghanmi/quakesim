@@ -93,6 +93,20 @@ public class Fault implements Serializable {
 		return getKMLFolder(style, false);
 	}
 	
+	public GeoPoint getFaultCenter() {
+		if(getTraces() != null) {
+			GeoPoint a = getTraces().get(0).getGeoPoint();
+			GeoPoint b = getTraces().get(getTraces().size() - 1).getGeoPoint();
+			
+			double lat = (a.getLat() + b.getLat()) / 2.0;
+			double lon = (a.getLon() + b.getLon()) / 2.0;
+		
+			return new GeoPoint(lat, lon);
+		}
+		else
+			return null;
+	}
+	
 	public String getKMLFolder(Style style, boolean putPlacemark) {
 		String myString = "";
 		myString += "<Folder>";
