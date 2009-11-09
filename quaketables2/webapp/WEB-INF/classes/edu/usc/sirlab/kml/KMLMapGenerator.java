@@ -40,7 +40,7 @@ public class KMLMapGenerator extends HttpServlet {
 				dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
 			
 			//Look for DataSet requests
-			if(request.getParameterValues("ds") != null) {
+			if(request.getParameterValues("ds") != null && request.getParameterValues("fid") == null) {
 				String[] dss = request.getParameterValues("ds");
 				if(dss.length == 1) {
 					FaultDataSet dataset = dbQuery.getFaultDataSet(dss[0]);
@@ -99,10 +99,29 @@ public class KMLMapGenerator extends HttpServlet {
 			}
 			
 			//Look for Faults
-			if(request.getParameter("fid") != null) {
+			if(request.getParameterValues("ds") != null && request.getParameter("fid") != null) {
+				String[] dss = request.getParameterValues("ds");
 				String[] fids = request.getParameterValues("fid");
-				if(fids.length == 1) {
-					//do for one fault
+				if(dss.length == 1 && fids.length == 1) {
+					FaultDataSet dataset = dbQuery.getFaultDataSet(dss[0]);
+					if(dataset != null && dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
+						CGSFault fault = dbQuery.getCGSFault(dataset.getId(), fids[0]);
+						if(fault != null) {
+							countFault++;
+							fileName = "QuakeTables_" + dataset.getNickName().replace(' ', '_') + "_" + fault.getId() + ".kml";
+							LineStyle style;
+							if(request.getParameter("color") != null && request.getParameter("color").length() == 8)
+								style = new LineStyle("lineStyle", request.getParameter("color"), 3);
+							else
+								style = new LineStyle("lineStyle", 3);
+							kml.addStyle(style);
+							
+							kml.addFolder(fault.getKMLFolder(style));
+							kml.setName(fault.getName());
+							kml.setDescription("QuakeTables Fault Query on " + new Date());
+							
+						}
+					}
 				}
 				else {
 					//do for multiple faults

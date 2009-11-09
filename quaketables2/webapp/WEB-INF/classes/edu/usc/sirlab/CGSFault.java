@@ -1,8 +1,9 @@
 package edu.usc.sirlab;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import edu.usc.sirlab.kml.Placemark;
 import edu.usc.sirlab.kml.Style;
 
 public class CGSFault extends Fault implements Serializable {
@@ -186,7 +187,91 @@ public class CGSFault extends Fault implements Serializable {
 		this.comment = comment;
 	}
 	
+	public List<String[]> getHTMLParameters() {
+		List<String[]> param = new ArrayList<String[]>();
+		
+		if(name != null) {
+			String[] p = {"Fault Name", name};
+			param.add(p);
+		}
+		if(zone != null) {
+			String[] p = {"Zone", zone};
+			param.add(p);
+		}
+		if(faultClass != null) {
+			String[] p = {"Class", faultClass};
+			param.add(p);
+		}
+		if(geometry != null) {
+			String[] p = {"Geometry", geometry};
+			param.add(p);
+		}
+		if(geometryDirection != null) {
+			String[] p = {"Geometry Direction", geometryDirection};
+			param.add(p);
+		}
+		if(length != null) {
+			String[] p = {"Length", new String(length + "&nbsp;&nbsp; &plusmn;" + lengthError)};
+			param.add(p);
+		}
+		if(slipRate != null) {
+			String[] p = {"Slip Rate", new String(slipRate + "&nbsp;&nbsp; &plusmn;" + slipRateError)};
+			param.add(p);
+		}
+		if(rank != null) {
+			String[] p = {"Rank", rank};
+			param.add(p);
+		}
+		if(mMax != null) {
+			String[] p = {"Maximum Magnitude", mMax.toString()};
+			param.add(p);
+		}
+		if(charRate != null) {
+			String[] p = {"Characteristic Rate", charRate.toString()};
+			param.add(p);
+		}
+		if(recurrence != null) {
+			String[] p = {"Recurrence Interval", recurrence.toString()};
+			param.add(p);
+		}
+		if(downDipWidth != null) {
+			String[] p = {"Down Dip Width", new String(downDipWidth + "&nbsp;&nbsp; &plusmn;" + downDipWidthError)};
+			param.add(p);
+		}
+		if(rupTop != null) {
+			String[] p = {"Rupture - Top", rupTop.toString()};
+			param.add(p);
+		}
+		if(rupBottom != null) {
+			String[] p = {"Rupture - Bottom", rupBottom.toString()};
+			param.add(p);
+		}
+		if(rake != null) {
+			String[] p = {"Rake", rake.toString()};
+			param.add(p);
+		}
+		if(dip != null) {
+			String[] p = {"Dip", dip.toString()};
+			param.add(p);
+		}
+		if(daz != null) {
+			String[] p = {"Daz", daz.toString()};
+			param.add(p);
+		}
+		if(getTraces() != null && getTraces().size() > 0) {
+			String[] p = {"Location", getTracesString()};
+			param.add(p);
+		}
+		if(comment != null) {
+			String[] p = {"Comment", comment};
+			param.add(p);
+		}
+		return param;
+	}
+	
 	public String getKMLPlaceMark(Style style) {
+		//TODO: Use getHTMLParameters() to make this short and easy
+		
 		String description = "";
 		if(name != null)
 			description += "<b>Fault Name</b>:" + name + "<br>";

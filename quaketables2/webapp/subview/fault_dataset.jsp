@@ -31,7 +31,7 @@
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
           <h1><%= dataset.getName()%></h1>
-          <%= dataset.getDescription() %>
+          <p><a href="kml?ds=<%= dataset.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a><%= dataset.getDescription() %></p>
           <p>The QuakeTables data can, also, be downloaded as a <a href="<%= dataset.getDownloadURL()%>">spread sheet</a></p>
         </div> 
         <div class="corner-content-1col-bottom"></div>
@@ -53,7 +53,7 @@
 					List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
 					for(CGSFault f : faults) {
 						String fName = "&nbsp;";
-						if(f.getName() != null) fName = f.getName();
+						if(f.getName() != null) fName = "<a title=\"\" href=\"fault.jsp?ds=" + f.getDataSet().getId() + "&fid=" + f.getId() + "\">" + f.getName() + "</a>";
 						
 						String fGeometry = "&nbsp;";
 						if(f.getGeometry() != null) fGeometry = f.getGeometry();

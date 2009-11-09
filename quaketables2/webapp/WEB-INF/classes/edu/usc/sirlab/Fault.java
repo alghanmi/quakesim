@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.usc.sirlab.kml.Style;
+
 public class Fault implements Serializable {
 	private static final long serialVersionUID = 5586063937860634421L;
+	private static final String BASE_URL = "http://quakesim.org/quaketables/fault.jsp?ds=";
+	
 	protected FaultDataSet dataSet;
 	protected String id;
 	protected String name;
@@ -71,6 +75,23 @@ public class Fault implements Serializable {
 			if((i + 1) < traces.size())
 				myString += ", ";
 		}
+		return myString;
+	}
+	
+	public String getKMLPlaceMark(Style style) {
+		//TODO: requires implementation see CGSFault.getKMLPlaceMark()
+		String myString = "";
+		return myString;
+	}
+	
+	public String getKMLFolder(Style style) {
+		String myString = "";
+		myString += "<Folder>";
+		myString += "<name>" + name + "</name>";
+		myString += "<description><![CDATA[" + "<a href=\"" + BASE_URL + dataSet.getId() + "&fid=" + id + "\">[" + dataSet.getName() + "] " + name + "</a>" + "]]></description>";
+		myString += getKMLPlaceMark(style);
+		myString += "</Folder>";
+		
 		return myString;
 	}
 }

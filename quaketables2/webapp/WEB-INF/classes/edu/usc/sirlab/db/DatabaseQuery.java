@@ -168,6 +168,47 @@ public class DatabaseQuery implements Serializable {
 		return faults;
 	}
 	
+	public CGSFault getCGSFault(String dataSetID, String faultID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		CGSFault fault = null;
+		FaultDataSet dataset = getFaultDataSet(dataSetID);
+		
+		
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM data_cgs WHERE data_set_id = ? AND entry_id = ? ORDER BY entry_id");
+		statement.setString(1, dataset.getId());
+		statement.setString(2, faultID);
+		ResultSet rs = statement.executeQuery();
+		if(rs.next()) {
+			fault = new CGSFault(dataset, rs.getString("entry_id"), rs.getString("fault_name"));
+			fault.setFaultClass(rs.getString("fault_class"));
+			fault.setZone(rs.getString("fault_zone"));
+			fault.setGeometry(rs.getString("geometry"));
+			fault.setGeometryDirection(rs.getString("geometry_direction"));
+			fault.setLength(rs.getDouble("length")); if(rs.wasNull()) fault.setLength(null);
+			fault.setLengthError(rs.getDouble("length_error")); if(rs.wasNull()) fault.setLengthError(null);
+			fault.setSlipRate(rs.getDouble("slip_rate")); if(rs.wasNull()) fault.setSlipRate(null);
+			fault.setSlipRateError(rs.getDouble("slip_rate_error")); if(rs.wasNull()) fault.setSlipRateError(null);
+			fault.setRank(rs.getString("rank"));
+			fault.setmMax(rs.getDouble("mmax")); if(rs.wasNull()) fault.setmMax(null);
+			fault.setCharRate(rs.getDouble("char_rate")); if(rs.wasNull()) fault.setCharRate(null);
+			fault.setRecurrence(rs.getDouble("recurrence")); if(rs.wasNull()) fault.setRecurrence(null);
+			fault.setDownDipWidth(rs.getDouble("down_dip_width")); if(rs.wasNull()) fault.setDownDipWidth(null);
+			fault.setDownDipWidthError(rs.getDouble("down_dip_width_error")); if(rs.wasNull()) fault.setDownDipWidthError(null);
+			fault.setRupTop(rs.getDouble("rup_top")); if(rs.wasNull()) fault.setRupTop(null);
+			fault.setRupBottom(rs.getDouble("rup_bot")); if(rs.wasNull()) fault.setRupBottom(null);
+			fault.setRake(rs.getDouble("rake")); if(rs.wasNull()) fault.setRake(null);
+			fault.setDip(rs.getDouble("dip")); if(rs.wasNull()) fault.setDip(null);
+			fault.setDaz(rs.getDouble("daz")); if(rs.wasNull()) fault.setDaz(null);
+			fault.setComment(rs.getString("comment"));
+			
+			FaultTracePoint start = new FaultTracePoint(rs.getDouble("start_point_lat"), rs.getDouble("start_point_lon"), 0.0);
+			FaultTracePoint end = new FaultTracePoint(rs.getDouble("end_point_lat"), rs.getDouble("end_point_lon"), 0.0);
+			fault.addTracePoint(start);
+			fault.addTracePoint(end);
+		}
+		
+		return fault;
+	}
+	
 	public List<FaultDataSet> getFaultDataSets() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {		
 		List<FaultDataSet> datasets = new ArrayList<FaultDataSet>();
 		ResultSet rs = dbConnection.executeQuery("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type FROM data_set_definition ORDER BY nick_name");

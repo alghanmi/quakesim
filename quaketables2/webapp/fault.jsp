@@ -34,7 +34,30 @@
 
 	//Show Individual Fault
 	else if(request.getParameter("ds") != null && request.getParameter("fid") != null) {
-		
+		FaultDataSet dataset = dbQuery.getFaultDataSet(request.getParameter("ds"));
+		if(dataset != null && dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
+			CGSFault fault = dbQuery.getCGSFault(dataset.getId(), request.getParameter("fid"));
+			if(fault != null) {
+			%>
+				<jsp:include page="subview/fault_cgs_single-view.jsp">
+					<jsp:param name="dataSetID" value="<%= dataset.getId()%>"/>
+					<jsp:param name="faultID" value="<%= fault.getId()%>"/>
+				</jsp:include>
+			<%
+			}
+		}
+		else if(dataset != null) {
+		%>
+			<jsp:include page="subview/fault_dataset.jsp">
+				<jsp:param name="dataSetID" value="<%= dataset.getId()%>"/>
+			</jsp:include>
+		<%
+		}
+		else {
+		%>
+			<jsp:include page="subview/fault_all_datasets.jsp"/>
+		<%		
+		}
 	}
 
 	//Show All Datasets
