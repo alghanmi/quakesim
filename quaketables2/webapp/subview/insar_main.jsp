@@ -29,7 +29,7 @@
           <p>The interferograms can be access through:</p>
           <ul>
           	<li><a href="insar.jsp?v=g" title="InSAR Grid View">Grid View</a>: interferograms are displayed with selected information</li>
-          	<!-- <li><a href="insar.jsp?v=c" title="InSAR Catalog View">Catalog View</a>: interferogram thumbnails could be browsed</li>  -->
+          	<li><a href="insar.jsp?v=m" title="Interferogram Map View">Map View</a>: interferograms are displayed on a Map</li>
           </ul>
         </div> 
         <div class="corner-content-1col-bottom"></div>                       

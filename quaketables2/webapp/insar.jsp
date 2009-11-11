@@ -23,9 +23,9 @@
 		<%
 	}
 	
-	else if(request.getParameter("v") != null && request.getParameter("v").equalsIgnoreCase("c")) {
+	else if(request.getParameter("v") != null && request.getParameter("v").equalsIgnoreCase("m")) {
 		%>
-		<jsp:include page="subview/insar_catalog.jsp"/>
+		<jsp:include page="subview/insar_map.jsp"/>
 		<%
 	}
 

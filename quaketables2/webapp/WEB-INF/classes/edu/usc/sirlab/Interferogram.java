@@ -147,11 +147,41 @@ public class Interferogram implements Serializable {
 		this.thumbnailURL = thumbnailURL;
 	}
 	
-	public String getKMLFolder() {
+	private String getKMLDescription() {
 		String details = description + "<br>";
 		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>"; 
 		details += "<b>Details</b>: " + "<a href=\"" + SERVER_INSAR_URL + id + "\">" + SERVER_INSAR_URL + id + "</a><br>";
 		details += "<b>Download</b>: " + "<a href=\"" + INSAR_REPO_URL + dataURL + "\">Data</a>, " + "<a href=\"" + INSAR_REPO_URL + metaDataURL + "\">Metadata</a>, " + "<a href=\"" + INSAR_REPO_URL + imageURL + "\">Image</a>";
+		
+		return details;
+	}
+	
+	public String getKMLPlacemark() {
+		String details = getKMLDescription();
+		
+		GeoPoint a = reference1;
+		GeoPoint b = reference4;
+		
+		double lat = (a.getLat() + b.getLat()) / 2.0;
+		double lon = (a.getLon() + b.getLon()) / 2.0;
+		GeoPoint p = new GeoPoint(lat, lon);
+		
+		String myString = "";
+		myString += "<Placemark>";
+		myString += "<name>" + title + "</name>";
+		//TODO: FIX THE URL
+		myString += "<styleUrl>" + "http://gf19.ucs.indiana.edu:9898/maps/styles.kml#s_dot" + "</styleUrl>";
+		myString += "<description><![CDATA[" + details + "]]></description>";
+		myString += "<Point>";
+		myString += "<coordinates>" + p.getKMLCoordinateString() + "</coordinates>";
+		myString += "</Point>";
+		myString += "</Placemark>";
+		
+		return myString;
+	}
+	
+	public String getKMLFolder() {
+		String details = getKMLDescription();
 		
 		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_INSAR_URL + id + "<br>" + "<b>Location</b>: ";
 		

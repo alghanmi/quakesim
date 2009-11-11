@@ -43,7 +43,7 @@
         if (GBrowserIsCompatible()) {
         	geoXml = new GGeoXml("<%= mapURL%>");
         	map = new GMap2(document.getElementById("map_canvas"));   
-        	map.setCenter(new GLatLng(<%= request.getParameter("gmapCenterLat")%>, <%= request.getParameter("gmapCenterLon")%>), 9);
+        	map.setCenter(new GLatLng(<%= request.getParameter("gmapCenterLat")%>, <%= request.getParameter("gmapCenterLon")%>), 7);
         	map.addOverlay(geoXml);
         	map.setUIToDefault();
         }
@@ -174,7 +174,7 @@
             <!--[if lte IE 6]><table><tr><td><![endif]-->
             <ul>
               <li><a href="insar.jsp?v=g">InSAR Grid View</a></li>
-              <!-- <li><a href="insar.jsp?v=a">InSAR Thumbnail Catalog</a></li> -->
+              <li><a href="insar.jsp?v=m">Interferogram Map View</a></li>
             </ul>
             <!--[if lte IE 6]></td></tr></table></a><![endif]-->
         </li>

@@ -76,14 +76,26 @@ public class KMLMapGenerator extends HttpServlet {
 			if(request.getParameterValues("iid") != null) {
 				String[] iids = request.getParameterValues("iid");
 				if(iids.length == 1) {
-					Interferogram insar = dbQuery.getInerferogram(iids[0]);
-					if(insar != null) {
-						countInSAR++;
-						fileName = insar.getDataURL().substring(insar.getDataURL().lastIndexOf('/') + 1) + ".kml";
-						kml.addFolder(insar.getKMLFolder());
-						
-						kml.setName(insar.getTitle());
-						kml.setDescription(insar.getDescription());
+					if(iids[0].equalsIgnoreCase("all")) {
+						List<Interferogram> insar = dbQuery.getInerferograms();
+						fileName = "QuakeSim_InSAR.kml";
+						for(Interferogram i : insar) {
+							countInSAR++;
+							kml.addFolder(i.getKMLPlacemark());
+							kml.setName("QuakeSim InSAR Map View");
+							kml.setDescription("QuakeSim InSAR Interferogram Map from QuakeTables");
+						}
+					}
+					else {
+						Interferogram insar = dbQuery.getInerferogram(iids[0]);
+						if(insar != null) {
+							countInSAR++;
+							fileName = insar.getDataURL().substring(insar.getDataURL().lastIndexOf('/') + 1) + ".kml";
+							kml.addFolder(insar.getKMLFolder());
+							
+							kml.setName(insar.getTitle());
+							kml.setDescription(insar.getDescription());
+						}
 					}
 				}
 				else {
