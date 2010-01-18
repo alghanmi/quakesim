@@ -75,13 +75,18 @@ public class KMLMapGenerator extends HttpServlet {
 			//Look for InSAR interferograms
 			if(request.getParameterValues("iid") != null) {
 				String[] iids = request.getParameterValues("iid");
+				boolean placeOverlay = true;
+				if(request.getParameter("ov") != null)
+					placeOverlay = false;
+				
 				if(iids.length == 1) {
 					if(iids[0].equalsIgnoreCase("all")) {
 						List<Interferogram> insar = dbQuery.getInerferograms();
 						fileName = "QuakeSim_InSAR.kml";
 						for(Interferogram i : insar) {
 							countInSAR++;
-							kml.addFolder(i.getKMLPlacemark());
+							//kml.addFolder(i.getKMLPlacemark());
+							kml.addFolder(i.getKMLFolder(placeOverlay));
 							kml.setName("QuakeSim InSAR Map View");
 							kml.setDescription("QuakeSim InSAR Interferogram Map from QuakeTables");
 						}
@@ -91,7 +96,7 @@ public class KMLMapGenerator extends HttpServlet {
 						if(insar != null) {
 							countInSAR++;
 							fileName = insar.getDataURL().substring(insar.getDataURL().lastIndexOf('/') + 1) + ".kml";
-							kml.addFolder(insar.getKMLFolder());
+							kml.addFolder(insar.getKMLFolder(placeOverlay));
 							
 							kml.setName(insar.getTitle());
 							kml.setDescription(insar.getDescription());
@@ -105,7 +110,7 @@ public class KMLMapGenerator extends HttpServlet {
 							continue;
 						
 						countInSAR++;
-						kml.addFolder(insar.getKMLFolder());
+						kml.addFolder(insar.getKMLFolder(placeOverlay));
 					}
 				}
 			}

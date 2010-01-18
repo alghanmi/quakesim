@@ -14,13 +14,11 @@
 	else
 		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
 
-	String kmlURL = "http://quakesim.org/quaketables/kml?iid=all"; 
+	String kmlURL = "iid=all" + "&ov=0";
 %>
 
 <jsp:include page="header.jsp">
 	<jsp:param name="gmap" value="<%= kmlURL%>"/>
-	<jsp:param name="gmapCenterLat" value="37"/>
-	<jsp:param name="gmapCenterLon" value="-112"/>
 	<jsp:param name="breadCrumb1" value="InSAR Interferograms"/>
 	<jsp:param name="breadCrumb1Url" value="insar.jsp"/>
 	<jsp:param name="breadCrumb2" value="Interferogram Map View"/>
@@ -36,7 +34,7 @@
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
           <h1>InSAR Interferogram Map</h1>
-          <div id="map_canvas" class="map" style="width: 640px; height: 480px; align: center;"></div>
+          <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
           <br></br>
         </div>
         <div class="corner-content-1col-bottom"></div>

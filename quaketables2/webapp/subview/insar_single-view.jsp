@@ -15,9 +15,11 @@
 %>
 <%	Interferogram insar = dbQuery.getInerferogram(request.getParameter("iid")); 
 	String breadCrumbURL = "insar.jsp?iid=" + insar.getId();
+	String kmlURL = "iid=" + insar.getId() + "&ov=0";
 %>
 
 <jsp:include page="header.jsp">
+	<jsp:param name="gmap" value="<%= kmlURL%>"/>
 	<jsp:param name="breadCrumb1" value="InSAR Interferograms"/>
 	<jsp:param name="breadCrumb1Url" value="insar.jsp"/>
 	<jsp:param name="breadCrumb2" value="Interferogram Details Page"/>
@@ -42,7 +44,11 @@
           	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>" title="">Full size Image rendering of the data</a></li>
           	<li><a href="kml?iid=<%= insar.getId() %>">KML File for Mapping [Google Earth]</a></li>
           </ul>
-          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>"><img class="center" width="800" alt="Interferogram Thumbnail" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
+          
+          <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
+          <br></br>
+          
+          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
           
         </div> 
         <div class="corner-content-1col-bottom"></div>

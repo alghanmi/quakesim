@@ -17,13 +17,11 @@
 	String breadCrumbURL2 = "fault.jsp?ds=" + fault.getDataSet().getId();
 	String breadCrumbURL = "fault.jsp?ds=" + fault.getDataSet().getId() + "&amp;fid=" + fault.getId();
 	//TODO: find a better way to fix this URL
-	String kmlURL = "http://quakesim.org/quaketables/kml?ds=" + fault.getDataSet().getId() + "&fid=" + fault.getId() + "&color=ff00007f&mark=true";
+	String kmlURL = "ds=" + fault.getDataSet().getId() + "&fid=" + fault.getId() + "&color=ff00007f&mark=true";
 %>
 
 <jsp:include page="header.jsp">
 	<jsp:param name="gmap" value="<%= kmlURL%>"/>
-	<jsp:param name="gmapCenterLat" value="<%= fault.getFaultCenter().getLat()%>"/>
-	<jsp:param name="gmapCenterLon" value="<%= fault.getFaultCenter().getLon()%>"/>
 	<jsp:param name="breadCrumb1" value="Fault Data Sets"/>
 	<jsp:param name="breadCrumb1Url" value="fault.jsp"/>
 	<jsp:param name="breadCrumb2" value="<%= fault.getDataSet().getNickName()%>"/>
@@ -60,7 +58,7 @@
           	<li><a href="<%= kmlURL%>" title="KML File">Download KML file for this fault [Google Earth]</a></li>
           	<li><a href="http://maps.google.com/?q=<%= kmlURL.replace("&", "%26")%>" title="Google Maps">View the map in Google Maps</a></li>
           </ul>
-		  <div id="map_canvas" class="map" style="width: 640px; height: 480px; align: center;"></div>
+		  <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
         </div> 
         <div class="corner-content-1col-bottom"></div>
         <!-- CONTENT CELL -->                

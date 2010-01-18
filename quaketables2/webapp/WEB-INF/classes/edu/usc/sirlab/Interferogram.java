@@ -13,7 +13,7 @@ public class Interferogram implements Serializable {
 	private Date startDate, endDate;
 	private String dataURL, metaDataURL, imageURL, thumbnailURL;
 	
-	private static final String SERVER_INSAR_URL = "http://localhost:8080/QuakeTables2/insar.jsp?iid=";
+	private static final String SERVER_INSAR_URL = "http://quakesim.org/quaketables/insar.jsp?iid=";
 	private static final String INSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/insar-data/";
 	
 	public Interferogram(int id, String title, String description,
@@ -181,6 +181,10 @@ public class Interferogram implements Serializable {
 	}
 	
 	public String getKMLFolder() {
+		return getKMLFolder(true);
+	}
+	
+	public String getKMLFolder(boolean placeOverlay) {
 		String details = getKMLDescription();
 		
 		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_INSAR_URL + id + "<br>" + "<b>Location</b>: ";
@@ -207,11 +211,6 @@ public class Interferogram implements Serializable {
 		polygon.addCoordinates(reference4);
 		polygon.addCoordinates(reference3);
 		
-		//Overlay
-		String url = INSAR_REPO_URL + imageURL;
-		double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
-		Overlay o = new Overlay(title, details, url, coordinates);
-		
 		String myString = "";
 		myString += "<Folder>";
 		myString += "<name>Reference Points</name>";
@@ -222,10 +221,17 @@ public class Interferogram implements Serializable {
 		myString += polygon.getKML();
 		myString += "</Folder>";
 		
-		myString += "<Folder>";
-		myString += "<name>InSAR Image Overlay</name>";
-		myString += o.getKML();
-		myString += "</Folder>";
+		//Overlay
+		if(placeOverlay) {
+			String url = INSAR_REPO_URL + imageURL;
+			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
+			Overlay o = new Overlay(title, details, url, coordinates);
+			
+			myString += "<Folder>";
+			myString += "<name>InSAR Image Overlay</name>";
+			myString += o.getKML();
+			myString += "</Folder>";
+		}
 		
 		return myString;
 	}

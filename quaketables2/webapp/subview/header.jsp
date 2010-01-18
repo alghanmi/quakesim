@@ -2,14 +2,18 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "edu.usc.sirlab.*" %>
 <%@ page import = "edu.usc.sirlab.db.*" %>
+<%@ page import = "edu.usc.sirlab.tools.*" %>
 <%! DatabaseQuery dbQuery; %>
 <%
+	final String GMAP_URL = "http://quakesim.org/quaketables/kml?";
 	if(session.getAttribute("dbQuery") == null) {
 		dbQuery = new DatabaseQuery();
 		session.setAttribute("dbQuery", dbQuery);
 	}
 	else
 		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	
+	KMLJavaScriptHelper kmljs = new KMLJavaScriptHelper(dbQuery);
 %>
 
 <%
@@ -32,20 +36,33 @@
   <title>QuakeTables - The QuakeSim Database</title>
   
   <%if(request.getParameter("gmap") != null) {
-	  String mapURL = request.getParameter("gmap");
+	  String mapURL = GMAP_URL + request.getParameter("gmap");
+	  List<GeoPoint> points = kmljs.getPoints(request.getParameter("gmap"));
   %>
   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg"
           type="text/javascript"></script>
+  <script src="scripts/gmapscripts.js" type="text/javascript"></script>
   <script type="text/javascript">
       var map;
       var geoXml;
       function initialize() {
         if (GBrowserIsCompatible()) {
-        	geoXml = new GGeoXml("<%= mapURL%>");
-        	map = new GMap2(document.getElementById("map_canvas"));   
-        	map.setCenter(new GLatLng(<%= request.getParameter("gmapCenterLat")%>, <%= request.getParameter("gmapCenterLon")%>), 7);
+        	map = new GMap2(document.getElementById("map_canvas"));
+        	geoXml = new GGeoXml("<%= mapURL%>");   
+        	map.setCenter(new GLatLng(34.019, -118.287));
+
+        	var points = new Array();
+        	<%
+        		for(GeoPoint p : points) {
+        		%>
+        		var point = new GLatLng(<%= p.getLat()%>, <%= p.getLon()%>);
+        		points.push( point );
+        		<%
+        		}
+        	%>
         	map.addOverlay(geoXml);
         	map.setUIToDefault();
+        	fitMap(map, points);
         }
     } 
   </script>
