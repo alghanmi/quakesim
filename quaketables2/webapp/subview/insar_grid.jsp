@@ -47,9 +47,31 @@
           	int insarCount = dbQuery.getInterferogramCount();
           %>
           <table>
-          	<tr><th class="top" scope="col">Thumbnail</th><th class="top" scope="col">Location</th><th class="top" scope="col">Date</th><th class="top" scope="col">Timespan (year)</th><th class="top" scope="col">Width</th><th class="top" scope="col">Length</th></tr>
+          	<tr><th class="top" scope="col">Thumbnail</th><th class="top" scope="col">Location</th><th class="top" scope="col">Date</th><th class="top" scope="col">Timespan (year)</th><th class="top" scope="col">Width</th><th class="top" scope="col">Length</th><th class="top" scope="col">Location</th></tr>
           	<%
-          		for(Interferogram i : insar) {	
+          		for(Interferogram i : insar) {
+          			//TODO: Put the GMap key in a better place
+          			
+          			/*
+          			String markers = "";
+          			String markerColor = "red"; 
+          			markers += i.getReference1().getLat() + "," + i.getReference1().getLon() + "," + markerColor + "|"; 
+          			markers += i.getReference2().getLat() + "," + i.getReference2().getLon() + "," + markerColor + "|";
+          			markers += i.getReference3().getLat() + "," + i.getReference3().getLon() + "," + markerColor + "|";
+          			markers += i.getReference4().getLat() + "," + i.getReference4().getLon() + "," + markerColor + "|";
+          			//*/
+          			String path = "";
+          			/* This feature is not working, so commented for now
+          			//TODO: Investigate why path styles is not working
+          			int pathWeight = 3;
+          			String pathColor = "blue";
+          			path = "weight:" + pathWeight + "|color:" + pathColor + "|";
+          			*/
+          			path += i.getReference1().getLat() + "," + i.getReference1().getLon() + "|";
+          			path += i.getReference2().getLat() + "," + i.getReference2().getLon() + "|";
+          			path += i.getReference4().getLat() + "," + i.getReference4().getLon() + "|";
+          			path += i.getReference3().getLat() + "," + i.getReference3().getLon() + "|";
+          			path += i.getReference1().getLat() + "," + i.getReference1().getLon();
           	%>
           	<tr>
           		<td align="center"><a href="insar.jsp?iid=<%= i.getId()%>"><img src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= i.getThumbnailURL()%>" height="70" alt="InSAR Thumbnail" /></a></td>
@@ -58,6 +80,8 @@
           		<td align="center"><%= i.getTimespan()%></td>
           		<td align="center"><%= i.getWidth()%></td>
           		<td align="center"><%= i.getLength()%></td>
+          		<%--<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&markers=<%= markers%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg" /></td>--%>
+          		<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&zoom=5&sensor=false&path=<%= path%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg" /></td>
           	</tr>
           	<%
           		}

@@ -311,8 +311,9 @@ public class CGSFault extends Fault implements Serializable {
 			description += "<b>Location</b>: " + getTracesString() + "<br>";
 		if(comment != null)
 			description += "<b>Comment</b>: " + comment + "<br>";
-		description += "<br>";
-		description += "<p>This fault is part of the <a href=\"" + BASE_URL + dataSet.getId() + "\">" + dataSet.getName() + "</a>.</p>";
+		description += "<b>Details</b>: " + BASE_URL + dataSet.getId() + "&fid=" + id + "<br>";
+		description += " <br> ";
+		description += "This fault is part of the <a href=\"" + BASE_URL + dataSet.getId() + "\">" + dataSet.getName() + "</a>.";
 		
 		String traces = "";
 		for(FaultTracePoint p : getTraces()) {

@@ -3,9 +3,10 @@
 <%@ page import = "edu.usc.sirlab.*" %>
 <%@ page import = "edu.usc.sirlab.db.*" %>
 <%@ page import = "edu.usc.sirlab.tools.*" %>
-<%! DatabaseQuery dbQuery; %>
-<%
+<%! DatabaseQuery dbQuery;
 	final String GMAP_URL = "http://quakesim.org/quaketables/kml?";
+%>
+<%
 	if(session.getAttribute("dbQuery") == null) {
 		dbQuery = new DatabaseQuery();
 		session.setAttribute("dbQuery", dbQuery);
