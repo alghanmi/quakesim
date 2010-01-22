@@ -61,6 +61,9 @@ public class KMLMapGenerator extends HttpServlet {
 									QuakeSimFault qsf = new QuakeSimFault(f);
 									dataset.addFaultKML(qsf.getKMLPlacemark(style));
 								}
+								else {
+									dataset.addFaultKML(f.getKMLPlacemark(style));
+								}
 							}
 							
 						}
