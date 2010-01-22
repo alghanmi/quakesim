@@ -57,7 +57,10 @@ public class KMLMapGenerator extends HttpServlet {
 						if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 							List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
 							for(CGSFault f : faults) {
-								dataset.addFaultKML(f.getKMLPlacemark(style));
+								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+									QuakeSimFault qsf = new QuakeSimFault(f);
+									dataset.addFaultKML(qsf.getKMLPlacemark(style));
+								}
 							}
 							
 						}
@@ -137,7 +140,14 @@ public class KMLMapGenerator extends HttpServlet {
 							if(request.getParameter("mark") != null && request.getParameter("mark").equalsIgnoreCase("true"))
 								placemark = true;
 							
-							kml.addFolder(fault.getKMLFolder(style, placemark));
+							if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+								QuakeSimFault qsf = new QuakeSimFault(fault);
+								kml.addFolder(qsf.getKMLFolder(style, placemark));
+							}
+							
+							else
+								kml.addFolder(fault.getKMLFolder(style, placemark));
+							
 							kml.setName(fault.getName());
 							kml.setDescription("QuakeTables Fault Query on " + new Date());
 							

@@ -76,7 +76,7 @@ public class Fault implements Serializable {
 			if((i + 1) < traces.size())
 				myString += ", ";
 		}
-		return myString;
+		return myString.trim();
 	}
 
 	public String getKMLPlacemark(Style style) {
