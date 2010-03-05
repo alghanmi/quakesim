@@ -127,12 +127,20 @@ public class DatabaseQuery implements Serializable {
 	}
 	
 	public List<CGSFault> getCGSFaults(String dataSetID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		return getCGSFaults(dataSetID, null);
+	}
+	
+	public List<CGSFault> getCGSFaults(String dataSetID, String orderBy) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		List<CGSFault> faults = new ArrayList<CGSFault>();
 		FaultDataSet dataset = getFaultDataSet(dataSetID);
 		
+		PreparedStatement statement;
+		if(orderBy != null && orderBy.equalsIgnoreCase("fault_name"))
+			statement = dbConnection.getPreparedStatement("SELECT * FROM data_cgs WHERE data_set_id = ? ORDER BY " + orderBy + ", entry_id");
+		else
+			statement = dbConnection.getPreparedStatement("SELECT * FROM data_cgs WHERE data_set_id = ? ORDER BY entry_id");
 		
-		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM data_cgs WHERE data_set_id = ? ORDER BY entry_id");
-		statement.setString(1, dataset.getId());
+		statement.setString(1, dataset.getId());		
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()) {
 			CGSFault f = new CGSFault(dataset, rs.getString("entry_id"), rs.getString("fault_name"));

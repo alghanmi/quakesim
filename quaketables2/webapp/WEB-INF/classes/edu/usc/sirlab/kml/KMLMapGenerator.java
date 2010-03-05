@@ -55,7 +55,11 @@ public class KMLMapGenerator extends HttpServlet {
 						kml.addStyle(style);
 						
 						if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
-							List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
+							List<CGSFault> faults;
+							if(request.getParameter("order") != null)
+								faults = dbQuery.getCGSFaults(dataset.getId(), request.getParameter("order"));
+							else
+								faults = dbQuery.getCGSFaults(dataset.getId());
 							for(CGSFault f : faults) {
 								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
 									QuakeSimFault qsf = new QuakeSimFault(f);
