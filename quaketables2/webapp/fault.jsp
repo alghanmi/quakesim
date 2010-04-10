@@ -46,6 +46,16 @@
 			<%
 			}
 		}
+		else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+			NCALFault fault = dbQuery.getNCALFault(request.getParameter("fid"));
+			if(fault != null) {
+			%>
+				<jsp:include page="subview/fault_ncal_single-view.jsp">
+					<jsp:param name="faultID" value="<%= fault.getId()%>"/>
+				</jsp:include>
+			<%
+			}
+		}
 		else if(dataset != null) {
 		%>
 			<jsp:include page="subview/fault_dataset.jsp">

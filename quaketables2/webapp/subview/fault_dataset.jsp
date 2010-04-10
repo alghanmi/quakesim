@@ -51,10 +51,12 @@
 				faultGroup.setControlBox("allfaults");
 				faultGroup.setMasterBehavior("all");
 			</script>
-			<table>
-				<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Geom</th><th class="top" scope="col">Length</th><th class="top" scope="col">SlipRate</th><th class="top" scope="col">mmax</th><th class="top" scope="col">Char Rate</th><th class="top" scope="col">Recurr</th><th class="top" scope="col">DownDip Width</th><th class="top" scope="col">Rup(t,b)</th><th class="top" scope="col">rake</th><th class="top" scope="col">dip</th><th class="top" scope="col">Location</th></tr>
+			<%
+			if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
+			%>
+				<table>
+					<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Geom</th><th class="top" scope="col">Length</th><th class="top" scope="col">SlipRate</th><th class="top" scope="col">mmax</th><th class="top" scope="col">Char Rate</th><th class="top" scope="col">Recurr</th><th class="top" scope="col">DownDip Width</th><th class="top" scope="col">Rup(t,b)</th><th class="top" scope="col">rake</th><th class="top" scope="col">dip</th><th class="top" scope="col">Location</th></tr>
 				<%
-				if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 					List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
 					for(CGSFault f : faults) {
 						String fName = "&nbsp;";
@@ -120,9 +122,36 @@
 						<td align="center"><%= fDip%></td>
 						<td align="center"><%= fTraces%></td>
 					</tr>
-				<%	}
-				}%>
+				<%	} %>
 			</table>
+			<%
+			}
+			
+			else if(dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+			%>
+				<table>
+					<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Element No</th><th class="top" scope="col">Fault</th><th class="top" scope="col">Segment</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Strength</th><th class="top" scope="col">Strike</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Location</th></tr>
+					<%
+					List<NCALFault> faults = dbQuery.getNCALFaults();
+					for(NCALFault f : faults) {
+						String fName = "&nbsp;";
+						if(f.getName() != null) fName = "<a title=\"\" href=\"fault.jsp?ds=" + f.getDataSet().getId() + "&amp;fid=" + f.getId() + "\">" + f.getName() + "</a>";
+						
+						
+						String fTraces = "&nbsp;";
+						if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
+						%>
+						<tr>
+							<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
+							<td align="center"><%= fName%></td>
+							<td align="center"><%= fTraces%></td>
+						</tr>
+						<%
+						
+					}
+					%>
+				</table>
+			<%} %>
           </form>
         </div> 
         <div class="corner-content-1col-bottom"></div>

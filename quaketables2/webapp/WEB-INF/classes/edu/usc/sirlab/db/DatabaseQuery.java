@@ -217,6 +217,82 @@ public class DatabaseQuery implements Serializable {
 		return fault;
 	}
 	
+	public List<NCALFault> getNCALFaults() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		return getNCALFaults(null);
+	}
+	
+	public List<NCALFault> getNCALFaults(String orderBy) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<NCALFault> faults = new ArrayList<NCALFault>();
+		FaultDataSet dataset = getFaultDataSet("NCAL");
+		
+		PreparedStatement statement;
+		String query = "SELECT * FROM data_ncal_fault ORDER BY element_number";
+		if(orderBy != null && orderBy.equalsIgnoreCase("fault_name"))
+			query = "SELECT * FROM data_ncal_fault ORDER BY fault_element, segment_element, entry_id";
+
+		ResultSet rs = dbConnection.executeQuery(query);
+		while(rs.next()) {
+			NCALFault f = new NCALFault(dataset, rs.getString("element_number"), rs.getString("name"));
+			
+			f.setFaultElement(rs.getInt("fault_element")); if(rs.wasNull()) f.setFaultElement(null);
+			f.setSegmentElement(rs.getInt("segment_element")); if(rs.wasNull()) f.setSegmentElement(null);
+			f.setSlipRate(rs.getDouble("slip_rate")); if(rs.wasNull()) f.setSlipRate(null);
+			f.setStrength(rs.getDouble("strength")); if(rs.wasNull()) f.setStrength(null);
+			
+			f.setStrike(rs.getDouble("strike")); if(rs.wasNull()) f.setStrike(null);
+			f.setDip(rs.getDouble("dip")); if(rs.wasNull()) f.setDip(null);
+			f.setRake(rs.getDouble("rake")); if(rs.wasNull()) f.setRake(null);
+			
+			FaultTracePoint p1 = new FaultTracePoint(rs.getDouble("lat1"), rs.getDouble("lon1"), rs.getDouble("depth1"));
+			FaultTracePoint p2 = new FaultTracePoint(rs.getDouble("lat2"), rs.getDouble("lon2"), rs.getDouble("depth2"));
+			FaultTracePoint p3 = new FaultTracePoint(rs.getDouble("lat3"), rs.getDouble("lon3"), rs.getDouble("depth3"));
+			FaultTracePoint p4 = new FaultTracePoint(rs.getDouble("lat4"), rs.getDouble("lon4"), rs.getDouble("depth4"));
+			
+			f.addTracePoint(p1);
+			f.addTracePoint(p2);
+			f.addTracePoint(p3);
+			f.addTracePoint(p4);
+			
+			faults.add(f);
+		}
+		
+		return faults;
+	}
+	
+	public NCALFault getNCALFault(String faultID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		NCALFault fault = null;
+		FaultDataSet dataset = getFaultDataSet("NCAL");
+		
+		
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM data_ncal_fault WHERE element_number = ?");
+		statement.setString(2, faultID);
+		ResultSet rs = statement.executeQuery();
+		if(rs.next()) {
+			fault = new NCALFault(dataset, rs.getString("element_number"), rs.getString("name"));
+			
+			fault.setFaultElement(rs.getInt("fault_element")); if(rs.wasNull()) fault.setFaultElement(null);
+			fault.setSegmentElement(rs.getInt("segment_element")); if(rs.wasNull()) fault.setSegmentElement(null);
+			fault.setSlipRate(rs.getDouble("slip_rate")); if(rs.wasNull()) fault.setSlipRate(null);
+			fault.setStrength(rs.getDouble("strength")); if(rs.wasNull()) fault.setStrength(null);
+			
+			fault.setStrike(rs.getDouble("strike")); if(rs.wasNull()) fault.setStrike(null);
+			fault.setDip(rs.getDouble("dip")); if(rs.wasNull()) fault.setDip(null);
+			fault.setRake(rs.getDouble("rake")); if(rs.wasNull()) fault.setRake(null);
+			
+			FaultTracePoint p1 = new FaultTracePoint(rs.getDouble("lat1"), rs.getDouble("lon1"), rs.getDouble("depth1"));
+			FaultTracePoint p2 = new FaultTracePoint(rs.getDouble("lat2"), rs.getDouble("lon2"), rs.getDouble("depth2"));
+			FaultTracePoint p3 = new FaultTracePoint(rs.getDouble("lat3"), rs.getDouble("lon3"), rs.getDouble("depth3"));
+			FaultTracePoint p4 = new FaultTracePoint(rs.getDouble("lat4"), rs.getDouble("lon4"), rs.getDouble("depth4"));
+			
+			fault.addTracePoint(p1);
+			fault.addTracePoint(p2);
+			fault.addTracePoint(p3);
+			fault.addTracePoint(p4);
+		}
+		
+		return fault;
+	}
+	
 	public List<FaultDataSet> getFaultDataSets() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {		
 		List<FaultDataSet> datasets = new ArrayList<FaultDataSet>();
 		ResultSet rs = dbConnection.executeQuery("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type FROM data_set_definition ORDER BY nick_name");
