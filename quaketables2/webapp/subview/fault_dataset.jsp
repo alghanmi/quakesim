@@ -130,20 +130,46 @@
 			else if(dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
 			%>
 				<table>
-					<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Element No</th><th class="top" scope="col">Fault</th><th class="top" scope="col">Segment</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Strength</th><th class="top" scope="col">Strike</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Location</th></tr>
+					<tr><th class="top" scope="col">Name</th><th class="top" scope="col">Fault</th><th class="top" scope="col">Segment</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Strength</th><th class="top" scope="col">Strike</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Location</th></tr>
 					<%
 					List<NCALFault> faults = dbQuery.getNCALFaults();
 					for(NCALFault f : faults) {
 						String fName = "&nbsp;";
 						if(f.getName() != null) fName = "<a title=\"\" href=\"fault.jsp?ds=" + f.getDataSet().getId() + "&amp;fid=" + f.getId() + "\">" + f.getName() + "</a>";
 						
+						String fFaultElement = "&nbsp;";
+						if(f.getFaultElement() != null) fFaultElement = f.getFaultElement().toString();
+						
+						String fSegmentElement = "&nbsp;";
+						if(f.getSegmentElement() != null) fSegmentElement = f.getSegmentElement().toString();
+						
+						String fSlipRate = "&nbsp;";
+						if(f.getSlipRate() != null) fSlipRate = f.getSlipRate().toString();
+						
+						String fStrength = "&nbsp;";
+						if(f.getStrength() != null) fStrength = f.getStrength().toString();
+						
+						String fStrike = "&nbsp;";
+						if(f.getStrike() != null) fStrike = f.getStrike().toString();
+						
+						String fDip = "&nbsp;";
+						if(f.getDip() != null) fDip = f.getDip().toString();
+						
+						String fRake = "&nbsp;";
+						if(f.getRake() != null) fRake = f.getRake().toString();
 						
 						String fTraces = "&nbsp;";
 						if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
 						%>
 						<tr>
-							<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
 							<td align="center"><%= fName%></td>
+							<td align="center"><%= fFaultElement%></td>
+							<td align="center"><%= fSegmentElement%></td>
+							<td align="center"><%= fSlipRate%></td>
+							<td align="center"><%= fStrength%></td>
+							<td align="center"><%= fStrike%></td>
+							<td align="center"><%= fDip%></td>
+							<td align="center"><%= fRake%></td>
 							<td align="center"><%= fTraces%></td>
 						</tr>
 						<%

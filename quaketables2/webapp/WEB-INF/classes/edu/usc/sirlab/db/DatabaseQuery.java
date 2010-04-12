@@ -265,7 +265,7 @@ public class DatabaseQuery implements Serializable {
 		
 		
 		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM data_ncal_fault WHERE element_number = ?");
-		statement.setString(2, faultID);
+		statement.setString(1, faultID);
 		ResultSet rs = statement.executeQuery();
 		if(rs.next()) {
 			fault = new NCALFault(dataset, rs.getString("element_number"), rs.getString("name"));

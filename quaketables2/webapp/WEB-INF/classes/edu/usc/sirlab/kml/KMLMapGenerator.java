@@ -54,6 +54,8 @@ public class KMLMapGenerator extends HttpServlet {
 							style = new LineStyle("lineStyle", 3);
 						kml.addStyle(style);
 						
+						System.out.println("FaultDataSet " + dataset.getDataType());
+						
 						if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 							List<CGSFault> faults;
 							if(request.getParameter("order") != null)
@@ -61,6 +63,24 @@ public class KMLMapGenerator extends HttpServlet {
 							else
 								faults = dbQuery.getCGSFaults(dataset.getId());
 							for(CGSFault f : faults) {
+								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+									QuakeSimFault qsf = new QuakeSimFault(f);
+									dataset.addFaultKML(qsf.getKMLPlacemark(style));
+								}
+								else {
+									dataset.addFaultKML(f.getKMLPlacemark(style));
+								}
+							}
+							
+						}
+						
+						else if(dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+							List<NCALFault> faults;
+							if(request.getParameter("order") != null)
+								faults = dbQuery.getNCALFaults(request.getParameter("order"));
+							else
+								faults = dbQuery.getNCALFaults();
+							for(NCALFault f : faults) {
 								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
 									QuakeSimFault qsf = new QuakeSimFault(f);
 									dataset.addFaultKML(qsf.getKMLPlacemark(style));

@@ -72,7 +72,10 @@ public class Fault implements Serializable {
 	public String getTracesString() {
 		String myString = "";
 		for(int i = 0; i < traces.size(); i++) {
-			myString += "[" + traces.get(i).getLat() + ", " + traces.get(i).getLon() + "]";
+			if(traces.get(i).getDepth() == 0.0)
+				myString += "[" + traces.get(i).getLat() + ", " + traces.get(i).getLon() + "]";
+			else
+				myString += "[" + traces.get(i).getLat() + ", " + traces.get(i).getLon() + ", " + traces.get(i).getDepth() + "]";
 			if((i + 1) < traces.size())
 				myString += ", ";
 		}

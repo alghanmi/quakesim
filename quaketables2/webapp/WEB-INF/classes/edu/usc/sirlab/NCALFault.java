@@ -86,24 +86,36 @@ public class NCALFault extends Fault implements Serializable {
 	public void setRake(Double rake) {
 		this.rake = rake;
 	}
+	
+	//TODO: This takes the max depth of the fault
+	public double getDepth() {
+		double depth = 0;
+		for(FaultTracePoint p : traces) {
+			if(p.getDepth() < depth)
+				depth = p.getDepth();
+		}
+		
+		return depth;
+	}
 
 	public List<String[]> getHTMLParameters() {
 		List<String[]> param = new ArrayList<String[]>();
+		
+		if(elementNumber != null) {
+			String[] p = {"Element Number", elementNumber.toString()};
+			param.add(p);
+		}
 		
 		if(name != null) {
 			String[] p = {"Fault Name", name};
 			param.add(p);
 		}
-		if(elementNumber != null) {
-			String[] p = {"Element Number", elementNumber.toString()};
-			param.add(p);
-		}
 		if(faultElement != null) {
-			String[] p = {"Fault Number of Element", faultElement.toString()};
+			String[] p = {"Fault Number of Element", new String(faultElement.toString() + ": " + getElementName(faultElement))};
 			param.add(p);
 		}
 		if(segmentElement != null) {
-			String[] p = {"Segment Number of Element", segmentElement.toString()};
+			String[] p = {"Segment Number of Element", new String(segmentElement.toString() + ": " + getElementName(segmentElement))};
 			param.add(p);
 		}
 		if(slipRate != null) {
@@ -171,5 +183,118 @@ public class NCALFault extends Fault implements Serializable {
 		myString += "</Placemark>";
 		
 		return myString;
+	}
+	
+	public static String getElementName(int id) {
+		String elementName;
+		switch(id) {
+			case 1:
+				elementName = "A0 - SAF-Mendo Offs";
+				break;
+			case 2:
+				elementName = "A1 - SAF-N Mendocin";
+				break;
+			case 3:
+				elementName = "A1 - SAF-N Mendocin";
+				break;
+			case 4:
+				elementName = "A1 - SAF-N Coast Of";
+				break;
+			case 5:
+				elementName = "A1 - SAF-N Coast On";
+				break;
+			case 6:
+				elementName = "A2 - SAF-N Mid Peni";
+				break;
+			case 7:
+				elementName = "A2 - SAF-S Mid Peni";
+				break;
+			case 8:
+				elementName = "A2 - SAF-S Mid Peni";
+				break;
+			case 9:
+				elementName = "A3 - SAF-S Cruz Mts";
+				break;
+			case 10:
+				elementName = "A3 - SAF-S Cruz Mts";
+				break;
+			case 11:
+				elementName = "A4 - N San Gregorio";
+				break;
+			case 12:
+				elementName = "A5 - S San Gregorio";
+				break;
+			case 13:
+				elementName = "H6 - N Maacama";
+				break;
+			case 14:
+				elementName = "H5 - C Maacama";
+				break;
+			case 15:
+				elementName = "H4 - S Maacama";
+				break;
+			case 16:
+				elementName = "H3 - Rodgers Creek";
+				break;
+			case 17:
+				elementName = "H2 - Hayward";
+				break;
+			case 18:
+				elementName = "H1 - Hayward";
+				break;
+			case 19:
+				elementName = "C5 - Berryessa";
+				break;
+			case 20:
+				elementName = "C4 - Greenvalley";
+				break;
+			case 21:
+				elementName = "C3 - Concord";
+				break;
+			case 22:
+				elementName = "C2 - Calaveras";
+				break;
+			case 23:
+				elementName = "C1 - Calaveras";
+				break;
+			case 24:
+				elementName = "C1s - Calaveras";
+				break;
+			case 25:
+				elementName = "L05 - West Napa";
+				break;
+			case 26:
+				elementName = "L02 - Greenville";
+				break;
+			case 27:
+				elementName = "CC04 - MontBay-Tul";
+				break;
+			case 28:
+				elementName = "SF01 - Quien Sabe";
+				break;
+			case 29:
+				elementName = "SF02 - Ortigalita";
+				break;
+			case 30:
+				elementName = "SF03 - Mt. Diablo";
+				break;
+			case 31:
+				elementName = "SF04 - Collayomi";
+				break;
+			case 32:
+				elementName = "SF05 - Pt. Reyes";
+				break;
+			case 33:
+				elementName = "SF06 - Mon Vis-Shannon";
+				break;
+			case 34:
+				elementName = "C6 - Bartlett Spring";
+				break;
+			default:
+				elementName = null;
+				break;
+		}
+		
+		return elementName;
 	}
 }
