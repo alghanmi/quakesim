@@ -180,6 +180,36 @@ public class KMLMapGenerator extends HttpServlet {
 							
 						}
 					}
+					
+					else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+						NCALFault fault = dbQuery.getNCALFault(fids[0]);
+						if(fault != null) {
+							countFault++;
+							fileName = "QuakeTables_" + dataset.getNickName().replace(' ', '_') + "_" + fault.getId() + ".kml";
+							LineStyle style;
+							if(request.getParameter("color") != null && request.getParameter("color").length() == 8)
+								style = new LineStyle("lineStyle", request.getParameter("color"), 4);
+							else
+								style = new LineStyle("lineStyle", 4);
+							kml.addStyle(style);
+							
+							boolean placemark = false;
+							if(request.getParameter("mark") != null && request.getParameter("mark").equalsIgnoreCase("true"))
+								placemark = true;
+							
+							if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+								QuakeSimFault qsf = new QuakeSimFault(fault);
+								kml.addFolder(qsf.getKMLFolder(style, placemark));
+							}
+							
+							else
+								kml.addFolder(fault.getKMLFolder(style, placemark));
+							
+							kml.setName(fault.getName());
+							kml.setDescription("QuakeTables Fault Query on " + new Date());
+							
+						}
+					}
 				}
 				else {
 					//do for multiple faults

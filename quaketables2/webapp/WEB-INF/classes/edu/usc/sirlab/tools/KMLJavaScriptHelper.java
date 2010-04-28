@@ -53,6 +53,14 @@ public class KMLJavaScriptHelper implements Serializable{
 						points.add(p.getGeoPoint());
 				}
 			}
+			
+			else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+				NCALFault fault = dbQuery.getNCALFault(fid);
+				if(fault != null) {
+					for(FaultTracePoint p : fault.getTraces())
+						points.add(p.getGeoPoint());
+				}
+			}
 		}
 		
 		//Look for InSAR interferograms
