@@ -41,6 +41,14 @@ public class KMLJavaScriptHelper implements Serializable{
 						points.add(p.getGeoPoint());
 				}
 			}
+			
+			else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+				List<NCALFault> faults = dbQuery.getNCALFaults();
+				for(NCALFault f : faults) {
+					for(FaultTracePoint p : f.getTraces())
+						points.add(p.getGeoPoint());
+				}
+			}
 		}
 		
 		//Look for Faults

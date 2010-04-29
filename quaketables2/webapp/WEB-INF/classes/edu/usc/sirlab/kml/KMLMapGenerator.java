@@ -75,6 +75,9 @@ public class KMLMapGenerator extends HttpServlet {
 						}
 						
 						else if(dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
+							response.sendRedirect("data/NCAL_2010.kml");
+							
+							/*
 							List<NCALFault> faults;
 							if(request.getParameter("order") != null)
 								faults = dbQuery.getNCALFaults(request.getParameter("order"));
@@ -89,7 +92,7 @@ public class KMLMapGenerator extends HttpServlet {
 									dataset.addFaultKML(f.getKMLPlacemark(style));
 								}
 							}
-							
+							//*/
 						}
 						
 						kml.addFolder(dataset.getKMLFolder());
