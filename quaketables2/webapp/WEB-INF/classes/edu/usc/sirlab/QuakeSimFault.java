@@ -42,7 +42,7 @@ public class QuakeSimFault extends Fault implements Serializable {
 		double equard = 6378.139;
 		double flattening = 1.0 / 298.247;
 		double yFactor = 111.32;
-		double xFactor = equard * (Math.PI / 180.0) * Math.cos(latStart * Math.PI / 180.0) * (1.0 - (flattening * Math.sin(lonStart * Math.PI / 180.0)));
+		double xFactor = equard * (Math.PI / 180.0) * Math.cos(latStart * Math.PI / 180.0) * (1.0 - (flattening * Math.sin(latStart * Math.PI / 180.0) * Math.sin(latStart * Math.PI / 180.0)));
 		
 		this.locationX = xFactor * (lonEnd - lonStart);
 		this.locationY = yFactor * (latEnd - latStart);
