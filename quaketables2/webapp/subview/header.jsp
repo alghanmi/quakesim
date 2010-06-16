@@ -37,8 +37,24 @@
   <title>QuakeTables - The QuakeSim Database</title>
   
   <%if(request.getParameter("gmap") != null) {
-	  String mapURL = GMAP_URL + request.getParameter("gmap");
-	  List<GeoPoint> points = kmljs.getPoints(request.getParameter("gmap"));
+	  //TODO: Make it generic
+	  String mapURL;
+	  List<GeoPoint> points;
+	  if(request.getParameter("gmap").startsWith("http://")) {
+		mapURL = request.getParameter("gmap");
+		points = new ArrayList<GeoPoint>();
+		points.add(new GeoPoint(32.93182878, -116.08603614));
+		points.add(new GeoPoint(32.93182878, -114.94588938));
+		points.add(new GeoPoint(32.58146742, -116.08603614));
+		points.add(new GeoPoint(32.58146742, -114.94588938));
+		
+	  }
+	  else {
+	  	mapURL = GMAP_URL + request.getParameter("gmap");
+	  	points = kmljs.getPoints(request.getParameter("gmap"));
+	  }
+	  
+	  
   %>
   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg"
           type="text/javascript"></script>
@@ -196,5 +212,15 @@
             </ul>
             <!--[if lte IE 6]></td></tr></table></a><![endif]-->
         </li>
-      </ul>                  
+      </ul>
+      <!-- Navigation item -->
+      <ul>
+        <li><a href="uavsar.jsp">UAVSAR RPI</a>
+            <!--[if lte IE 6]><table><tr><td><![endif]-->
+            <ul>
+              <li><a href="uavsar.jsp?v=m">UAVSAR Map View</a></li>
+            </ul>
+            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+        </li>
+      </ul>
     </div>

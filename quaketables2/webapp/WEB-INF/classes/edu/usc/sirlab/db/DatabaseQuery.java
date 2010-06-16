@@ -126,6 +126,84 @@ public class DatabaseQuery implements Serializable {
 		return insar;
 	}
 	
+	public int getUAVSARCount() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		int count = 0;
+		ResultSet rs = dbConnection.executeQuery("SELECT COUNT(*) AS total FROM uavsar_pri");
+		if(rs.next())
+			count = rs.getInt(1);
+		
+		return count;
+	}
+	
+	public UAVSAR getUAVSAR(String iid) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		UAVSAR uavsar = null;
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri WHERE id = ?");
+		statement.setString(1, iid);
+		ResultSet rs = statement.executeQuery();
+		
+		if(rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
+			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
+			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
+			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			Date date1 = rs.getDate("date_1");
+			Date date2 = rs.getDate("date_2");
+			String sourceURL = rs.getString("source_url");
+			String metaDataURL = rs.getString("metadata_url");
+			String imageURL = rs.getString("preview_img_url");
+			String kmlURL = rs.getString("preview_kml_url");
+			
+			uavsar = new UAVSAR(id, title, description, date1, date2, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			uavsar.setDataCategories(getUAVSARCategories(uavsar));		
+		}
+		
+		return uavsar;
+	}
+	
+	public List<UAVSARCategory> getUAVSARCategories(UAVSAR u) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UAVSARCategory> categories = null;
+		if(u != null) {
+			categories = new ArrayList<UAVSARCategory>();
+			PreparedStatement statement = dbConnection.getPreparedStatement("SELECT DISTINCT c.id, c.name FROM uavsar_pri_data AS p, uavsar_data_category AS c WHERE p.category = c.id  AND uavsar_pri_id = ?");
+			statement.setInt(1, u.getId());
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				UAVSARCategory c = new UAVSARCategory(rs.getString("id"), rs.getString("name"));
+				c.setDataItems(getUAVSARCategories(u, c));
+				
+				categories.add(c);				
+			}
+		}
+		
+		return categories;
+	}
+	
+	public List<UAVSARDataItem> getUAVSARCategories(UAVSAR u, UAVSARCategory c) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UAVSARDataItem> items = null;
+		if(u != null) {
+			items = new ArrayList<UAVSARDataItem>();
+			PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri_data WHERE uavsar_pri_id = ? AND category = ?");
+			statement.setInt(1, u.getId());
+			statement.setString(2, c.getId());
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString("item_name");
+				String url = rs.getString("item_url");
+				String viz_url = rs.getString("item_viz_url");
+				String viz_url_preview = rs.getString("item_viz_preview_url");
+				
+				items.add(new UAVSARDataItem(name, url, viz_url, viz_url_preview));
+			}
+		}
+		
+		return items;
+	}
+	
 	public List<CGSFault> getCGSFaults(String dataSetID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		return getCGSFaults(dataSetID, null);
 	}
