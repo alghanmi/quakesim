@@ -234,7 +234,8 @@ public class UAVSAR implements Serializable {
 		//Overlay
 		if(placeOverlay) {
 			String url = UAVSAR_REPO_URL + imageURL;
-			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
+			//double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
+			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference4.getLon(), reference1.getLon()}; // North, South, East, West Corners
 			Overlay o = new Overlay(title, details, url, coordinates);
 			
 			myString += "<Folder>";

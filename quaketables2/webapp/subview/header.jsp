@@ -201,6 +201,7 @@
         </li>
       </ul>
       <!-- Navigation item -->
+      <%--
       <ul>
         <li><a href="uavsar.jsp">UAVSAR RPI</a>
             <!--[if lte IE 6]><table><tr><td><![endif]-->
@@ -210,4 +211,5 @@
             <!--[if lte IE 6]></td></tr></table></a><![endif]-->
         </li>
       </ul>
+       --%>
     </div>

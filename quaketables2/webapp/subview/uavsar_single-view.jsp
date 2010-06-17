@@ -49,7 +49,6 @@
           	<li><b>Source</b>: <a href="<%= uavsar.getSourceURL()%>" title="JPL UAVSAR Project RPI Project Page">JPL UAVSAR Project</a></li>
           </ul>
           <br>
-          <%-- <p><a href="<%= uavsar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="<%= UAVSAR_BASE + uavsar.getImageURL()%>" /></a></p>  --%>
           
           <%
           List<UAVSARCategory> categories = uavsar.getDataCategories();
@@ -73,18 +72,22 @@
           
           <br>
           <br>
+          <%-- 
+          <p><a href="<%= uavsar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="<%= UAVSAR_BASE + uavsar.getImageURL()%>" /></a></p>
+          --%>
+          <br>
           
           <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
           <br></br>
           
         </div> 
         <div class="corner-content-1col-bottom"></div>
+        <%--
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
           <h1>Meta Data Table</h1>
           <table>
-          <%--
-				URL url = new URL(uavsar.getMetaDataURL());
+          		URL url = new URL(UAVSAR_BASE + uavsar.getMetaDataURL());
 				BufferedReader min = new BufferedReader(new InputStreamReader(url.openStream()));
 				String line;
 				StringTokenizer tokenizer;
@@ -93,17 +96,23 @@
 					line = line.trim();
 					if(line.equals(""))
 						continue;
-					else if(line.startsWith("#"))
-						continue;
+					//else if(line.startsWith("#"))
+						//continue;
 					
-					tokenizer = new StringTokenizer(line, " \t\n");			
-					%><tr><th class="top" scope="col"><%= tokenizer.nextToken()%></th><td><%= tokenizer.nextToken()%></td></tr><%
+					tokenizer = new StringTokenizer(line, " \t\n");
+					int tokens = tokenizer.countTokens();
+					%><tr>
+						<th class="top" scope="col"><%= tokenizer.nextToken()%></th>
+						<% for(int i = 0; i < tokens - 1; i++) {%>
+						<td><%= tokenizer.nextToken()%></td>
+						<%} %>
+					</tr><%
 				}
 				min.close();
-			--%>
 			</table>
         </div> 
         <div class="corner-content-1col-bottom"></div>
+        --%>
         <!-- CONTENT CELL -->                
       </div>
       <!-- C.2 SUBCONTENT -->
