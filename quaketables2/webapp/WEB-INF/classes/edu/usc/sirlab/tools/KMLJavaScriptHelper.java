@@ -19,7 +19,7 @@ public class KMLJavaScriptHelper implements Serializable{
 	public List<GeoPoint> getPoints(String input) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		List<GeoPoint> points = new ArrayList<GeoPoint>();
 		String[] parameters = input.split("&");
-		String fid = null, ds = null, iid = null;
+		String fid = null, ds = null, iid = null, uid = null;
 		
 		for(int i = 0; i < parameters.length; i++) {
 			String[] value = parameters[i].split("=");
@@ -28,7 +28,9 @@ public class KMLJavaScriptHelper implements Serializable{
 			else if(value[0].equalsIgnoreCase("ds"))
 				ds = value[1];
 			else if(value[0].equalsIgnoreCase("iid"))
-				iid = value[1];			
+				iid = value[1];
+			else if(value[0].equalsIgnoreCase("uid"))
+				uid = value[1];
 		}
 		
 		//Look for DataSet requests
@@ -86,6 +88,24 @@ public class KMLJavaScriptHelper implements Serializable{
 				points.add(new GeoPoint(i.getReference2().getLat(), i.getReference2().getLon()));
 				points.add(new GeoPoint(i.getReference3().getLat(), i.getReference3().getLon()));
 				points.add(new GeoPoint(i.getReference4().getLat(), i.getReference4().getLon()));
+			}
+		}
+		
+		//UAVSAR Products
+		else if(uid != null) {
+			List<UAVSAR> uavsar;
+			if(uid.equalsIgnoreCase("all")) {
+				uavsar = dbQuery.getUAVSAR();
+			}
+			else {
+				uavsar = new ArrayList<UAVSAR>();
+				uavsar.add(dbQuery.getUAVSAR(uid));
+			}
+			for(UAVSAR u : uavsar) {
+				points.add(new GeoPoint(u.getReference1().getLat(), u.getReference1().getLon()));
+				points.add(new GeoPoint(u.getReference2().getLat(), u.getReference2().getLon()));
+				points.add(new GeoPoint(u.getReference3().getLat(), u.getReference3().getLon()));
+				points.add(new GeoPoint(u.getReference4().getLat(), u.getReference4().getLon()));
 			}
 		}
 		

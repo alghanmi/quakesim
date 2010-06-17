@@ -20,13 +20,13 @@
 	}
 
 	// Show InSAR Interferogram
-	else if(request.getParameter("iid") != null) {
-		if(!request.getParameter("iid").equalsIgnoreCase("")) {
-			Interferogram insar = dbQuery.getInerferogram(request.getParameter("iid"));
-			if(insar != null) {
+	else if(request.getParameter("uid") != null) {
+		if(!request.getParameter("uid").equalsIgnoreCase("")) {
+			UAVSAR uavsar = dbQuery.getUAVSAR(request.getParameter("uid"));
+			if(uavsar != null) {
 			%>
 				<jsp:include page="subview/uavsar_single-view.jsp">
-					<jsp:param name="interferogramID" value="<%= insar.getId()%>"/>
+					<jsp:param name="interferogramID" value="<%= uavsar.getId()%>"/>
 				</jsp:include>
 			<%
 			}
@@ -38,7 +38,7 @@
 		}
 	}
 
-	//Show Main InSAR Page
+	//Show Main UAVSAR Page
 	else {
 	%>
 		<jsp:include page="subview/uavsar_main.jsp"/>

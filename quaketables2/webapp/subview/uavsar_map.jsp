@@ -14,7 +14,7 @@
 	else
 		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
 
-	String kmlURL = "iid=all" + "&ov=0";
+	String kmlURL = "uid=all" + "&ov=0";
 %>
 
 <jsp:include page="header.jsp">
@@ -27,13 +27,13 @@
 
     <!-- C. MAIN SECTION -->      
     <div class="main">
-	   <h1 class="pagetitle">InSAR Interferograms on QuakeTables</h1>
+	   <h1 class="pagetitle">UAVSAR PRI Products on QuakeTables</h1>
       <!-- C.1 CONTENT -->
       <div class="content">
         <!-- CONTENT CELL -->                
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
-          <h1>InSAR Interferogram Map</h1>
+          <h1>UAVSAR PRI Map</h1>
           <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
           <br></br>
         </div>

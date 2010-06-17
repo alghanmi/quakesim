@@ -135,10 +135,37 @@ public class DatabaseQuery implements Serializable {
 		return count;
 	}
 	
-	public UAVSAR getUAVSAR(String iid) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+	public List<UAVSAR> getUAVSAR() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
+		ResultSet rs = dbConnection.executeQuery("SELECT * FROM uavsar_pri");
+		
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
+			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
+			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
+			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			Date date1 = rs.getTimestamp("date_1");
+			Date date2 = rs.getTimestamp("date_2");
+			String sourceURL = rs.getString("source_url");
+			String metaDataURL = rs.getString("metadata_url");
+			String imageURL = rs.getString("preview_img_url");
+			String kmlURL = rs.getString("preview_kml_url");
+			
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			u.setDataCategories(getUAVSARCategories(u));
+			uavsar.add(u);
+		}
+		
+		return uavsar;
+	}
+	
+	public UAVSAR getUAVSAR(String uid) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		UAVSAR uavsar = null;
 		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri WHERE id = ?");
-		statement.setString(1, iid);
+		statement.setString(1, uid);
 		ResultSet rs = statement.executeQuery();
 		
 		if(rs.next()) {
@@ -149,8 +176,8 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
-			Date date1 = rs.getDate("date_1");
-			Date date2 = rs.getDate("date_2");
+			Date date1 = rs.getTimestamp("date_1");
+			Date date2 = rs.getTimestamp("date_2");
 			String sourceURL = rs.getString("source_url");
 			String metaDataURL = rs.getString("metadata_url");
 			String imageURL = rs.getString("preview_img_url");

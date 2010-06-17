@@ -29,7 +29,7 @@ public class KMLMapGenerator extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		KMLDocument kml = new KMLDocument();
 		String fileName = DEFAULT_FILENAME_PREFIX + DEFAULT_FILENAME_SUFFIX;
-		int countInSAR = 0, countFault = 0, datasetCount = 0;
+		int countUAVSAR = 0, countInSAR = 0, countFault = 0, datasetCount = 0;
 		
 		try {
 			if(session.getAttribute("dbQuery") == null) {
@@ -148,6 +148,50 @@ public class KMLMapGenerator extends HttpServlet {
 				}
 			}
 			
+			//Look for UAVSAR interferograms
+			if(request.getParameterValues("uid") != null) {
+				String[] uids = request.getParameterValues("uid");
+				boolean placeOverlay = true;
+				if(request.getParameter("ov") != null)
+					placeOverlay = false;
+				
+				if(uids.length == 1) {
+					if(uids[0].equalsIgnoreCase("all")) {
+						List<UAVSAR> uavsar = dbQuery.getUAVSAR();
+						fileName = "QuakeSim_UAVSAR.kml";
+						for(UAVSAR u : uavsar) {
+							countUAVSAR++;
+							//kml.addFolder(i.getKMLPlacemark());
+							kml.addFolder(u.getKMLFolder(placeOverlay));
+							kml.setName("QuakeSim UAVSAR Map View");
+							kml.setDescription("QuakeSim UAVSAR RPI Map from QuakeTables");
+						}
+					}
+					else {
+						UAVSAR uavsar = dbQuery.getUAVSAR(uids[0]);
+						if(uavsar != null) {
+							countUAVSAR++;
+							System.out.println("I AM HERE");
+							fileName = uavsar.getMetaDataURL().substring(uavsar.getMetaDataURL().lastIndexOf('/') + 1) + ".kml";
+							kml.addFolder(uavsar.getKMLFolder(placeOverlay));
+							
+							kml.setName(uavsar.getTitle());
+							kml.setDescription(uavsar.getDescription());
+						}
+					}
+				}
+				else {
+					for(String uid : uids) {
+						UAVSAR uavsar = dbQuery.getUAVSAR(uid);
+						if(uavsar == null)
+							continue;
+						
+						countUAVSAR++;
+						kml.addFolder(uavsar.getKMLFolder(placeOverlay));
+					}
+				}
+			}
+			
 			//Look for Faults
 			if(request.getParameterValues("ds") != null && request.getParameter("fid") != null) {
 				String[] dss = request.getParameterValues("ds");
@@ -219,7 +263,7 @@ public class KMLMapGenerator extends HttpServlet {
 				}
 			}
 			
-			if(countInSAR != 0 || countFault != 0 || datasetCount != 0) {
+			if(countUAVSAR != 0 || countInSAR != 0 || countFault != 0 || datasetCount != 0) {
 				response.setContentType(KML_CONTENT_TYPE);
 				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 				ServletOutputStream out = response.getOutputStream();

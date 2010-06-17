@@ -37,24 +37,11 @@
   <title>QuakeTables - The QuakeSim Database</title>
   
   <%if(request.getParameter("gmap") != null) {
-	  //TODO: Make it generic
-	  String mapURL;
-	  List<GeoPoint> points;
-	  if(request.getParameter("gmap").startsWith("http://")) {
-		mapURL = request.getParameter("gmap");
-		points = new ArrayList<GeoPoint>();
-		points.add(new GeoPoint(32.93182878, -116.08603614));
-		points.add(new GeoPoint(32.93182878, -114.94588938));
-		points.add(new GeoPoint(32.58146742, -116.08603614));
-		points.add(new GeoPoint(32.58146742, -114.94588938));
-		
-	  }
-	  else {
-	  	mapURL = GMAP_URL + request.getParameter("gmap");
-	  	points = kmljs.getPoints(request.getParameter("gmap"));
-	  }
-	  
-	  
+	//TODO: Make it generic
+	String mapURL;
+	List<GeoPoint> points;
+	mapURL = GMAP_URL + request.getParameter("gmap");
+	points = kmljs.getPoints(request.getParameter("gmap"));	  
   %>
   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg"
           type="text/javascript"></script>
