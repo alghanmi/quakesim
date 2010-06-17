@@ -1,6 +1,7 @@
 package edu.usc.sirlab;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class UAVSAR implements Serializable {
 	private String sourceURL, metaDataURL, imageURL, kmlURL;
 	private GeoPoint reference1, reference2, reference3, reference4;
 	private List<UAVSARCategory> dataCategories;
+	
+	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	
 	private static final String SERVER_UAVSAR_URL = "http://quakesim.org/quaketables/uavsar.jsp?uid=";
 	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
@@ -244,10 +247,34 @@ public class UAVSAR implements Serializable {
 	}
 	
 	private String getKMLDescription() {
-		String details = description + "<br>";
-		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>"; 
+		String details = "<b>RPI Product Information</b>";
+		details += "<b>Site Description</b>:" + description + "<br>";
+		details += "<b>Time of Acquisition for Pass 1</b>:" + longFormat.format(getDate1()) + "<br>";
+		details += "<b>Time of Acquisition for Pass 2</b>:" + longFormat.format(getDate2()) + "<br>";
+		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
+		details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + UAVSAR_REPO_URL + getKmlURL() + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
 		details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + id + "\">" + SERVER_UAVSAR_URL + id + "</a><br>";
-		details += "<b>Download</b>: " + "<a href=\"" + UAVSAR_REPO_URL + "TEST ME" + "\">Data</a>, " + "<a href=\"" + UAVSAR_REPO_URL + metaDataURL + "\">Metadata</a>, " + "<a href=\"" + UAVSAR_REPO_URL + imageURL + "\">Image</a>";
+		details += "<br><br>";
+		
+		List<UAVSARCategory> categories = getDataCategories();
+		for(UAVSARCategory cat : categories) {
+			details += "<b>" + cat.getName() + "</b>";
+			List<UAVSARDataItem> items =  cat.getDataItems();
+			for(UAVSARDataItem i : items) {
+				details += "<b>" + i.getName() + "</b>: ";
+				if(i.getUrl() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
+				if(i.getVisualizationURL() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
+				if(i.getVisualizationPreviewURL() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
+				
+				details += "<br>";
+			}
+			details += "<br>";
+		}
+		
+		details += "<b>Source</b>:" + "<a href=\"" + getSourceURL() + "\" title=\"JPL UAVSAR Project RPI Project Page\">JPL UAVSAR Project</a>" + "<br>";
 		
 		return details;
 	}
