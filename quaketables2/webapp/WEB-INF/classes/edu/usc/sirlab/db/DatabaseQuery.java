@@ -231,6 +231,82 @@ public class DatabaseQuery implements Serializable {
 		return items;
 	}
 	
+	public List<UCERFFault> getUCERFFaults(String dataSetID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		return getUCERFFaults(dataSetID, null);
+	}
+	
+	public List<UCERFFault> getUCERFFaults(String dataSetID, String orderBy) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UCERFFault> faults = new ArrayList<UCERFFault>();
+		FaultDataSet dataset = getFaultDataSet(dataSetID);
+		
+		PreparedStatement statement;
+		if(orderBy != null && orderBy.equalsIgnoreCase("fault_name"))
+			statement = dbConnection.getPreparedStatement("SELECT * FROM data_ucerf2 WHERE data_set_id = ? ORDER BY " + orderBy + ", entry_id");
+		else
+			statement = dbConnection.getPreparedStatement("SELECT * FROM data_ucerf2 WHERE data_set_id = ? ORDER BY entry_id");
+		
+		statement.setString(1, dataset.getId());		
+		ResultSet rs = statement.executeQuery();
+		while(rs.next()) {
+			UCERFFault f = new UCERFFault(dataset, rs.getString("entry_id"), rs.getString("fault_name"));
+			
+			f.setUpperDepth(rs.getDouble("upper_depth")); if(rs.wasNull()) f.setUpperDepth(null);
+			f.setLowerDepth(rs.getDouble("lower_depth")); if(rs.wasNull()) f.setLowerDepth(null);
+			f.setDipAngle(rs.getDouble("dip_angle")); if(rs.wasNull()) f.setDipAngle(null);
+			f.setDipDirection(rs.getDouble("dip_direction")); if(rs.wasNull()) f.setDipDirection(null);
+			f.setSlipRate(rs.getDouble("slip_rate")); if(rs.wasNull()) f.setSlipRate(null);
+			f.setSlipFactor(rs.getDouble("slip_factor")); if(rs.wasNull()) f.setSlipFactor(null);
+			f.setRake(rs.getDouble("rake")); if(rs.wasNull()) f.setRake(null);
+			f.setTraceLength(rs.getDouble("trace_length")); if(rs.wasNull()) f.setTraceLength(null);
+			
+			String traces = rs.getString("trace_points");
+			String[] tracePointStrings = traces.split("&");
+			
+			for(int i = 0; i < tracePointStrings.length; i++) {
+				String[] tracePoint = tracePointStrings[i].split(",");
+				FaultTracePoint p = new FaultTracePoint(Double.parseDouble(tracePoint[0].trim()), Double.parseDouble(tracePoint[1].trim()), f.getLowerDepth());
+				f.addTracePoint(p);
+			}
+			
+			faults.add(f);
+		}
+		
+		return faults;
+	}
+	
+	public UCERFFault getUCERFFault(String dataSetID, String faultID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		UCERFFault fault = null;
+		FaultDataSet dataset = getFaultDataSet(dataSetID);
+		
+		
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM data_ucerf2 WHERE data_set_id = ? AND entry_id = ? ORDER BY entry_id");
+		statement.setString(1, dataset.getId());
+		statement.setString(2, faultID);
+		ResultSet rs = statement.executeQuery();
+		if(rs.next()) {
+			fault = new UCERFFault(dataset, rs.getString("entry_id"), rs.getString("fault_name"));
+			fault.setUpperDepth(rs.getDouble("upper_depth")); if(rs.wasNull()) fault.setUpperDepth(null);
+			fault.setLowerDepth(rs.getDouble("lower_depth")); if(rs.wasNull()) fault.setLowerDepth(null);
+			fault.setDipAngle(rs.getDouble("dip_angle")); if(rs.wasNull()) fault.setDipAngle(null);
+			fault.setDipDirection(rs.getDouble("dip_direction")); if(rs.wasNull()) fault.setDipDirection(null);
+			fault.setSlipRate(rs.getDouble("slip_rate")); if(rs.wasNull()) fault.setSlipRate(null);
+			fault.setSlipFactor(rs.getDouble("slip_factor")); if(rs.wasNull()) fault.setSlipFactor(null);
+			fault.setRake(rs.getDouble("rake")); if(rs.wasNull()) fault.setRake(null);
+			fault.setTraceLength(rs.getDouble("trace_length")); if(rs.wasNull()) fault.setTraceLength(null);
+			
+			String traces = rs.getString("trace_points");
+			String[] tracePointStrings = traces.split("&");
+			
+			for(int i = 0; i < tracePointStrings.length; i++) {
+				String[] tracePoint = tracePointStrings[i].split(",");
+				FaultTracePoint p = new FaultTracePoint(Double.parseDouble(tracePoint[0].trim()), Double.parseDouble(tracePoint[1].trim()), fault.getLowerDepth());
+				fault.addTracePoint(p);
+			}
+		}
+		
+		return fault;
+	}
+	
 	public List<CGSFault> getCGSFaults(String dataSetID) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		return getCGSFaults(dataSetID, null);
 	}

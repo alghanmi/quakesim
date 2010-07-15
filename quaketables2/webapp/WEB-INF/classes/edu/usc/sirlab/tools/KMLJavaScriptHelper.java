@@ -44,6 +44,14 @@ public class KMLJavaScriptHelper implements Serializable{
 				}
 			}
 			
+			if(dataset != null && dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+				List<UCERFFault> faults = dbQuery.getUCERFFaults(dataset.getId());
+				for(UCERFFault f : faults) {
+					for(FaultTracePoint p : f.getTraces())
+						points.add(p.getGeoPoint());
+				}
+			}
+			
 			else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
 				List<NCALFault> faults = dbQuery.getNCALFaults();
 				for(NCALFault f : faults) {
@@ -58,6 +66,14 @@ public class KMLJavaScriptHelper implements Serializable{
 			FaultDataSet dataset = dbQuery.getFaultDataSet(ds);
 			if(dataset != null && dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 				CGSFault fault = dbQuery.getCGSFault(dataset.getId(), fid);
+				if(fault != null) {
+					for(FaultTracePoint p : fault.getTraces())
+						points.add(p.getGeoPoint());
+				}
+			}
+			
+			if(dataset != null && dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+				UCERFFault fault = dbQuery.getUCERFFault(dataset.getId(), fid);
 				if(fault != null) {
 					for(FaultTracePoint p : fault.getTraces())
 						points.add(p.getGeoPoint());

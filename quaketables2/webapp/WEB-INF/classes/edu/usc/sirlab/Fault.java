@@ -70,9 +70,13 @@ public class Fault implements Serializable {
 	}
 	
 	public String getTracesString() {
+		return getTracesString(true);
+	}
+	
+	public String getTracesString(boolean showDepth) {
 		String myString = "";
 		for(int i = 0; i < traces.size(); i++) {
-			if(traces.get(i).getDepth() == 0.0)
+			if(traces.get(i).getDepth() == 0.0 || !showDepth)
 				myString += "[" + traces.get(i).getLat() + ", " + traces.get(i).getLon() + "]";
 			else
 				myString += "[" + traces.get(i).getLat() + ", " + traces.get(i).getLon() + ", " + traces.get(i).getDepth() + "]";

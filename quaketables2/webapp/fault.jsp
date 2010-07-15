@@ -46,6 +46,17 @@
 			<%
 			}
 		}
+		else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+			UCERFFault fault = dbQuery.getUCERFFault(dataset.getId(), request.getParameter("fid"));
+			if(fault != null) {
+			%>
+				<jsp:include page="subview/fault_ucerf2_single-view.jsp">
+					<jsp:param name="dataSetID" value="<%= dataset.getId()%>"/>
+					<jsp:param name="faultID" value="<%= fault.getId()%>"/>
+				</jsp:include>
+			<%
+			}
+		}
 		else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
 			NCALFault fault = dbQuery.getNCALFault(request.getParameter("fid"));
 			if(fault != null) {

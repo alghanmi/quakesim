@@ -38,7 +38,7 @@ public class KMLMapGenerator extends HttpServlet {
 			}
 			else
 				dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
-			
+						
 			//Look for DataSet requests
 			if(request.getParameterValues("ds") != null && request.getParameterValues("fid") == null) {
 				String[] dss = request.getParameterValues("ds");
@@ -53,9 +53,7 @@ public class KMLMapGenerator extends HttpServlet {
 						else
 							style = new LineStyle("lineStyle", 3);
 						kml.addStyle(style);
-						
-						System.out.println("FaultDataSet " + dataset.getDataType());
-						
+										
 						if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 							List<CGSFault> faults;
 							if(request.getParameter("order") != null)
@@ -70,6 +68,26 @@ public class KMLMapGenerator extends HttpServlet {
 								else {
 									dataset.addFaultKML(f.getKMLPlacemark(style));
 								}
+							}
+							
+						}
+						
+						else if(dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+							List<UCERFFault> faults;
+							if(request.getParameter("order") != null)
+								faults = dbQuery.getUCERFFaults(dataset.getId(), request.getParameter("order"));
+							else
+								faults = dbQuery.getUCERFFaults(dataset.getId());
+							for(UCERFFault f : faults) {
+								/*
+								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+									QuakeSimFault qsf = new QuakeSimFault(f);
+									dataset.addFaultKML(qsf.getKMLPlacemark(style));
+								}
+								else {
+								*/
+									dataset.addFaultKML(f.getKMLPlacemark(style));
+								//}
 							}
 							
 						}
@@ -171,7 +189,6 @@ public class KMLMapGenerator extends HttpServlet {
 						UAVSAR uavsar = dbQuery.getUAVSAR(uids[0]);
 						if(uavsar != null) {
 							countUAVSAR++;
-							System.out.println("I AM HERE");
 							fileName = uavsar.getMetaDataURL().substring(uavsar.getMetaDataURL().lastIndexOf('/') + 1) + ".kml";
 							kml.addFolder(uavsar.getKMLFolder(placeOverlay));
 							
@@ -220,6 +237,38 @@ public class KMLMapGenerator extends HttpServlet {
 							}
 							
 							else
+								kml.addFolder(fault.getKMLFolder(style, placemark));
+							
+							kml.setName(fault.getName());
+							kml.setDescription("QuakeTables Fault Query on " + new Date());
+							
+						}
+					}
+					
+					else if(dataset != null && dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+						UCERFFault fault = dbQuery.getUCERFFault(dataset.getId(), fids[0]);
+						if(fault != null) {
+							countFault++;
+							fileName = "QuakeTables_" + dataset.getNickName().replace(' ', '_') + "_" + fault.getId() + ".kml";
+							LineStyle style;
+							if(request.getParameter("color") != null && request.getParameter("color").length() == 8)
+								style = new LineStyle("lineStyle", request.getParameter("color"), 4);
+							else
+								style = new LineStyle("lineStyle", 4);
+							kml.addStyle(style);
+							
+							boolean placemark = false;
+							if(request.getParameter("mark") != null && request.getParameter("mark").equalsIgnoreCase("true"))
+								placemark = true;
+							
+							/*
+							if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
+								QuakeSimFault qsf = new QuakeSimFault(fault);
+								kml.addFolder(qsf.getKMLFolder(style, placemark));
+							}
+							*/
+							
+							//else
 								kml.addFolder(fault.getKMLFolder(style, placemark));
 							
 							kml.setName(fault.getName());

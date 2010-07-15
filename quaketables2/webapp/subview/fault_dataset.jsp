@@ -127,6 +127,61 @@
 			<%
 			}
 			
+			else if(dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
+				%>
+					<table>
+						<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Upper Depth</th><th class="top" scope="col">Lower Depth</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Dip Dir.</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Slip Factor</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Trace Length</th><%--<th class="top" scope="col">Location</th>--%></tr>
+					<%
+						List<UCERFFault> faults = dbQuery.getUCERFFaults(dataset.getId());
+						for(UCERFFault f : faults) {
+							String fName = "&nbsp;";
+							if(f.getName() != null) fName = "<a title=\"\" href=\"fault.jsp?ds=" + f.getDataSet().getId() + "&amp;fid=" + f.getId() + "\">" + f.getName() + "</a>";
+							
+							String fUpperDepth = "&nbsp;";
+							if(f.getUpperDepth() != null) fUpperDepth = f.getUpperDepth().toString();
+							
+							String fLowerDepth = "&nbsp;";
+							if(f.getLowerDepth() != null) fLowerDepth = f.getLowerDepth().toString();
+							
+							String fDipAngle = "&nbsp;";
+							if(f.getDipAngle() != null) fDipAngle = f.getDipAngle().toString();
+							
+							String fDipDirection = "&nbsp;";
+							if(f.getDipDirection() != null) fDipDirection = f.getDipDirection().toString();
+							
+							String fSlipRate = "&nbsp;";
+							if(f.getSlipRate() != null) fSlipRate = f.getSlipRate().toString();
+							
+							String fSlipFactor = "&nbsp;";
+							if(f.getSlipFactor() != null) fSlipFactor = f.getSlipFactor().toString();
+							
+							String fRake = "&nbsp;";
+							if(f.getRake() != null) fRake = f.getRake().toString();
+							
+							String fTraceLength = "&nbsp;";
+							if(f.getTraceLength() != null) fTraceLength = f.getTraceLength().toString();
+							
+							String fTraces = "&nbsp;";
+							if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
+					%>
+						<tr>
+							<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
+							<td align="center"><%= fName%></td>
+							<td align="center"><%= fUpperDepth%></td>
+							<td align="center"><%= fLowerDepth%></td>
+							<td align="center"><%= fDipAngle%></td>
+							<td align="center"><%= fDipDirection%></td>
+							<td align="center"><%= fSlipRate%></td>
+							<td align="center"><%= fSlipFactor%></td>
+							<td align="center"><%= fRake%></td>
+							<td align="center"><%= fTraceLength%></td>
+							<%--<td align="center"><%= fTraces%></td>--%>
+						</tr>
+					<%	} %>
+				</table>
+				<%
+				}
+			
 			else if(dataset.getDataType().equalsIgnoreCase("ncal_fault")) {
 			%>
 				<table>

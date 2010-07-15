@@ -315,9 +315,9 @@ public class CGSFault extends Fault implements Serializable {
 		description += " <br> ";
 		description += "This fault is part of the <a href=\"" + BASE_URL + dataSet.getId() + "\">" + dataSet.getName() + "</a>.";
 		
-		String traces = "";
+		String kmlTraces = "";
 		for(FaultTracePoint p : getTraces()) {
-			traces += p.getLon() + "," + p.getLat() + " ";
+			kmlTraces += p.getLon() + "," + p.getLat() + " ";
 		}
 		
 		String myString = "";
@@ -327,7 +327,7 @@ public class CGSFault extends Fault implements Serializable {
 		myString += "<styleUrl>" + "#" + style.getId() + "</styleUrl>";
 		myString += "<LineString>";
 		myString += "<altitudeMode>clampToGround</altitudeMode>"; //"<tessellate>1</tessellate>";
-		myString += "<coordinates>" + traces.trim() + "</coordinates>"; 
+		myString += "<coordinates>" + kmlTraces.trim() + "</coordinates>"; 
 		myString += "</LineString>";
 		myString += "</Placemark>";
 		
