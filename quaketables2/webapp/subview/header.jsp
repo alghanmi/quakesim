@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" media="screen,projection,print" href="./css/mf54_content_nosidebar.css" />
   <%} %>
   <script type="text/javascript" src="scripts/checkboxgroup.js"></script>
+  <script type="text/javascript" src="scripts/google-analytics.js"></script>
   <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
   <title>QuakeTables - The QuakeSim Database</title>
   
