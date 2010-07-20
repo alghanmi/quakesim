@@ -32,12 +32,7 @@ public class KMLMapGenerator extends HttpServlet {
 		int countUAVSAR = 0, countInSAR = 0, countFault = 0, datasetCount = 0;
 		
 		try {
-			if(session.getAttribute("dbQuery") == null) {
 				dbQuery = new DatabaseQuery();
-				session.setAttribute("dbQuery", dbQuery);
-			}
-			else
-				dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
 						
 			//Look for DataSet requests
 			if(request.getParameterValues("ds") != null && request.getParameterValues("fid") == null) {
@@ -321,6 +316,8 @@ public class KMLMapGenerator extends HttpServlet {
 			}
 			else
 				response.sendRedirect("index.jsp");
+			
+			dbQuery.closeConnection();
 			
 		}catch (SQLException e) {
 		}catch (ClassNotFoundException e) {

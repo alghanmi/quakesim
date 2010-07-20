@@ -6,12 +6,7 @@
 <%! DatabaseQuery dbQuery; %>
 <%! SimpleDateFormat shortFormat = new SimpleDateFormat("MMM dd, yyyy @ hh:mm aaa"); %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 
 	String kmlURL = "uid=all" + "&ov=0";
 %>
@@ -56,4 +51,5 @@
 
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

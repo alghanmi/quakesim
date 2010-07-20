@@ -4,12 +4,7 @@
 <%@ page import="edu.usc.sirlab.db.*"%>
 <%! DatabaseQuery dbQuery; %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 %>
 <jsp:include page="header.jsp">
 	<jsp:param name="breadCrumb1" value="InSAR Interferograms"/>
@@ -39,4 +34,5 @@
 
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

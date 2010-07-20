@@ -4,12 +4,7 @@
 <%@ page import="java.util.*"%>
 <%! DatabaseQuery dbQuery; %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 %>
 <%	FaultDataSet dataset = dbQuery.getFaultDataSet(request.getParameter("dataSetID")); 
 	String breadCrumbURL = "fault.jsp?ds=" + dataset.getId();
@@ -236,4 +231,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

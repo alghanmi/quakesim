@@ -7,12 +7,7 @@
 	int limitStep = 10;
 %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 
 	String kmlURL = "iid=all" + "&ov=0";
 %>
@@ -42,4 +37,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

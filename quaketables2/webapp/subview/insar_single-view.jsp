@@ -6,12 +6,7 @@
 <%@ page import="java.util.*"%>
 <%! DatabaseQuery dbQuery; %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 %>
 <%	Interferogram insar = dbQuery.getInerferogram(request.getParameter("iid")); 
 	String breadCrumbURL = "insar.jsp?iid=" + insar.getId();
@@ -81,4 +76,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

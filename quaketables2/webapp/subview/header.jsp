@@ -7,13 +7,7 @@
 	final String GMAP_URL = "http://quakesim.org/quaketables/kml?";
 %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
-	
+	dbQuery = new DatabaseQuery();
 	KMLJavaScriptHelper kmljs = new KMLJavaScriptHelper(dbQuery);
 %>
 
@@ -215,3 +209,5 @@
         </li>
       </ul>
     </div>
+
+<% dbQuery.closeConnection();%>

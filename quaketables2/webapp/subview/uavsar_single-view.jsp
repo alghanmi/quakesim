@@ -10,12 +10,7 @@
 <%! //TODO: FIX URL Pattern
 	String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/"; %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 %>
 <%	UAVSAR uavsar = dbQuery.getUAVSAR(request.getParameter("uid")); 
 	String breadCrumbURL = "uavsar.jsp?uid=" + uavsar.getId();
@@ -117,4 +112,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

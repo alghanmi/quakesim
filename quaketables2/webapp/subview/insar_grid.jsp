@@ -7,12 +7,7 @@
 	int limitStep = 10;
 %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 
 	if(request.getParameter("s") != null && !request.getParameter("s").equalsIgnoreCase("")) {
 		try {
@@ -103,4 +98,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>

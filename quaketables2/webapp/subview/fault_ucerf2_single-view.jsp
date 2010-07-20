@@ -8,12 +8,7 @@
 	final String GMAP_URL = "http://quakesim.org/quaketables/kml?";
 %>
 <%
-	if(session.getAttribute("dbQuery") == null) {
-		dbQuery = new DatabaseQuery();
-		session.setAttribute("dbQuery", dbQuery);
-	}
-	else
-		dbQuery = (DatabaseQuery) session.getAttribute("dbQuery");
+	dbQuery = new DatabaseQuery();
 %>
 <%	UCERFFault fault = dbQuery.getUCERFFault(request.getParameter("dataSetID"), request.getParameter("faultID"));
 	String breadCrumbURL2 = "fault.jsp?ds=" + fault.getDataSet().getId();
@@ -67,4 +62,5 @@
       </div>
       <!-- C.2 SUBCONTENT -->
     </div>
+<% dbQuery.closeConnection(); %>
 <jsp:include page="footer.jsp"/>
