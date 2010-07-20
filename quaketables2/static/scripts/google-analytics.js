@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-17530089-1']);
+  _gaq.push(['_setAccount', 'UA-17530089-2']);
   _gaq.push(['_setDomainName', '.quakesim.org']);
   _gaq.push(['_trackPageview']);
 

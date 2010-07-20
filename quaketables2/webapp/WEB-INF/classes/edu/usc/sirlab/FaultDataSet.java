@@ -16,9 +16,10 @@ public class FaultDataSet implements Serializable {
 	private int entryCount;
 	private String dataType;
 	private List<String> faultsKML;
+	private boolean visible;
 	
 	public FaultDataSet(String id, String name, String nickName, String title,
-			String description, String downloadURL, int entryCount, String dataType) {
+			String description, String downloadURL, int entryCount, String dataType, boolean visible) {
 		this.id = id;
 		this.name = name;
 		this.nickName = nickName;
@@ -28,6 +29,7 @@ public class FaultDataSet implements Serializable {
 		this.entryCount = entryCount;
 		this.dataType = dataType;
 		this.faultsKML = new ArrayList<String>();
+		this.visible = visible;
 	}
 	public String getId() {
 		return id;
@@ -78,6 +80,12 @@ public class FaultDataSet implements Serializable {
 		this.dataType = dataType;
 	}
 	
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
 	public void addFaultKML(String f) {
 		faultsKML.add(f);
 	}

@@ -33,8 +33,8 @@
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
           <h1><%= dataset.getName()%></h1>
-          <p><a href="kml?ds=<%= dataset.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a><%= dataset.getDescription() %></p>
-          <p>The QuakeTables data can, also, be downloaded as a <a href="<%= dataset.getDownloadURL()%>">spread sheet</a></p>
+          <p><a href="kml?ds=<%= dataset.getId() %>" title="View using Google Earth" target="_blank"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a><%= dataset.getDescription() %></p>
+          <p>The QuakeTables data can, also, be downloaded as a <a href="<%= dataset.getDownloadURL()%>" target="_blank">spread sheet</a></p>
           <br>
           <br>
           <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
@@ -55,7 +55,7 @@
 			if(dataset.getDataType().equalsIgnoreCase("cgs_fault")) {
 			%>
 				<table>
-					<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Geom</th><th class="top" scope="col">Length</th><th class="top" scope="col">SlipRate</th><th class="top" scope="col">mmax</th><th class="top" scope="col">Char Rate</th><th class="top" scope="col">Recurr</th><th class="top" scope="col">DownDip Width</th><th class="top" scope="col">Rup(t,b)</th><th class="top" scope="col">rake</th><th class="top" scope="col">dip</th><th class="top" scope="col">Location</th></tr>
+					<tr> <!-- <th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th> --><th class="top" scope="col">Name</th><th class="top" scope="col">Geom</th><th class="top" scope="col">Length</th><th class="top" scope="col">SlipRate</th><th class="top" scope="col">mmax</th><th class="top" scope="col">Char Rate</th><th class="top" scope="col">Recurr</th><th class="top" scope="col">DownDip Width</th><th class="top" scope="col">Rup(t,b)</th><th class="top" scope="col">rake</th><th class="top" scope="col">dip</th></tr>
 				<%
 					List<CGSFault> faults = dbQuery.getCGSFaults(dataset.getId());
 					for(CGSFault f : faults) {
@@ -103,12 +103,9 @@
 						
 						String fDip = "&nbsp;";
 						if(f.getDip() != null) fDip = f.getDip().toString();
-						
-						String fTraces = "&nbsp;";
-						if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
 				%>
 					<tr>
-						<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
+						<!-- <td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td> -->
 						<td align="center"><%= fName%></td>
 						<td align="center"><%= fGeometry%></td>
 						<td align="center"><%= fLength%> <%= fLengthError%></td>
@@ -120,7 +117,6 @@
 						<td align="center"><%= fRupTop%>, <%= fRupBottom%></td>
 						<td align="center"><%= fRake%></td>
 						<td align="center"><%= fDip%></td>
-						<td align="center"><%= fTraces%></td>
 					</tr>
 				<%	} %>
 			</table>
@@ -130,7 +126,7 @@
 			else if(dataset.getDataType().equalsIgnoreCase("ucerf2_fault")) {
 				%>
 					<table>
-						<tr><th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th><th class="top" scope="col">Name</th><th class="top" scope="col">Upper Depth</th><th class="top" scope="col">Lower Depth</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Dip Dir.</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Slip Factor</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Trace Length</th><%--<th class="top" scope="col">Location</th>--%></tr>
+						<tr><!-- <th class="top" scope="col"><input type="checkbox" name="allfaults" onclick="faultGroup.check(this)" /></th> --><th class="top" scope="col">Name</th><th class="top" scope="col">Upper Depth</th><th class="top" scope="col">Lower Depth</th><th class="top" scope="col">Dip</th><th class="top" scope="col">Dip Dir.</th><th class="top" scope="col">Slip Rate</th><th class="top" scope="col">Slip Factor</th><th class="top" scope="col">Rake</th><th class="top" scope="col">Trace Length</th><%--<th class="top" scope="col">Location</th>--%></tr>
 					<%
 						List<UCERFFault> faults = dbQuery.getUCERFFaults(dataset.getId());
 						for(UCERFFault f : faults) {
@@ -161,11 +157,13 @@
 							String fTraceLength = "&nbsp;";
 							if(f.getTraceLength() != null) fTraceLength = f.getTraceLength().toString();
 							
+							/*
 							String fTraces = "&nbsp;";
 							if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
+							*/
 					%>
 						<tr>
-							<td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td>
+							<!-- <td align="center"><input type="checkbox" name="fault" value="<%= f.getId()%>" onclick="faultGroup.check(this)" /></td> -->
 							<td align="center"><%= fName%></td>
 							<td align="center"><%= fUpperDepth%></td>
 							<td align="center"><%= fLowerDepth%></td>
@@ -213,8 +211,6 @@
 						String fRake = "&nbsp;";
 						if(f.getRake() != null) fRake = f.getRake().toString();
 						
-						String fTraces = "&nbsp;";
-						if(f.getTracesString() != null) fTraces = f.getTracesString().toString();
 						%>
 						<tr>
 							<td align="center"><%= fName%></td>
@@ -225,7 +221,7 @@
 							<td align="center"><%= fStrike%></td>
 							<td align="center"><%= fDip%></td>
 							<td align="center"><%= fRake%></td>
-							<td align="center"><%= fTraces%></td>
+							<%--<td align="center"><%= fTraces%></td>  --%>
 						</tr>
 						<%
 						

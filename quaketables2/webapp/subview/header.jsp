@@ -166,8 +166,8 @@
         <li><a href="http://quakesim.org/">QuakeSim</a>
           <!--[if lte IE 6]><table><tr><td><![endif]-->
             <ul>
-              <li><a href="http://quakesim.org">QuakeSim Project Website</a></li>
-              <li><a href="http://gf7.ucs.indiana.edu:8080/gridsphere">QuakeSim Portal</a></li>
+              <li><a href="http://quakesim.org" target="_blank">QuakeSim Project Website</a></li>
+              <li><a href="http://portal.quakesim.org" target="_blank">QuakeSim Portal</a></li>
             </ul>
           <!--[if lte IE 6]></td></tr></table></a><![endif]-->
 	    </li>
@@ -180,9 +180,11 @@
             <%
             	List<FaultDataSet> datasets = dbQuery.getFaultDataSets();
             	for(FaultDataSet ds : datasets) {
+            		if(ds.isVisible()) {
             		%>
             		<li><a href="fault.jsp?ds=<%= ds.getId()%>" title="<%= ds.getName()%>"><%= ds.getNickName()%></a></li>
             		<%
+            		}
             	}
             %>
               <li><a href="fault.jsp">View All Data Sets</a></li>
@@ -202,15 +204,14 @@
         </li>
       </ul>
       <!-- Navigation item -->
-      <%--
       <ul>
         <li><a href="uavsar.jsp">UAVSAR RPI</a>
             <!--[if lte IE 6]><table><tr><td><![endif]-->
             <ul>
               <li><a href="uavsar.jsp?v=m">UAVSAR Map View</a></li>
+              <li><a href="uavsar.jsp?v=l">UAVSAR List</a></li>
             </ul>
             <!--[if lte IE 6]></td></tr></table></a><![endif]-->
         </li>
       </ul>
-       --%>
     </div>

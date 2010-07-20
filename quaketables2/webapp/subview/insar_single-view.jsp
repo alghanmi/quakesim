@@ -37,18 +37,18 @@
           <h1><%= insar.getTitle()%></h1>
           <p><%= insar.getDescription() %></p>
           
-          <p><a href="kml?iid=<%= insar.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a>The following data items are available for this interferogram:</p>
+          <p><a href="kml?iid=<%= insar.getId() %>" title="View using Google Earth" target="_blank"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a>The following data items are available for this interferogram:</p>
           <ul>
           	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getDataURL()%>" title="Data File">Data File [unwrapped, geo-coded]</a></li>
-          	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getMetaDataURL()%>" title="">Metadata File [text]</a></li>
-          	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>" title="">Full size Image rendering of the data</a></li>
-          	<li><a href="kml?iid=<%= insar.getId() %>">KML File for Mapping [Google Earth]</a></li>
+          	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getMetaDataURL()%>" title="Metadata File" target="_blank">Metadata File [text]</a></li>
+          	<li><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>" title="Interferogram Image" target="_blank">Full size Image rendering of the data</a></li>
+          	<li><a href="kml?iid=<%= insar.getId() %>" title="Google Earth KML File" target="_blank">KML File for Mapping [Google Earth]</a></li>
           </ul>
           
           <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
           <br></br>
           
-          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
+          <p><a href="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getImageURL()%>" target="_blank"><img class="center" width="600" alt="Interferogram Thumbnail" src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= insar.getThumbnailURL()%>" /></a></p>
           
         </div> 
         <div class="corner-content-1col-bottom"></div>

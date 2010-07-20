@@ -25,6 +25,11 @@ public class DatabaseQuery implements Serializable {
 		this.dbConnection = dbConnection;
 	}
 	
+	public void closeConnection() throws SQLException {
+		if(!dbConnection.isClosed())
+			dbConnection.close();
+	}
+	
 	public int getInterferogramCount() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		int count = 0;
 		ResultSet rs = dbConnection.executeQuery("SELECT COUNT(*) FROM insar_interferogram");
@@ -476,9 +481,9 @@ public class DatabaseQuery implements Serializable {
 	
 	public List<FaultDataSet> getFaultDataSets() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {		
 		List<FaultDataSet> datasets = new ArrayList<FaultDataSet>();
-		ResultSet rs = dbConnection.executeQuery("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type FROM data_set_definition ORDER BY nick_name");
+		ResultSet rs = dbConnection.executeQuery("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type, is_visible FROM data_set_definition ORDER BY nick_name");
 		while(rs.next()) {
-			FaultDataSet fds = new FaultDataSet(rs.getString("id"), rs.getString("name"), rs.getString("nick_name"), rs.getString("title"), rs.getString("description"), rs.getString("download_url"), rs.getInt("entry_count"), rs.getString("data_type"));
+			FaultDataSet fds = new FaultDataSet(rs.getString("id"), rs.getString("name"), rs.getString("nick_name"), rs.getString("title"), rs.getString("description"), rs.getString("download_url"), rs.getInt("entry_count"), rs.getString("data_type"), rs.getBoolean("is_visible"));
 			datasets.add(fds);
 		}
 		
@@ -487,11 +492,11 @@ public class DatabaseQuery implements Serializable {
 	
 	public FaultDataSet getFaultDataSet(String id) throws SQLException {
 		FaultDataSet dataset = null;
-		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type FROM data_set_definition WHERE id = ? ORDER BY nick_name");
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT id, name, nick_name, title, description, download_url, entry_count, data_type, is_visible FROM data_set_definition WHERE id = ? ORDER BY nick_name");
 		statement.setString(1, id);
 		ResultSet rs = statement.executeQuery();
 		if(rs.next()) {
-			dataset = new FaultDataSet(rs.getString("id"), rs.getString("name"), rs.getString("nick_name"), rs.getString("title"), rs.getString("description"), rs.getString("download_url"), rs.getInt("entry_count"), rs.getString("data_type"));
+			dataset = new FaultDataSet(rs.getString("id"), rs.getString("name"), rs.getString("nick_name"), rs.getString("title"), rs.getString("description"), rs.getString("download_url"), rs.getInt("entry_count"), rs.getString("data_type"), rs.getBoolean("is_visible"));
 		}
 		
 		return dataset;

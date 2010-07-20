@@ -57,8 +57,8 @@
           <h1>Maps</h1>
           <p></p>
           <ul>
-          	<li><a href="<%= GMAP_URL%><%= kmlURL%>" title="KML File">Download KML file for this fault [Google Earth]</a></li>
-          	<li><a href="http://maps.google.com/?q=<%= GMAP_URL.replace("&", "%26")%><%= kmlURL.replace("&", "%26")%>" title="Google Maps">View the map in Google Maps</a></li>
+          	<li><a href="<%= GMAP_URL%><%= kmlURL%>" title="KML File" target="_blank">Download KML file for this fault [Google Earth]</a></li>
+          	<li><a href="http://maps.google.com/?q=<%= GMAP_URL.replace("&", "%26")%><%= kmlURL.replace("&", "%26")%>" title="Google Maps" target="_blank">View the map in Google Maps</a></li>
           </ul>
 		  <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
         </div> 

@@ -30,7 +30,9 @@
           <%
 			List<FaultDataSet> datasets = dbQuery.getFaultDataSets();
 			for(FaultDataSet ds : datasets) {
-          %><li><a href="fault.jsp?ds=<%= ds.getId()%>" title="<%= ds.getName()%>"><%= ds.getTitle()%> [<%= ds.getEntryCount()%> faults]</a></li><%
+				if(ds.isVisible()) {
+         		 %><li><a href="fault.jsp?ds=<%= ds.getId()%>" title="<%= ds.getName()%>"><%= ds.getTitle()%> [<%= ds.getEntryCount()%> faults]</a></li><%
+				}
 			}
           %>
           </ul>
