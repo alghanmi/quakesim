@@ -75,8 +75,8 @@
           		<td align="center"><%= i.getTimespan()%></td>
           		<td align="center"><%= i.getWidth()%></td>
           		<td align="center"><%= i.getLength()%></td>
-          		<%--<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&markers=<%= markers%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg" /></td>--%>
-          		<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&zoom=5&sensor=false&path=<%= path%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg" /></td>
+          		<%--<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&markers=<%= markers%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw" /></td>--%>
+          		<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&zoom=5&sensor=false&path=<%= path%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw" /></td>
           	</tr>
           	<%
           		}

@@ -38,7 +38,7 @@
 	mapURL = GMAP_URL + request.getParameter("gmap");
 	points = kmljs.getPoints(request.getParameter("gmap"));	  
   %>
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhSYmIiUy3vtV9o66csFLI0eyS9PlhSeEMJ2ed0qcoDZIFS7rhAEfiw7fg"
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw"
           type="text/javascript"></script>
   <script src="scripts/gmapscripts.js" type="text/javascript"></script>
   <script type="text/javascript">
