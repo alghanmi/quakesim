@@ -9,8 +9,10 @@
 %>
 <%
 	dbQuery = new DatabaseQuery();
+	String dataSetID = request.getParameter("ds");
+	String faultID = request.getParameter("fid");
 %>
-<%	UCERFFault fault = dbQuery.getUCERFFault(request.getParameter("dataSetID"), request.getParameter("faultID"));
+<%	UCERFFault fault = dbQuery.getUCERFFault(dataSetID, faultID);
 	String breadCrumbURL2 = "fault.jsp?ds=" + fault.getDataSet().getId();
 	String breadCrumbURL = "fault.jsp?ds=" + fault.getDataSet().getId() + "&amp;fid=" + fault.getId();
 	//TODO: find a better way to fix this URL

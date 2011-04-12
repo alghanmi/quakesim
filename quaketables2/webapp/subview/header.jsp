@@ -4,7 +4,7 @@
 <%@ page import = "edu.usc.sirlab.db.*" %>
 <%@ page import = "edu.usc.sirlab.tools.*" %>
 <%! DatabaseQuery dbQuery;
-	final String GMAP_URL = "http://quakesim.org/quaketables/kml?";
+	final String GMAP_URL = "http://quaketables.quakesim.org/kml?";
 %>
 <%
 	dbQuery = new DatabaseQuery();
