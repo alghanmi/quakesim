@@ -9,7 +9,7 @@ import edu.usc.sirlab.kml.Style;
 
 public class NCALFault extends Fault implements Serializable {
 	private static final long serialVersionUID = 219608637L;
-	private static final String BASE_URL = "http://quakesim.org/quaketables/fault.jsp?ds=";
+	private static final String BASE_URL = "http://quaketables.quakesim.org/fault.jsp?ds=";
 	private Integer elementNumber;
 	private Integer faultElement;
 	private Integer segmentElement;

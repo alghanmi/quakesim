@@ -20,7 +20,7 @@ public class UAVSAR implements Serializable {
 	
 	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	
-	private static final String SERVER_UAVSAR_URL = "http://quakesim.org/quaketables/uavsar.jsp?uid=";
+	private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
 	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
 	
 	public UAVSAR(int id, String title, String description, Date date1,
@@ -199,19 +199,21 @@ public class UAVSAR implements Serializable {
 		
 		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_UAVSAR_URL + id + "<br>" + "<b>Location</b>: ";
 		
+		/*
 		//Placemarks
 		PlacemarkSimple p1 = new PlacemarkSimple("Reference 1", placemarkDetails + reference1.toString(), PlacemarkSimple.TYPE_POINT);
 		p1.addCoordinates(reference1);
-		p1.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		//p1.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
 		PlacemarkSimple p2 = new PlacemarkSimple("Reference 2", placemarkDetails + reference2.toString(), PlacemarkSimple.TYPE_POINT);
 		p2.addCoordinates(reference2);
-		p2.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		//p2.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
 		PlacemarkSimple p3 = new PlacemarkSimple("Reference 3", placemarkDetails + reference3.toString(), PlacemarkSimple.TYPE_POINT);
 		p3.addCoordinates(reference3);
-		p3.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		//p3.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
 		PlacemarkSimple p4 = new PlacemarkSimple("Reference 4", placemarkDetails + reference4.toString(), PlacemarkSimple.TYPE_POINT);
 		p4.addCoordinates(reference4);
-		p4.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		//p4.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		*/
 		
 		//Polygon
 		PlacemarkSimple polygon = new PlacemarkSimple(title, details, PlacemarkSimple.TYPE_POLYGON);
@@ -222,6 +224,8 @@ public class UAVSAR implements Serializable {
 		polygon.addCoordinates(reference3);
 		
 		String myString = "";
+		
+		/*
 		myString += "<Folder>";
 		myString += "<name>Reference Points</name>";
 		myString += p1.getKML();
@@ -230,7 +234,7 @@ public class UAVSAR implements Serializable {
 		myString += p4.getKML();
 		myString += polygon.getKML();
 		myString += "</Folder>";
-		
+		*/
 		//Overlay
 		if(placeOverlay) {
 			String url = UAVSAR_REPO_URL + imageURL;

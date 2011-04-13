@@ -9,7 +9,7 @@ import edu.usc.sirlab.kml.Style;
 
 public class Fault implements Serializable {
 	private static final long serialVersionUID = 5586063937860634421L;
-	private static final String BASE_URL = "http://quakesim.org/quaketables/fault.jsp?ds=";
+	private static final String BASE_URL = "http://quaketables.quakesim.org/fault.jsp?ds=";
 	
 	protected FaultDataSet dataSet;
 	protected String id;

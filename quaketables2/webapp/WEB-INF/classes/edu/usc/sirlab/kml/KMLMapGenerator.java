@@ -2,6 +2,7 @@ package edu.usc.sirlab.kml;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class KMLMapGenerator extends HttpServlet {
 	private static final String KML_CONTENT_TYPE = "application/vnd.google-earth.kml+xml";
 	private static final String DEFAULT_FILENAME_PREFIX = "QuakeTables-Query";
 	private static final String DEFAULT_FILENAME_SUFFIX = ".kml";
+	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	//private static final String KML_CONTENT_TYPE = "application/vnd.google-earth.kmz";
 	//private static final String KML_CONTENT_TYPE = "text/plain";
 	
@@ -187,8 +189,13 @@ public class KMLMapGenerator extends HttpServlet {
 							fileName = uavsar.getMetaDataURL().substring(uavsar.getMetaDataURL().lastIndexOf('/') + 1) + ".kml";
 							kml.addFolder(uavsar.getKMLFolder(placeOverlay));
 							
+							String extendedDescription = "";
+							extendedDescription += "Date 1: " + longFormat.format(uavsar.getDate1()) + "\n";
+							extendedDescription += "Date 2: " + longFormat.format(uavsar.getDate2()) + "\n";
+							extendedDescription += uavsar.getDescription() + "\n";
+							
 							kml.setName(uavsar.getTitle());
-							kml.setDescription(uavsar.getDescription());
+							kml.setDescription(extendedDescription);
 						}
 					}
 				}
