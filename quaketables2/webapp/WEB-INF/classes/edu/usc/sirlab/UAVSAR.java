@@ -20,6 +20,7 @@ public class UAVSAR implements Serializable {
 	
 	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	
+	private static final String KML_GENERATOR_URL = "http://quaketables.quakesim.org/kml?uid=";
 	private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
 	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
 	
@@ -225,22 +226,21 @@ public class UAVSAR implements Serializable {
 		
 		String myString = "";
 		
-		/*
 		myString += "<Folder>";
-		myString += "<name>Reference Points</name>";
-		myString += p1.getKML();
-		myString += p2.getKML();
-		myString += p3.getKML();
-		myString += p4.getKML();
+		myString += "<name>Enclosing Rectangle</name>";
+		//myString += p1.getKML();
+		//myString += p2.getKML();
+		//myString += p3.getKML();
+		//myString += p4.getKML();
 		myString += polygon.getKML();
 		myString += "</Folder>";
-		*/
 		//Overlay
 		if(placeOverlay) {
 			String url = UAVSAR_REPO_URL + imageURL;
 			//double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
 			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference4.getLon(), reference1.getLon()}; // North, South, East, West Corners
 			Overlay o = new Overlay(title, details, url, coordinates);
+			o.setColor("ffffffff"); //Make it fully opaque, i.e. no transperency.
 			
 			myString += "<Folder>";
 			myString += "<name>InSAR Image Overlay</name>";
@@ -257,7 +257,7 @@ public class UAVSAR implements Serializable {
 		details += "<b>Time of Acquisition for Pass 1</b>:" + longFormat.format(getDate1()) + "<br>";
 		details += "<b>Time of Acquisition for Pass 2</b>:" + longFormat.format(getDate2()) + "<br>";
 		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
-		details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + UAVSAR_REPO_URL + getKmlURL() + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
+		details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + KML_GENERATOR_URL + id + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
 		details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + id + "\">" + SERVER_UAVSAR_URL + id + "</a><br>";
 		details += "<br><br>";
 		

@@ -40,7 +40,7 @@
           	<li><b>Site Description</b>: <%= uavsar.getDescription()%></li>
           	<li><b>Time of Acquisition for Pass 1</b>: <%= longFormat.format(uavsar.getDate1())%> UTC</li>
           	<li><b>Time of Acquisition for Pass 2</b>: <%= longFormat.format(uavsar.getDate2())%> UTC</li>
-          	<li><b>Links</b>: <a href="<%= UAVSAR_BASE + uavsar.getMetaDataURL()%>" title="Metadata for Interferogram" target="_blank">[Meta Data]</a>, <a href="<%= UAVSAR_BASE + uavsar.getImageURL()%>" title="Interferogram URL" target="_blank">[Thumbnail]</a>, <a href="<%= UAVSAR_BASE + uavsar.getKmlURL()%>" title="Low Resolution KML File" target="_blank">[KML]</a> </li>
+          	<li><b>Links</b>: <a href="<%= UAVSAR_BASE + uavsar.getMetaDataURL()%>" title="Metadata for Interferogram" target="_blank">[Meta Data]</a>, <a href="<%= UAVSAR_BASE + uavsar.getImageURL()%>" title="Interferogram URL" target="_blank">[Thumbnail]</a>, <a href="kml?uid=<%= uavsar.getId() %>" title="Low Resolution KML File" target="_blank">[KML]</a> </li>
           	<li><b>Source</b>: <a href="<%= uavsar.getSourceURL()%>" title="JPL UAVSAR Project RPI Project Page" target="_blank">JPL UAVSAR Project</a></li>
           </ul>
           <br>
