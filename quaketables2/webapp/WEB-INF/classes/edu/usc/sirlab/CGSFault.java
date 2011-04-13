@@ -8,7 +8,7 @@ import edu.usc.sirlab.kml.Style;
 
 public class CGSFault extends Fault implements Serializable {
 	private static final long serialVersionUID = 2179217494419608637L;
-	private static final String BASE_URL = "http://quakesim.org/quaketables/fault.jsp?ds=";
+	private static final String BASE_URL = "http://quaketables.quakesim.org/fault.jsp?ds=";
 	private String faultClass;
 	private String zone;
 	private String geometry, geometryDirection;

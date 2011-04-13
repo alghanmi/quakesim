@@ -192,7 +192,7 @@ public class KMLMapGenerator extends HttpServlet {
 							String extendedDescription = "";
 							extendedDescription += "Date 1: " + longFormat.format(uavsar.getDate1()) + "\n";
 							extendedDescription += "Date 2: " + longFormat.format(uavsar.getDate2()) + "\n";
-							extendedDescription += uavsar.getDescription() + "\n";
+							extendedDescription += uavsar.getDescription();
 							
 							kml.setName(uavsar.getTitle());
 							kml.setDescription(extendedDescription);
