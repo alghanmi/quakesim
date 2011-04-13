@@ -11,7 +11,7 @@ public class PlacemarkSimple {
 	private String styleUrl;
 	private int type;
 	
-	public static final String EXTERNAL_STYLE_URL = "http://gf19.ucs.indiana.edu:9898/maps/styles.kml#";
+	public static final String EXTERNAL_STYLE_URL = "http://quaketables.quakesim.org/kml/styles.kml";
 	public static final int TYPE_POINT = 0, TYPE_POLYGON = 1;
 	
 	public PlacemarkSimple() {

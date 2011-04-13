@@ -169,8 +169,7 @@ public class Interferogram implements Serializable {
 		String myString = "";
 		myString += "<Placemark>";
 		myString += "<name>" + title + "</name>";
-		//TODO: FIX THE URL
-		myString += "<styleUrl>" + "http://gf19.ucs.indiana.edu:9898/maps/styles.kml#s_dot" + "</styleUrl>";
+		myString += "<styleUrl>" + PlacemarkSimple.EXTERNAL_STYLE_URL + "#s_dot" + "</styleUrl>";
 		myString += "<description><![CDATA[" + details + "]]></description>";
 		myString += "<Point>";
 		myString += "<coordinates>" + p.getKMLCoordinateString() + "</coordinates>";
@@ -192,20 +191,20 @@ public class Interferogram implements Serializable {
 		//Placemarks
 		PlacemarkSimple p1 = new PlacemarkSimple("Reference 1", placemarkDetails + reference1.toString(), PlacemarkSimple.TYPE_POINT);
 		p1.addCoordinates(reference1);
-		p1.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		p1.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#sm_ylw-pushpin");
 		PlacemarkSimple p2 = new PlacemarkSimple("Reference 2", placemarkDetails + reference2.toString(), PlacemarkSimple.TYPE_POINT);
 		p2.addCoordinates(reference2);
-		p2.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		p2.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#sm_ylw-pushpin");
 		PlacemarkSimple p3 = new PlacemarkSimple("Reference 3", placemarkDetails + reference3.toString(), PlacemarkSimple.TYPE_POINT);
 		p3.addCoordinates(reference3);
-		p3.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		p3.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#sm_ylw-pushpin");
 		PlacemarkSimple p4 = new PlacemarkSimple("Reference 4", placemarkDetails + reference4.toString(), PlacemarkSimple.TYPE_POINT);
 		p4.addCoordinates(reference4);
-		p4.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "sm_ylw-pushpin");
+		p4.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#sm_ylw-pushpin");
 		
 		//Polygon
 		PlacemarkSimple polygon = new PlacemarkSimple(title, details, PlacemarkSimple.TYPE_POLYGON);
-		polygon.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "s_polygon");
+		polygon.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#s_polygon");
 		polygon.addCoordinates(reference1);
 		polygon.addCoordinates(reference2);
 		polygon.addCoordinates(reference4);

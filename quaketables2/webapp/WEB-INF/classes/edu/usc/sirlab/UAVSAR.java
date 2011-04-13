@@ -198,9 +198,8 @@ public class UAVSAR implements Serializable {
 	public String getKMLFolder(boolean placeOverlay) {
 		String details = getKMLDescription();
 		
-		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_UAVSAR_URL + id + "<br>" + "<b>Location</b>: ";
-		
 		/*
+		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_UAVSAR_URL + id + "<br>" + "<b>Location</b>: ";
 		//Placemarks
 		PlacemarkSimple p1 = new PlacemarkSimple("Reference 1", placemarkDetails + reference1.toString(), PlacemarkSimple.TYPE_POINT);
 		p1.addCoordinates(reference1);
@@ -218,7 +217,7 @@ public class UAVSAR implements Serializable {
 		
 		//Polygon
 		PlacemarkSimple polygon = new PlacemarkSimple(title, details, PlacemarkSimple.TYPE_POLYGON);
-		polygon.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "s_polygon");
+		polygon.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#s_polygon_light");
 		polygon.addCoordinates(reference1);
 		polygon.addCoordinates(reference2);
 		polygon.addCoordinates(reference4);
@@ -298,7 +297,7 @@ public class UAVSAR implements Serializable {
 		myString += "<Placemark>";
 		myString += "<name>" + title + "</name>";
 		//TODO: FIX THE URL
-		myString += "<styleUrl>" + "http://gf19.ucs.indiana.edu:9898/maps/styles.kml#s_dot" + "</styleUrl>";
+		myString += "<styleUrl>" + PlacemarkSimple.EXTERNAL_STYLE_URL + "#s_dot" + "</styleUrl>";
 		myString += "<description><![CDATA[" + details + "]]></description>";
 		myString += "<Point>";
 		myString += "<coordinates>" + p.getKMLCoordinateString() + "</coordinates>";
