@@ -196,6 +196,10 @@ public class UAVSAR implements Serializable {
 	}
 	
 	public String getKMLFolder(boolean placeOverlay) {
+		return getKMLFolder(placeOverlay, false);
+	}
+	
+	public String getKMLFolder(boolean placeOverlay, boolean useLowResolution) {
 		String details = getKMLDescription();
 		
 		/*
@@ -235,7 +239,12 @@ public class UAVSAR implements Serializable {
 		myString += "</Folder>";
 		//Overlay
 		if(placeOverlay) {
-			String url = UAVSAR_REPO_URL + imageURL;
+			String url;
+			if(!useLowResolution)
+				url = UAVSAR_REPO_URL + imageURL;
+			else
+				url = UAVSAR_REPO_URL + imageURL + ".gif";
+				
 			//double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
 			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference4.getLon(), reference1.getLon()}; // North, South, East, West Corners
 			Overlay o = new Overlay(title, details, url, coordinates);

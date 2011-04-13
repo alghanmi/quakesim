@@ -167,8 +167,12 @@ public class KMLMapGenerator extends HttpServlet {
 			if(request.getParameterValues("uid") != null) {
 				String[] uids = request.getParameterValues("uid");
 				boolean placeOverlay = true;
+				boolean useLowResolution = false;
 				if(request.getParameter("ov") != null)
 					placeOverlay = false;
+				if(request.getParameter("lowres") != null)
+					useLowResolution = true;
+				
 				
 				if(uids.length == 1) {
 					if(uids[0].equalsIgnoreCase("all")) {
@@ -177,7 +181,7 @@ public class KMLMapGenerator extends HttpServlet {
 						for(UAVSAR u : uavsar) {
 							countUAVSAR++;
 							//kml.addFolder(i.getKMLPlacemark());
-							kml.addFolder(u.getKMLFolder(placeOverlay));
+							kml.addFolder(u.getKMLFolder(placeOverlay, useLowResolution));
 							kml.setName("QuakeSim UAVSAR Map View");
 							kml.setDescription("QuakeSim UAVSAR RPI Map from QuakeTables");
 						}

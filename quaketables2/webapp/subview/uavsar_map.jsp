@@ -9,7 +9,8 @@
 <%
 	dbQuery = new DatabaseQuery();
 
-	String kmlURL = "uid=all" + "&ov=0";
+	//String kmlURL = "uid=all" + "&ov=0";
+	String kmlURL = "uid=all" + "&lowres=0";
 %>
 
 <jsp:include page="header.jsp">
