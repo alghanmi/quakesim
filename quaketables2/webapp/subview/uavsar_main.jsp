@@ -25,7 +25,7 @@
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
           <h1>UAVSAR Repeat Pass Interferometry (RPI) Products</h1>
-          <h5>QuakeTables provides access to <%= dbQuery.getUAVSARCount()%> PRI product(s) of California. These data products are provided by the <a href="http://uavsar.jpl.nasa.gov/" title="UAVSAR Project Page" target="_blank">JPL UAVSAR Project</a>:</h5>
+          <h5>QuakeTables provides access to <%= dbQuery.getUAVSARCount()%> RPI product(s) of California. These data products are provided by the <a href="http://uavsar.jpl.nasa.gov/" title="UAVSAR Project Page" target="_blank">JPL UAVSAR Project</a>:</h5>
           <ul>
           <%
           	List<UAVSAR> uavsar = dbQuery.getUAVSAR();

@@ -23,13 +23,13 @@
 
     <!-- C. MAIN SECTION -->      
     <div class="main">
-	   <h1 class="pagetitle">UAVSAR PRI Products on QuakeTables</h1>
+	   <h1 class="pagetitle">UAVSAR RPI Products on QuakeTables</h1>
       <!-- C.1 CONTENT -->
       <div class="content">
         <!-- CONTENT CELL -->                
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
-          <h1>UAVSAR PRI Map</h1>
+          <h1>UAVSAR RPI Map</h1>
           <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
           <br></br>
         </div>
