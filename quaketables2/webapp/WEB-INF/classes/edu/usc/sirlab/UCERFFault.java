@@ -91,6 +91,27 @@ public class UCERFFault extends Fault implements Serializable {
 	public void setTraceLength(Double traceLength) {
 		this.traceLength = traceLength;
 	}
+	
+	public UCERFFault[] getFaultSegments() {
+		UCERFFault[] faults = new UCERFFault[traces.size() - 1];
+		
+		for(int i = 0; i < faults.length; i++) {
+			faults[i] = new UCERFFault(this.dataSet, this.id, this.name + " #" + (i + 1));
+			faults[i].upperDepth = this.upperDepth;
+			faults[i].lowerDepth = this.lowerDepth;
+			faults[i].dipAngle = this.dipAngle;
+			faults[i].dipDirection = this.dipDirection;
+			faults[i].slipFactor = this.slipFactor;
+			faults[i].slipRate = this.slipRate;
+			faults[i].rake = this.rake;
+			faults[i].traceLength = this.traceLength;
+			
+			faults[i].addTracePoint(this.traces.get(i));
+			faults[i].addTracePoint(this.traces.get(i + 1));
+		}
+		
+		return faults;
+	}
 
 	public List<String[]> getHTMLParameters() {
 		List<String[]> param = new ArrayList<String[]>();

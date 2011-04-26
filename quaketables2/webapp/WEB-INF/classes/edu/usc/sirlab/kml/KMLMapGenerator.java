@@ -76,15 +76,18 @@ public class KMLMapGenerator extends HttpServlet {
 							else
 								faults = dbQuery.getUCERFFaults(dataset.getId());
 							for(UCERFFault f : faults) {
-								/*
 								if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
-									QuakeSimFault qsf = new QuakeSimFault(f);
-									dataset.addFaultKML(qsf.getKMLPlacemark(style));
+									
+									UCERFFault[] segments = f.getFaultSegments();
+									
+									for(UCERFFault s : segments) {
+										QuakeSimFault qsf = new QuakeSimFault(s);
+										dataset.addFaultKML(qsf.getKMLPlacemark(style));
+									}
 								}
 								else {
-								*/
 									dataset.addFaultKML(f.getKMLPlacemark(style));
-								//}
+								}
 							}
 							
 						}

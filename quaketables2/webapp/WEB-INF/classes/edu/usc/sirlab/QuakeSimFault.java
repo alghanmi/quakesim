@@ -60,6 +60,41 @@ public class QuakeSimFault extends Fault implements Serializable {
 		}
 	}
 	
+	public QuakeSimFault(UCERFFault fault) {
+		super(fault.dataSet, fault.id, fault.name);
+		
+		this.depth = fault.getLowerDepth();
+		this.dipAngel = fault.getDipAngle();
+		
+		this.setTraces(fault.getTraces());
+		
+		
+		double latStart = fault.getTraces().get(0).getLat();
+		double lonStart = fault.getTraces().get(0).getLon();
+		double latEnd = fault.getTraces().get(1).getLat();
+		double lonEnd = fault.getTraces().get(1).getLon();
+		
+		double equard = 6378.139;
+		double flattening = 1.0 / 298.247;
+		double yFactor = 111.32;
+		double xFactor = equard * (Math.PI / 180.0) * Math.cos(latStart * Math.PI / 180.0) * (1.0 - (flattening * Math.sin(latStart * Math.PI / 180.0) * Math.sin(latStart * Math.PI / 180.0)));
+		
+		this.locationX = xFactor * (lonEnd - lonStart);
+		this.locationY = yFactor * (latEnd - latStart);
+		this.length = Math.sqrt((locationX * locationX) + (locationY * locationY));
+		this.strikeAngel = Math.atan2(locationX, locationY) * (180.0 / Math.PI);
+		this.width = Math.abs(fault.getLowerDepth() - fault.getUpperDepth()) / Math.sin(dipAngel);
+		
+		if(fault.getRake() != null && fault.getSlipRate() != null) {
+			this.strikeSlip = fault.getSlipRate() * Math.cos(fault.getRake() * Math.PI / 180.0);
+			this.dipSlip = fault.getSlipRate() * Math.sin(fault.getRake() * Math.PI / 180.0);
+		}
+		else {
+			this.dipSlip = null;
+			this.strikeSlip = null;
+		}
+	}
+	
 	public QuakeSimFault(NCALFault fault) {
 		super(fault.dataSet, fault.id, fault.name);
 		this.setTraces(fault.getTraces());
