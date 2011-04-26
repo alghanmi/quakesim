@@ -270,14 +270,17 @@ public class KMLMapGenerator extends HttpServlet {
 							if(request.getParameter("mark") != null && request.getParameter("mark").equalsIgnoreCase("true"))
 								placemark = true;
 							
-							/*
 							if(request.getParameter("f") != null && request.getParameter("f").equalsIgnoreCase("qt")) {
-								QuakeSimFault qsf = new QuakeSimFault(fault);
-								kml.addFolder(qsf.getKMLFolder(style, placemark));
+								
+								UCERFFault[] segments = fault.getFaultSegments();
+								
+								for(UCERFFault s : segments) {
+									QuakeSimFault qsf = new QuakeSimFault(s);
+									kml.addFolder(qsf.getKMLFolder(style, placemark));
+								}
 							}
-							*/
 							
-							//else
+							else
 								kml.addFolder(fault.getKMLFolder(style, placemark));
 							
 							kml.setName(fault.getName());
