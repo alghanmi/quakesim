@@ -48,7 +48,7 @@ public class QuakeSimFault extends Fault implements Serializable {
 		this.locationY = yFactor * (latEnd - latStart);
 		this.length = Math.sqrt((locationX * locationX) + (locationY * locationY));
 		this.strikeAngel = Math.atan2(locationX, locationY) * (180.0 / Math.PI);
-		this.width = Math.abs(fault.getRupBottom() - fault.getRupTop()) / Math.sin(dipAngel);
+		this.width = Math.abs(fault.getRupBottom() - fault.getRupTop()) / Math.sin(dipAngel * Math.PI / 180.0);
 		
 		if(fault.getRake() != null && fault.getSlipRate() != null) {
 			this.strikeSlip = fault.getSlipRate() * Math.cos(fault.getRake() * Math.PI / 180.0);
@@ -83,7 +83,7 @@ public class QuakeSimFault extends Fault implements Serializable {
 		this.locationY = yFactor * (latEnd - latStart);
 		this.length = Math.sqrt((locationX * locationX) + (locationY * locationY));
 		this.strikeAngel = Math.atan2(locationX, locationY) * (180.0 / Math.PI);
-		this.width = Math.abs(fault.getLowerDepth() - fault.getUpperDepth()) / Math.sin(dipAngel);
+		this.width = Math.abs(fault.getLowerDepth() - fault.getUpperDepth()) / Math.sin(dipAngel * Math.PI / 180.0);
 		
 		if(fault.getRake() != null && fault.getSlipRate() != null) {
 			this.strikeSlip = fault.getSlipRate() * Math.cos(fault.getRake() * Math.PI / 180.0);
@@ -116,7 +116,7 @@ public class QuakeSimFault extends Fault implements Serializable {
 		this.length = Math.sqrt((locationX * locationX) + (locationY * locationY));
 		this.strikeAngel = Math.atan2(locationX, locationY) * (180.0 / Math.PI);
 		//TODO: Not sure about this
-		this.width = Math.abs(fault.getDepth() - 0.0) / Math.sin(dipAngel);
+		this.width = Math.abs(fault.getDepth() - 0.0) / Math.sin(dipAngel * Math.PI / 180.0);
 		
 		if(fault.getRake() != null && fault.getSlipRate() != null) {
 			this.strikeSlip = fault.getSlipRate() * Math.cos(fault.getRake() * Math.PI / 180.0);
