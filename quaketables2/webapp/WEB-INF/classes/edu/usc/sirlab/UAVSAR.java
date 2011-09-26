@@ -230,7 +230,7 @@ public class UAVSAR implements Serializable {
 		String myString = "";
 		
 		myString += "<Folder>";
-		myString += "<name>Enclosing Rectangle</name>";
+		myString += "<name>" + title + "</name>";
 		//myString += p1.getKML();
 		//myString += p2.getKML();
 		//myString += p3.getKML();
@@ -238,7 +238,7 @@ public class UAVSAR implements Serializable {
 		polygon.setStart(date1);
 		polygon.setEnd(date2);
 		myString += polygon.getKML();
-		myString += "</Folder>";
+		
 		//Overlay
 		if(placeOverlay) {
 			String url;
@@ -252,12 +252,12 @@ public class UAVSAR implements Serializable {
 			Overlay o = new Overlay(title, details, url, coordinates);
 			o.setColor("ffffffff"); //Make it fully opaque, i.e. no transperency.
 			
-			myString += "<Folder>";
+			//myString += "<Folder>";
 			myString += "<name>InSAR Image Overlay</name>";
 			myString += o.getKML();
-			myString += "</Folder>";
+			//myString += "</Folder>";
 		}
-		
+		myString += "</Folder>";
 		return myString;
 	}
 	
