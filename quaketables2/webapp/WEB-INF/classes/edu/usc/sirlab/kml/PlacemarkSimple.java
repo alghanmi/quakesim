@@ -1,5 +1,6 @@
 package edu.usc.sirlab.kml;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import edu.usc.sirlab.*;
@@ -11,8 +12,14 @@ public class PlacemarkSimple {
 	private String styleUrl;
 	private int type;
 	
+	private Date start, end;
+	
+	private static final SimpleDateFormat timespanFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	
 	public static final String EXTERNAL_STYLE_URL = "http://quaketables.quakesim.org/kml/styles.kml";
 	public static final int TYPE_POINT = 0, TYPE_POLYGON = 1;
+	
+	
 	
 	public PlacemarkSimple() {
 		name = null;
@@ -21,6 +28,8 @@ public class PlacemarkSimple {
 		styleUrl = null;
 		coordinates = new ArrayList<GeoPoint>();
 		type = 0;
+		start = null;
+		end = null;
 	}
 	
 	public PlacemarkSimple(String name, String description, int type) {
@@ -29,6 +38,8 @@ public class PlacemarkSimple {
 		this.coordinates = new ArrayList<GeoPoint>();
 		this.styleUrl = null;
 		this.type = type;
+		start = null;
+		end = null;
 	}
 	
 	public String getName() {
@@ -67,6 +78,22 @@ public class PlacemarkSimple {
 		coordinates.add(c);
 	}
 	
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
 	public String getKML() {
 		String myString = "";
 		myString += "<Placemark>";
@@ -96,6 +123,13 @@ public class PlacemarkSimple {
 			myString += "</LinearRing>";
 			myString += "</outerBoundaryIs>";
 			myString += "</Polygon>";
+		}
+		
+		if(start != null && end != null) {
+			myString += "<TimeSpan>";
+			myString += "<begin>" + timespanFormat.format(start) + "</begin>";
+			myString += "<end>" + timespanFormat.format(end) + "</end>";
+			myString += "</TimeSpan>";
 		}
 		
 		myString += "</Placemark>";

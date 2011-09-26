@@ -235,6 +235,8 @@ public class UAVSAR implements Serializable {
 		//myString += p2.getKML();
 		//myString += p3.getKML();
 		//myString += p4.getKML();
+		polygon.setStart(date1);
+		polygon.setEnd(date2);
 		myString += polygon.getKML();
 		myString += "</Folder>";
 		//Overlay
