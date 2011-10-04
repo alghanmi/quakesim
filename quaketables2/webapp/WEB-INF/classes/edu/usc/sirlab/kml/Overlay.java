@@ -1,5 +1,8 @@
 package edu.usc.sirlab.kml;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Overlay {
 	private String name;
 	private String description;
@@ -7,15 +10,19 @@ public class Overlay {
 	private String imageUrl;
 	private double scale;
 	private double[] coordinates;//north, south, east, west
+	private Date start, end;
 	
 	//Color is expressed in aabbggrr (hex), aa = 0x00 -> fully transparent, aa = 0xff -> fully opaque
 	private static final String DEFAULT_COLOR = "66ffffff";
 	private static final double DEFAULT_SCALE = 0.75;
+	private static final SimpleDateFormat timespanFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	
 	public Overlay() {
 		super();
 		color = DEFAULT_COLOR;
 		scale = DEFAULT_SCALE;
+		start = null;
+		end = null;
 	}
 	
 	public Overlay(String name, String description, String imageUrl, double[] coordinatesNSEW) {
@@ -25,6 +32,19 @@ public class Overlay {
 		this.coordinates = coordinatesNSEW;
 		color = DEFAULT_COLOR;
 		scale = DEFAULT_SCALE;
+		start = null;
+		end = null;
+	}
+	
+	public Overlay(String name, String description, String imageUrl, double[] coordinatesNSEW, Date startDate, Date endDate) {
+		this.name = name;
+		this.description = description;
+		this.imageUrl = imageUrl;
+		this.coordinates = coordinatesNSEW;
+		color = DEFAULT_COLOR;
+		scale = DEFAULT_SCALE;
+		start = startDate;
+		end = endDate;
 	}
 	
 	public String getName() {
@@ -75,11 +95,33 @@ public class Overlay {
 		this.coordinates = coordinates;
 	}
 
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
 	public String getKML() {
 		String myString = "";
 		myString += "<GroundOverlay>";
 		myString += "<name>" + name + "</name>";
 		myString += "<description><![CDATA[" + description + "]]></description>";
+		if(start != null && end != null) {
+			myString += "<TimeSpan>";
+			myString += "<begin>" + timespanFormat.format(start) + "</begin>";
+			myString += "<end>" + timespanFormat.format(end) + "</end>";
+			myString += "</TimeSpan>";
+		}
 		myString += "<color>" + color + "</color>";
 		myString += "<Icon>";
 		myString += "<href>" + imageUrl + "</href>";

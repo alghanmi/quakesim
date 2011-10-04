@@ -249,7 +249,7 @@ public class UAVSAR implements Serializable {
 				
 			//double[] coordinates = {reference2.getLat(), reference3.getLat(), reference1.getLon(), reference4.getLon()}; // North, South, East, West Corners
 			double[] coordinates = {reference2.getLat(), reference3.getLat(), reference4.getLon(), reference1.getLon()}; // North, South, East, West Corners
-			Overlay o = new Overlay(title, details, url, coordinates);
+			Overlay o = new Overlay(title, details, url, coordinates, date1, date2);
 			o.setColor("ffffffff"); //Make it fully opaque, i.e. no transperency.
 			
 			//myString += "<Folder>";
