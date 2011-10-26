@@ -38,6 +38,7 @@
           <h5>Product Information</h5>
           <p><a href="kml?uid=<%= uavsar.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a><ul>
           	<li><b>Site Description</b>: <%= uavsar.getDescription()%></li>
+          	<li><b>Flight Line</b>: <%= uavsar.getFlightLine()%></li>
           	<li><b>Time of Acquisition for Pass 1</b>: <%= longFormat.format(uavsar.getDate1())%> UTC</li>
           	<li><b>Time of Acquisition for Pass 2</b>: <%= longFormat.format(uavsar.getDate2())%> UTC</li>
           	<li><b>Links</b>: <a href="<%= UAVSAR_BASE + uavsar.getMetaDataURL()%>" title="Metadata for Interferogram" target="_blank">[Meta Data]</a>, <a href="<%= UAVSAR_BASE + uavsar.getImageURL()%>" title="Interferogram URL" target="_blank">[Thumbnail]</a>, <a href="kml?uid=<%= uavsar.getId() %>" title="Low Resolution KML File" target="_blank">[KML]</a> </li>

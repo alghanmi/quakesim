@@ -17,6 +17,7 @@ public class UAVSAR implements Serializable {
 	private String sourceURL, metaDataURL, imageURL, kmlURL;
 	private GeoPoint reference1, reference2, reference3, reference4;
 	private List<UAVSARCategory> dataCategories;
+	private int flightLine;
 	
 	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	
@@ -25,7 +26,7 @@ public class UAVSAR implements Serializable {
 	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
 	
 	public UAVSAR(int id, String title, String description, Date date1,
-			Date date2, String sourceURL, String metaDataURL, String imageURL,
+			Date date2, int flightLine, String sourceURL, String metaDataURL, String imageURL,
 			String kmlURL, GeoPoint reference1, GeoPoint reference2,
 			GeoPoint reference3, GeoPoint reference4) {
 		this.id = id;
@@ -33,6 +34,7 @@ public class UAVSAR implements Serializable {
 		this.description = description;
 		this.date1 = date1;
 		this.date2 = date2;
+		this.flightLine = flightLine;
 		this.sourceURL = sourceURL;
 		this.metaDataURL = metaDataURL;
 		this.imageURL = imageURL;
@@ -81,6 +83,14 @@ public class UAVSAR implements Serializable {
 	
 	public void setDate2(Date date2) {
 		this.date2 = date2;
+	}
+	
+	public int getFlightLine() {
+		return flightLine;
+	}
+	
+	public void setFlightLine(int flightLine) {
+		this.flightLine = flightLine;
 	}
 	
 	public String getSourceURL() {
@@ -266,6 +276,7 @@ public class UAVSAR implements Serializable {
 		details += "<b>Site Description</b>:" + description + "<br>";
 		details += "<b>Time of Acquisition for Pass 1</b>:" + longFormat.format(getDate1()) + "<br>";
 		details += "<b>Time of Acquisition for Pass 2</b>:" + longFormat.format(getDate2()) + "<br>";
+		details += "<b>Flight Line</b>:" + flightLine + "<br>";
 		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
 		details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + KML_GENERATOR_URL + id + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
 		details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + id + "\">" + SERVER_UAVSAR_URL + id + "</a><br>";

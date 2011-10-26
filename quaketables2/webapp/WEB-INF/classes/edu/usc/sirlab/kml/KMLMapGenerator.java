@@ -171,16 +171,26 @@ public class KMLMapGenerator extends HttpServlet {
 				String[] uids = request.getParameterValues("uid");
 				boolean placeOverlay = true;
 				boolean useLowResolution = false;
+				boolean cascadePaths = false;
 				if(request.getParameter("ov") != null)
 					placeOverlay = false;
 				if(request.getParameter("lowres") != null)
 					useLowResolution = true;
+				if(request.getParameter("cascade") != null)
+					cascadePaths = true;
 				
 				
 				if(uids.length == 1) {
 					if(uids[0].equalsIgnoreCase("all")) {
-						List<UAVSAR> uavsar = dbQuery.getUAVSAR();
-						fileName = "QuakeSim_UAVSAR.kml";
+						List<UAVSAR> uavsar;
+						if(!cascadePaths) { //Show all interferograms
+							uavsar = dbQuery.getUAVSAR();
+							fileName = "QuakeSim_UAVSAR.kml";
+						}
+						else { //Show cascaded ones
+							uavsar = dbQuery.getUAVSARCascaded();
+							fileName = "QuakeSim_UAVSAR_Cascaded.kml";
+						}
 						for(UAVSAR u : uavsar) {
 							countUAVSAR++;
 							//kml.addFolder(i.getKMLPlacemark());
@@ -209,6 +219,7 @@ public class KMLMapGenerator extends HttpServlet {
 				else {
 					for(String uid : uids) {
 						UAVSAR uavsar = dbQuery.getUAVSAR(uid);
+						
 						if(uavsar == null)
 							continue;
 						
