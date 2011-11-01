@@ -191,10 +191,11 @@ public class KMLMapGenerator extends HttpServlet {
 							uavsar = dbQuery.getUAVSARCascaded();
 							fileName = "QuakeSim_UAVSAR_Cascaded.kml";
 						}
+						System.out.println("u = " + uavsar.size());
 						for(UAVSAR u : uavsar) {
 							countUAVSAR++;
 							//kml.addFolder(i.getKMLPlacemark());
-							kml.addFolder(u.getKMLFolder(placeOverlay, useLowResolution));
+							kml.addFolder(u.getKMLFolder(placeOverlay, useLowResolution, cascadePaths));
 							kml.setName("QuakeSim UAVSAR Map View");
 							kml.setDescription("QuakeSim UAVSAR RPI Map from QuakeTables");
 						}

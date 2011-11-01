@@ -18,6 +18,8 @@ public class UAVSAR implements Serializable {
 	private GeoPoint reference1, reference2, reference3, reference4;
 	private List<UAVSARCategory> dataCategories;
 	private int flightLine;
+	private boolean isCascaded;
+	private List<UAVSAR> cascadeList;
 	
 	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	
@@ -44,7 +46,20 @@ public class UAVSAR implements Serializable {
 		this.reference3 = reference3;
 		this.reference4 = reference4;
 		dataCategories = new ArrayList<UAVSARCategory>();
+		this.isCascaded = false;
+		this.cascadeList = null;
 	}
+	
+	public UAVSAR(int id, String title, String description, Date date1,
+			Date date2, int flightLine, String sourceURL, String metaDataURL, String imageURL,
+			String kmlURL, GeoPoint reference1, GeoPoint reference2,
+			GeoPoint reference3, GeoPoint reference4, boolean isCascaded) {
+		
+		this(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, reference1, reference2, reference3, reference4);
+		this.isCascaded = true;
+		this.cascadeList = new ArrayList<UAVSAR>();
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -161,6 +176,22 @@ public class UAVSAR implements Serializable {
 		return dataCategories;
 	}
 	
+	public boolean isCascaded() {
+		return isCascaded;
+	}
+
+	public void setCascaded(boolean isCascaded) {
+		this.isCascaded = isCascaded;
+	}
+
+	public List<UAVSAR> getCascadeList() {
+		return cascadeList;
+	}
+
+	public void setCascadeList(List<UAVSAR> cascadeList) {
+		this.cascadeList = cascadeList;
+	}
+
 	public void setDataCategories(List<UAVSARCategory> data) {
 		this.dataCategories = data;
 	}
@@ -168,6 +199,12 @@ public class UAVSAR implements Serializable {
 	public void addDataCategory(UAVSARCategory data) {
 		dataCategories.add(data);
 	}
+	
+	public void addCascadeList(UAVSAR u) {
+		if(cascadeList != null)
+			cascadeList.add(u);
+	}
+	
 	/*
 	public List<String[]> getHTMLParameters() {
 		List<String[]> param = new ArrayList<String[]>();
@@ -206,11 +243,15 @@ public class UAVSAR implements Serializable {
 	}
 	
 	public String getKMLFolder(boolean placeOverlay) {
-		return getKMLFolder(placeOverlay, false);
+		return getKMLFolder(placeOverlay, false, false);
 	}
 	
-	public String getKMLFolder(boolean placeOverlay, boolean useLowResolution) {
-		String details = getKMLDescription();
+	public String getKMLFolder(boolean placeOverlay, boolean useLowResolution, boolean cascadePaths) {
+		String details;
+		if(!isCascaded)
+			details = getKMLDescription();
+		else
+			details = getKMLCascadedDescription();
 		
 		/*
 		String placemarkDetails = "<b>Source</b>: " + title + "<br>" + "<b>Details</b>: " + SERVER_UAVSAR_URL + id + "<br>" + "<b>Location</b>: ";
@@ -299,6 +340,45 @@ public class UAVSAR implements Serializable {
 			}
 			details += "<br>";
 		}
+		
+		details += "<b>Source</b>:" + "<a href=\"" + getSourceURL() + "\" title=\"JPL UAVSAR Project RPI Project Page\">JPL UAVSAR Project</a>" + "<br>";
+		
+		return details;
+	}
+	
+	private String getKMLCascadedDescription() {
+		String details = "<b>There are " + cascadeList.size() + " Products Available" + "</b>";
+		details += "<b>Site Description</b>:" + description + "<br>";
+		details += "<b>Time of First Overall Pass</b>:" + longFormat.format(getDate1()) + "<br>";
+		details += "<b>Time of Last Overall Pass</b>:" + longFormat.format(getDate2()) + "<br>";
+		details += "<b>Flight Line</b>:" + flightLine + "<br>";
+		details += "<b>Approximate Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
+		
+		for(int i = 0; i < cascadeList.size(); i++) {
+			details += "<b>" + "Product " + (i + 1) + "</b>";
+			details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + cascadeList.get(i).getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + cascadeList.get(i).getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + KML_GENERATOR_URL + cascadeList.get(i).getId() + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
+			details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + cascadeList.get(i).getId() + "\">" + SERVER_UAVSAR_URL + cascadeList.get(i).getId() + "</a><br>";
+			details += "<br>";
+		}
+		
+		/*
+		List<UAVSARCategory> categories = getDataCategories();
+		for(UAVSARCategory cat : categories) {
+			details += "<b>" + cat.getName() + "</b>";
+			List<UAVSARDataItem> items =  cat.getDataItems();
+			for(UAVSARDataItem i : items) {
+				details += "<b>" + i.getName() + "</b>: ";
+				if(i.getUrl() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
+				if(i.getVisualizationURL() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
+				if(i.getVisualizationPreviewURL() != null)
+					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
+				
+				details += "<br>";
+			}
+			details += "<br>";
+		}*/
 		
 		details += "<b>Source</b>:" + "<a href=\"" + getSourceURL() + "\" title=\"JPL UAVSAR Project RPI Project Page\">JPL UAVSAR Project</a>" + "<br>";
 		

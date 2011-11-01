@@ -169,10 +169,12 @@ public class DatabaseQuery implements Serializable {
 	}
 	
 	public List<UAVSAR> getUAVSARCascaded() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		System.out.println("InCascaded0");
 		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
-		ResultSet rs = dbConnection.executeQuery("SELECT * FROM uavsar_pri");
-		
+		ResultSet rs = dbConnection.executeQuery("SELECT id, title, description, source_url, metadata_url, preview_kml_url, preview_img_url, flight_line, min(date_1), max(date_2), point1_lat, point1_lon, point2_lat, point2_lon, point3_lat, point3_lon, point4_lat, point4_lon, COUNT(flight_line) AS cascade_count FROM uavsar_pri GROUP BY flight_line");
+		//ResultSet rs = dbConnection.executeQuery("SELECT * FROM uavsar_pri");
 		while(rs.next()) {
+			System.out.println("InCascadednx");
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
@@ -187,8 +189,18 @@ public class DatabaseQuery implements Serializable {
 			String metaDataURL = rs.getString("metadata_url");
 			String imageURL = rs.getString("preview_img_url");
 			String kmlURL = rs.getString("preview_kml_url");
+			System.out.println("InCascadedny");
+			int cascadeCount = rs.getInt("cascade_count");
+			UAVSAR u;
 			
-			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			if(cascadeCount == 1) {
+				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			}
+			else {
+				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, true);
+				u.setCascadeList(getUAVSARByFlightLine(u.getFlightLine()));
+			}
+			
 			u.setDataCategories(getUAVSARCategories(u));
 			uavsar.add(u);
 		}
@@ -251,6 +263,36 @@ public class DatabaseQuery implements Serializable {
 			
 			uavsar = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
 			uavsar.setDataCategories(getUAVSARCategories(uavsar));		
+		}
+		
+		return uavsar;
+	}
+	
+	public List<UAVSAR> getUAVSARByFlightLine(int line) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
+		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri WHERE flight_line = ?");
+		statement.setInt(1, line);
+		ResultSet rs = statement.executeQuery();
+		
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			int flightLine = rs.getInt("flight_line");
+			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
+			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
+			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
+			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			Date date1 = rs.getTimestamp("date_1");
+			Date date2 = rs.getTimestamp("date_2");
+			String sourceURL = rs.getString("source_url");
+			String metaDataURL = rs.getString("metadata_url");
+			String imageURL = rs.getString("preview_img_url");
+			String kmlURL = rs.getString("preview_kml_url");
+			
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			u.setDataCategories(getUAVSARCategories(u));
+			uavsar.add(u);
 		}
 		
 		return uavsar;
@@ -472,7 +514,6 @@ public class DatabaseQuery implements Serializable {
 		List<NCALFault> faults = new ArrayList<NCALFault>();
 		FaultDataSet dataset = getFaultDataSet("NCAL");
 		
-		PreparedStatement statement;
 		String query = "SELECT * FROM data_ncal_fault ORDER BY element_number";
 		if(orderBy != null && orderBy.equalsIgnoreCase("fault_name"))
 			query = "SELECT * FROM data_ncal_fault ORDER BY fault_element, segment_element, entry_id";
