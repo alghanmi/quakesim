@@ -191,7 +191,6 @@ public class KMLMapGenerator extends HttpServlet {
 							uavsar = dbQuery.getUAVSARCascaded();
 							fileName = "QuakeSim_UAVSAR_Cascaded.kml";
 						}
-						System.out.println("u = " + uavsar.size());
 						for(UAVSAR u : uavsar) {
 							countUAVSAR++;
 							//kml.addFolder(i.getKMLPlacemark());

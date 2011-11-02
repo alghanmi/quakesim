@@ -347,7 +347,7 @@ public class UAVSAR implements Serializable {
 	}
 	
 	private String getKMLCascadedDescription() {
-		String details = "<b>There are " + cascadeList.size() + " Products Available" + "</b>";
+		String details = "<b>There are " + cascadeList.size() + " Products Available" + "</b><br>";
 		details += "<b>Site Description</b>:" + description + "<br>";
 		details += "<b>Time of First Overall Pass</b>:" + longFormat.format(getDate1()) + "<br>";
 		details += "<b>Time of Last Overall Pass</b>:" + longFormat.format(getDate2()) + "<br>";
@@ -355,7 +355,7 @@ public class UAVSAR implements Serializable {
 		details += "<b>Approximate Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
 		
 		for(int i = 0; i < cascadeList.size(); i++) {
-			details += "<b>" + "Product " + (i + 1) + "</b>";
+			details += "<b>" + "Product " + (i + 1) + "</b><br>";
 			details += "<b>Links</b>:" + "<a href=\"" + UAVSAR_REPO_URL + cascadeList.get(i).getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + cascadeList.get(i).getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + KML_GENERATOR_URL + cascadeList.get(i).getId() + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
 			details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + cascadeList.get(i).getId() + "\">" + SERVER_UAVSAR_URL + cascadeList.get(i).getId() + "</a><br>";
 			details += "<br>";
