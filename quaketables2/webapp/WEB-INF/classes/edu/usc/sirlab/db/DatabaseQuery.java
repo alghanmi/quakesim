@@ -148,7 +148,7 @@ public class DatabaseQuery implements Serializable {
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-			int flightLine = rs.getInt("flight_line");
+			String flightLine = rs.getString("flight_line");
 			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
@@ -181,7 +181,7 @@ public class DatabaseQuery implements Serializable {
 			//System.out.println("InCascaded_nx1");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-			int flightLine = rs.getInt("flight_line");
+			String flightLine = rs.getString("flight_line");
 			//System.out.println("InCascaded_nx2");
 			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
@@ -227,7 +227,7 @@ public class DatabaseQuery implements Serializable {
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-			int flightLine = rs.getInt("flight_line");
+			String flightLine = rs.getString("flight_line");
 			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
@@ -257,7 +257,7 @@ public class DatabaseQuery implements Serializable {
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-			int flightLine = rs.getInt("flight_line");
+			String flightLine = rs.getString("flight_line");
 			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
@@ -276,17 +276,17 @@ public class DatabaseQuery implements Serializable {
 		return uavsar;
 	}
 	
-	public List<UAVSAR> getUAVSARByFlightLine(int line) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+	public List<UAVSAR> getUAVSARByFlightLine(String line) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
 		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri WHERE flight_line = ?");
-		statement.setInt(1, line);
+		statement.setString(1, line);
 		ResultSet rs = statement.executeQuery();
 		
 		while(rs.next()) {
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-			int flightLine = rs.getInt("flight_line");
+			String flightLine = rs.getString("flight_line");
 			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));

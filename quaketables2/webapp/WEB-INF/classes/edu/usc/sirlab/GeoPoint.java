@@ -32,13 +32,13 @@ public class GeoPoint {
 		//Format is lon, lat, 0
 		
 		if(lon != 0.0)
-			myString += lon + ", ";
+			myString += lon + ",";
 		else
-			myString += "0, ";
+			myString += "0,";
 		if(lat != 0.0)
-			myString += lat + ", ";
+			myString += lat + ",";
 		else
-			myString += "0, ";
+			myString += "0,";
 		
 		myString += "0";
 		

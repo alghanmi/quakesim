@@ -62,14 +62,18 @@ public class LineString {
 		myString += "<altitudeMode>" + altitudeMode + "</altitudeMode>";
 		myString += "<tessellate>" + tessellate + "</tessellate>";
 		myString += "<coordinates>";
+		
+		String coordinateString = "";
 		for(String[] c : coordinates) {
 			for(int i = 0; i < c.length; i++) {
-				myString += c[i];
+				coordinateString += c[i];
 				if(i + 1 < c.length)
-					myString += ",";
+					coordinateString += ",";
 			}
-			myString += " ";
+			coordinateString += " ";
 		}
+		
+		myString += coordinateString.trim();
 		myString += "</coordinates>";
 		myString += "</LineString>";
 		

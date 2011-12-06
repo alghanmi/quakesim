@@ -11,6 +11,7 @@ public class Overlay {
 	private double scale;
 	private double[] coordinates;//north, south, east, west
 	private Date start, end;
+	private boolean isVisible;
 	
 	//Color is expressed in aabbggrr (hex), aa = 0x00 -> fully transparent, aa = 0xff -> fully opaque
 	private static final String DEFAULT_COLOR = "66ffffff";
@@ -110,12 +111,22 @@ public class Overlay {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
+	
+	public boolean isVisible() {
+		return isVisible;
+	}
+	
+	public void setVisible(boolean v) {
+		isVisible = v;
+	}
 
 	public String getKML() {
 		String myString = "";
 		myString += "<GroundOverlay>";
 		myString += "<name>" + name + "</name>";
 		myString += "<description><![CDATA[" + description + "]]></description>";
+		if(!isVisible)
+			myString += "<visibility>0</visibility>";
 		if(start != null && end != null) {
 			myString += "<TimeSpan>";
 			myString += "<begin>" + timespanFormat.format(start) + "</begin>";

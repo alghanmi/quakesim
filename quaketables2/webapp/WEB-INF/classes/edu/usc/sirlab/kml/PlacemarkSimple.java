@@ -11,6 +11,7 @@ public class PlacemarkSimple {
 	private List<GeoPoint> coordinates;
 	private String styleUrl;
 	private int type;
+	private boolean isVisible;
 	
 	private Date start, end;
 	
@@ -30,6 +31,7 @@ public class PlacemarkSimple {
 		type = 0;
 		start = null;
 		end = null;
+		isVisible = false;
 	}
 	
 	public PlacemarkSimple(String name, String description, int type) {
@@ -40,6 +42,7 @@ public class PlacemarkSimple {
 		this.type = type;
 		start = null;
 		end = null;
+		isVisible = false;
 	}
 	
 	public String getName() {
@@ -93,6 +96,14 @@ public class PlacemarkSimple {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
+	
+	public boolean isVisible() {
+		return isVisible;
+	}
+	
+	public void setVisible(boolean v) {
+		isVisible = v;
+	}
 
 	public String getKML() {
 		String myString = "";
@@ -100,13 +111,16 @@ public class PlacemarkSimple {
 		myString += "<name>" + name + "</name>";
 		myString += "<description><![CDATA[" + description + "]]></description>";
 		
+		if(!isVisible)
+			myString += "<visibility>0</visibility>";
+		
 		if(styleUrl != null)
 			myString += "<styleUrl>" + styleUrl + "</styleUrl>";
 		
 		if(type == TYPE_POINT && coordinates.size() > 0) {
 			myString += "<Point>";
 			myString += "<coordinates>";
-			myString += coordinates.get(0).getKMLCoordinateString();
+			myString += coordinates.get(0).getKMLCoordinateString().trim();
 			myString += "</coordinates>";
 			myString += "</Point>";
 		}
@@ -116,9 +130,14 @@ public class PlacemarkSimple {
 			myString += "<tessellate>1</tessellate>";
 			myString += "<outerBoundaryIs>";
 			myString += "<LinearRing>";
+			
+			String coordinateString = "";
+			
 			myString += "<coordinates>";
 			for(int i = 0; i < coordinates.size(); i ++)
-				myString += coordinates.get(i).getKMLCoordinateString() + " ";
+				coordinateString += coordinates.get(i).getKMLCoordinateString() + " ";
+			
+			myString += coordinateString.trim();
 			myString += "</coordinates>";
 			myString += "</LinearRing>";
 			myString += "</outerBoundaryIs>";
