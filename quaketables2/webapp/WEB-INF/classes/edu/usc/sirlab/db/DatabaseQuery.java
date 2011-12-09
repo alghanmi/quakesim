@@ -153,6 +153,10 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
 			Date date1 = rs.getTimestamp("date_1");
 			Date date2 = rs.getTimestamp("date_2");
 			String sourceURL = rs.getString("source_url");
@@ -160,7 +164,7 @@ public class DatabaseQuery implements Serializable {
 			String imageURL = rs.getString("preview_img_url");
 			String kmlURL = rs.getString("preview_kml_url");
 			
-			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			u.setDataCategories(getUAVSARCategories(u));
 			uavsar.add(u);
 		}
@@ -173,7 +177,8 @@ public class DatabaseQuery implements Serializable {
 		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
 		ResultSet rs= dbConnection.executeQuery("SELECT id, title, description, source_url, metadata_url, preview_kml_url, preview_img_url, flight_line, " +
 				"min(date_1) AS c_date1, max(date_2) AS c_date2, point1_lat, point1_lon, point2_lat, point2_lon, point3_lat, point3_lon, point4_lat, " +
-				"point4_lon, COUNT(flight_line) AS cascade_count FROM uavsar_pri GROUP BY flight_line ORDER BY flight_line");
+				"point4_lon, swath_point1_lat, swath_point1_lon, swath_point2_lat, swath_point2_lon, swath_point3_lat, swath_point3_lon, swath_point4_lat, " +
+				"swath_point4_lon COUNT(flight_line) AS cascade_count FROM uavsar_pri GROUP BY flight_line ORDER BY flight_line");
 		//ResultSet rs = dbConnection.executeQuery("SELECT * FROM uavsar_pri");
 		while(rs.next()) {
 			//System.out.println("InCascaded_nx");
@@ -187,6 +192,10 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
 			//System.out.println("InCascaded_nx3");
 			Date date1 = rs.getTimestamp("c_date1");
 			Date date2 = rs.getTimestamp("c_date2");
@@ -202,10 +211,10 @@ public class DatabaseQuery implements Serializable {
 			UAVSAR u;
 			
 			if(cascadeCount == 1) {
-				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			}
 			else {
-				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, true);
+				u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4, true);
 				u.setCascadeList(getUAVSARByFlightLine(u.getFlightLine()));
 			}
 			
@@ -232,6 +241,10 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
 			Date date1 = rs.getTimestamp("date_1");
 			Date date2 = rs.getTimestamp("date_2");
 			String sourceURL = rs.getString("source_url");
@@ -239,7 +252,7 @@ public class DatabaseQuery implements Serializable {
 			String imageURL = rs.getString("preview_img_url");
 			String kmlURL = rs.getString("preview_kml_url");
 			
-			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			u.setDataCategories(getUAVSARCategories(u));
 			uavsar.add(u);
 		}
@@ -262,6 +275,10 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
 			Date date1 = rs.getTimestamp("date_1");
 			Date date2 = rs.getTimestamp("date_2");
 			String sourceURL = rs.getString("source_url");
@@ -269,7 +286,7 @@ public class DatabaseQuery implements Serializable {
 			String imageURL = rs.getString("preview_img_url");
 			String kmlURL = rs.getString("preview_kml_url");
 			
-			uavsar = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			uavsar = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			uavsar.setDataCategories(getUAVSARCategories(uavsar));		
 		}
 		
@@ -291,6 +308,10 @@ public class DatabaseQuery implements Serializable {
 			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
 			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
 			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
 			Date date1 = rs.getTimestamp("date_1");
 			Date date2 = rs.getTimestamp("date_2");
 			String sourceURL = rs.getString("source_url");
@@ -298,7 +319,7 @@ public class DatabaseQuery implements Serializable {
 			String imageURL = rs.getString("preview_img_url");
 			String kmlURL = rs.getString("preview_kml_url");
 			
-			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4);
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			u.setDataCategories(getUAVSARCategories(u));
 			uavsar.add(u);
 		}

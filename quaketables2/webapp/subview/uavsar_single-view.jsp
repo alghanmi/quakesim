@@ -7,6 +7,7 @@
 <%@ page import="java.util.*"%>
 <%! DatabaseQuery dbQuery; %>
 <%! SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa"); %>
+<%! DecimalFormat df = new DecimalFormat("#.###"); %>
 <%! //TODO: FIX URL Pattern
 	String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/"; %>
 <%
@@ -16,6 +17,7 @@
 	String breadCrumbURL = "uavsar.jsp?uid=" + uavsar.getId();
 	//String kmlURL = uavsar.getKmlURL();
 	String kmlURL = "uid=" + uavsar.getId();
+	String passDiff = df.format(Math.abs((uavsar.getDate2().getTime() - uavsar.getDate1().getTime()) / 1000 / 60 / 60 / 24)).toString();
 %>
 
 <jsp:include page="header.jsp">
@@ -41,6 +43,7 @@
           	<li><b>Flight Line</b>: <%= uavsar.getFlightLine()%></li>
           	<li><b>Time of Acquisition for Pass 1</b>: <%= longFormat.format(uavsar.getDate1())%> UTC</li>
           	<li><b>Time of Acquisition for Pass 2</b>: <%= longFormat.format(uavsar.getDate2())%> UTC</li>
+          	<li><b>Duration Between Passes</b>: <%= passDiff%> days</li>
           	<li><b>Links</b>: <a href="<%= UAVSAR_BASE + uavsar.getMetaDataURL()%>" title="Metadata for Interferogram" target="_blank">[Meta Data]</a>, <a href="<%= UAVSAR_BASE + uavsar.getImageURL()%>" title="Interferogram URL" target="_blank">[Thumbnail]</a>, <a href="kml?uid=<%= uavsar.getId() %>" title="Low Resolution KML File" target="_blank">[KML]</a> </li>
           	<li><b>Source</b>: <a href="<%= uavsar.getSourceURL()%>" title="JPL UAVSAR Project RPI Project Page" target="_blank">JPL UAVSAR Project</a></li>
           </ul>

@@ -2,10 +2,14 @@
 <%@ page import="edu.usc.sirlab.*"%>
 <%@ page import="edu.usc.sirlab.db.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import="java.text.*"%>
+
 <%! DatabaseQuery dbQuery; 
 	int limitStart = 0;
 	int limitStep = 10;
-%>
+	DecimalFormat df = new DecimalFormat("#.###"); 
+	SimpleDateFormat shortFormat = new SimpleDateFormat("yyyy-MM-dd");
+	%>
 <%
 	dbQuery = new DatabaseQuery();
 
@@ -42,9 +46,10 @@
           	int uavsarCount = dbQuery.getUAVSARCount();
           %>
           <table>
-          	<tr><th class="top" scope="col">Thumbnail</th><th class="top" scope="col">Location</th><th class="top" scope="col">Date</th><th class="top" scope="col">Timespan (year)</th><th class="top" scope="col">Width</th><th class="top" scope="col">Length</th><th class="top" scope="col">Location</th></tr>
+          	<tr><th class="top" scope="col">Thumbnail</th><th class="top" scope="col">Location</th><th class="top" scope="col">Passes</th><th class="top" scope="col">Timespan (days)</th><th class="top" scope="col">Width</th><th class="top" scope="col">Length</th><th class="top" scope="col">Location</th></tr>
           	<%
           		for(UAVSAR u : uavsar) {
+          			String passDiff = df.format(Math.abs((u.getDate2().getTime() - u.getDate1().getTime()) / 1000 / 60 / 60 / 24)).toString();
           			//TODO: Put the GMap key in a better place
           			
           			/*
@@ -62,19 +67,18 @@
           			String pathColor = "blue";
           			path = "weight:" + pathWeight + "|color:" + pathColor + "|";
           			*/
-          			path += i.getReference1().getLat() + "," + i.getReference1().getLon() + "|";
-          			path += i.getReference2().getLat() + "," + i.getReference2().getLon() + "|";
-          			path += i.getReference4().getLat() + "," + i.getReference4().getLon() + "|";
-          			path += i.getReference3().getLat() + "," + i.getReference3().getLon() + "|";
-          			path += i.getReference1().getLat() + "," + i.getReference1().getLon();
+          			path += u.getSwathReference1().getLat() + "," + u.getSwathReference1().getLon() + "|";
+          			path += u.getSwathReference2().getLat() + "," + u.getSwathReference2().getLon() + "|";
+          			path += u.getSwathReference4().getLat() + "," + u.getSwathReference3().getLon() + "|";
+          			path += u.getSwathReference3().getLat() + "," + u.getSwathReference4().getLon() + "|";
+          			path += u.getSwathReference1().getLat() + "," + u.getSwathReference1().getLon();
           	%>
           	<tr>
-          		<td align="center"><a href="insar.jsp?iid=<%= i.getId()%>"><img src="http://gf19.ucs.indiana.edu:9898/insar-data/<%= i.getThumbnailURL()%>" height="70" alt="InSAR Thumbnail" /></a></td>
-          		<td align="center"><%= i.getReference1()%>, <%= i.getReference2()%>, <%= i.getReference3()%>, <%= i.getReference4()%></td>
-          		<td align="center"><%= i.getStartDate()%> to <%= i.getEndDate()%></td>
-          		<td align="center"><%= i.getTimespan()%></td>
-          		<td align="center"><%= i.getWidth()%></td>
-          		<td align="center"><%= i.getLength()%></td>
+          		<td align="center"><a href="uavsar.jsp?uid=<%= u.getId()%>"><img src="http://gf19.ucs.indiana.edu:9898/uavsar-data/<%= u.getImageURL()%>" height="70" alt="UAVSAR Thumbnail" /></a></td>
+          		<td align="center"><%= u.getReference1()%>, <%= u.getReference2()%>, <%= u.getReference3()%>, <%= u.getReference4()%></td>
+          		<td align="center"><%= shortFormat.format(u.getDate1())%> to <%= shortFormat.format(u.getDate2())%></td>
+          		<td align="center"><%= passDiff%></td>
+          		<td align="center"><%= u.getLength()%></td>
           		<%--<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&markers=<%= markers%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw" /></td>--%>
           		<td align="center"><img src="http://maps.google.com/staticmap?size=100x100&zoom=5&sensor=false&path=<%= path%>&key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw" /></td>
           	</tr>

@@ -1,6 +1,7 @@
 package edu.usc.sirlab;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,13 +17,15 @@ public class UAVSAR implements Serializable {
 	private Date date1, date2;
 	private String sourceURL, metaDataURL, imageURL, kmlURL;
 	private GeoPoint reference1, reference2, reference3, reference4;
+	private GeoPoint swathReference1, swathReference2, swathReference3, swathReference4;
 	private List<UAVSARCategory> dataCategories;
 	private String flightLine;
 	private boolean isCascaded;
 	private List<UAVSAR> cascadeList;
 	
-	private SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
-	private SimpleDateFormat shortFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
+	private final SimpleDateFormat shortFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final DecimalFormat df = new DecimalFormat("#.###");
 	
 	private static final String KML_GENERATOR_URL = "http://quaketables.quakesim.org/kml?uid=";
 	private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
@@ -31,7 +34,8 @@ public class UAVSAR implements Serializable {
 	public UAVSAR(int id, String title, String description, Date date1,
 			Date date2, String flightLine, String sourceURL, String metaDataURL, String imageURL,
 			String kmlURL, GeoPoint reference1, GeoPoint reference2,
-			GeoPoint reference3, GeoPoint reference4) {
+			GeoPoint reference3, GeoPoint reference4, GeoPoint swathReference1, GeoPoint swathReference2,
+			GeoPoint swathReference3, GeoPoint swathReference4) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -46,6 +50,10 @@ public class UAVSAR implements Serializable {
 		this.reference2 = reference2;
 		this.reference3 = reference3;
 		this.reference4 = reference4;
+		this.swathReference1 = swathReference1;
+		this.swathReference2 = swathReference2;
+		this.swathReference3 = swathReference3;
+		this.swathReference4 = swathReference4;
 		dataCategories = new ArrayList<UAVSARCategory>();
 		this.isCascaded = false;
 		this.cascadeList = null;
@@ -54,9 +62,11 @@ public class UAVSAR implements Serializable {
 	public UAVSAR(int id, String title, String description, Date date1,
 			Date date2, String flightLine, String sourceURL, String metaDataURL, String imageURL,
 			String kmlURL, GeoPoint reference1, GeoPoint reference2,
-			GeoPoint reference3, GeoPoint reference4, boolean isCascaded) {
+			GeoPoint reference3, GeoPoint reference4, GeoPoint swathReference1,
+			GeoPoint swathReference2, GeoPoint swathReference3, GeoPoint swathReference4,
+			boolean isCascaded) {
 		
-		this(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, reference1, reference2, reference3, reference4);
+		this(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, reference1, reference2, reference3, reference4, swathReference1, swathReference2, swathReference3, swathReference4);
 		this.isCascaded = true;
 		this.cascadeList = new ArrayList<UAVSAR>();
 	}
@@ -200,7 +210,39 @@ public class UAVSAR implements Serializable {
 	public void addDataCategory(UAVSARCategory data) {
 		dataCategories.add(data);
 	}
-	
+		
+	public GeoPoint getSwathReference1() {
+		return swathReference1;
+	}
+
+	public void setSwathReference1(GeoPoint swathReference1) {
+		this.swathReference1 = swathReference1;
+	}
+
+	public GeoPoint getSwathReference2() {
+		return swathReference2;
+	}
+
+	public void setSwathReference2(GeoPoint swathReference2) {
+		this.swathReference2 = swathReference2;
+	}
+
+	public GeoPoint getSwathReference3() {
+		return swathReference3;
+	}
+
+	public void setSwathReference3(GeoPoint swathReference3) {
+		this.swathReference3 = swathReference3;
+	}
+
+	public GeoPoint getSwathReference4() {
+		return swathReference4;
+	}
+
+	public void setSwathReference4(GeoPoint swathReference4) {
+		this.swathReference4 = swathReference4;
+	}
+
 	public void addCascadeList(UAVSAR u) {
 		if(cascadeList != null)
 			cascadeList.add(u);
@@ -261,10 +303,10 @@ public class UAVSAR implements Serializable {
 		//Polygon Bounding Box
 		PlacemarkSimple polygon = new PlacemarkSimple("B. Box of " + flightLine, details, PlacemarkSimple.TYPE_POLYGON);
 		polygon.setStyleUrl(PlacemarkSimple.EXTERNAL_STYLE_URL + "#s_polygon_light");
-		polygon.addCoordinates(reference1);
-		polygon.addCoordinates(reference2);
-		polygon.addCoordinates(reference4);
-		polygon.addCoordinates(reference3);
+		polygon.addCoordinates(swathReference1);
+		polygon.addCoordinates(swathReference2);
+		polygon.addCoordinates(swathReference3);
+		polygon.addCoordinates(swathReference4);
 		polygon.setStart(date1);
 		polygon.setEnd(date2);
 		polygon.setVisible(isVisible);
@@ -306,11 +348,14 @@ public class UAVSAR implements Serializable {
 	}
 	
 	private String getKMLDescription() {
+		String passDiff = df.format(Math.abs((getDate2().getTime() - getDate1().getTime()) / 1000 / 60 / 60 / 24)).toString();
+		
 		String details = "<b>RPI Product Information</b>";
 		details += "<b>Site Description</b>: " + description + "<br>";
 		details += "<b>Flight Line</b>: " + flightLine + "<br>";
 		details += "<b>Time of Acquisition for Pass 1</b>: " + longFormat.format(getDate1()) + "<br>";
 		details += "<b>Time of Acquisition for Pass 2</b>: " + longFormat.format(getDate2()) + "<br>";
+		details += "<b>Duration Between Passes</b>: " + passDiff + " days" + "<br>";
 		details += "<b>Location</b>: " + reference1.toString() + ", " + reference2.toString() + ", " + reference3.toString() + ", " + reference4.toString() + "<br>";
 		details += "<b>Links</b>: " + "<a href=\"" + UAVSAR_REPO_URL + getMetaDataURL() + "\" title=\"Metadata for Interferogram\">[Meta Data]</a>, <a href=\"" + UAVSAR_REPO_URL + getImageURL() + "\" title=\"Interferogram URL\">[Thumbnail]</a>, <a href=\"" + KML_GENERATOR_URL + id + "\" title=\"Low Resolution KML File\">[KML]</a>" + "<br>";
 		details += "<b>Details</b>: " + "<a href=\"" + SERVER_UAVSAR_URL + id + "\">" + SERVER_UAVSAR_URL + id + "</a><br>";
