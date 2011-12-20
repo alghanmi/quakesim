@@ -166,6 +166,7 @@ public class DatabaseQuery implements Serializable {
 			
 			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			u.setDataCategories(getUAVSARCategories(u));
+			u.setRelatedProducts(getUAVSARRelatedProducts(u.getId()));
 			uavsar.add(u);
 		}
 		
@@ -219,6 +220,7 @@ public class DatabaseQuery implements Serializable {
 			}
 			
 			u.setDataCategories(getUAVSARCategories(u));
+			u.setRelatedProducts(getUAVSARRelatedProducts(u.getId()));
 			uavsar.add(u);
 		}
 		
@@ -254,6 +256,7 @@ public class DatabaseQuery implements Serializable {
 			
 			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
 			u.setDataCategories(getUAVSARCategories(u));
+			u.setRelatedProducts(getUAVSARRelatedProducts(u.getId()));
 			uavsar.add(u);
 		}
 		
@@ -287,7 +290,8 @@ public class DatabaseQuery implements Serializable {
 			String kmlURL = rs.getString("preview_kml_url");
 			
 			uavsar = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
-			uavsar.setDataCategories(getUAVSARCategories(uavsar));		
+			uavsar.setDataCategories(getUAVSARCategories(uavsar));
+			uavsar.setRelatedProducts(getUAVSARRelatedProducts(uavsar.getId()));
 		}
 		
 		return uavsar;
@@ -297,6 +301,48 @@ public class DatabaseQuery implements Serializable {
 		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
 		PreparedStatement statement = dbConnection.getPreparedStatement("SELECT * FROM uavsar_pri WHERE flight_line = ?");
 		statement.setString(1, line);
+		ResultSet rs = statement.executeQuery();
+		
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			String flightLine = rs.getString("flight_line");
+			GeoPoint ref1 = new GeoPoint(rs.getDouble("point1_lat"), rs.getDouble("point1_lon"));
+			GeoPoint ref2 = new GeoPoint(rs.getDouble("point2_lat"), rs.getDouble("point2_lon"));
+			GeoPoint ref3 = new GeoPoint(rs.getDouble("point3_lat"), rs.getDouble("point3_lon"));
+			GeoPoint ref4 = new GeoPoint(rs.getDouble("point4_lat"), rs.getDouble("point4_lon"));
+			GeoPoint swRef1 = new GeoPoint(rs.getDouble("swath_point1_lat"), rs.getDouble("swath_point1_lon"));
+			GeoPoint swRef2 = new GeoPoint(rs.getDouble("swath_point2_lat"), rs.getDouble("swath_point2_lon"));
+			GeoPoint swRef3 = new GeoPoint(rs.getDouble("swath_point3_lat"), rs.getDouble("swath_point3_lon"));
+			GeoPoint swRef4 = new GeoPoint(rs.getDouble("swath_point4_lat"), rs.getDouble("swath_point4_lon"));
+			Date date1 = rs.getTimestamp("date_1");
+			Date date2 = rs.getTimestamp("date_2");
+			String sourceURL = rs.getString("source_url");
+			String metaDataURL = rs.getString("metadata_url");
+			String imageURL = rs.getString("preview_img_url");
+			String kmlURL = rs.getString("preview_kml_url");
+			
+			UAVSAR u = new UAVSAR(id, title, description, date1, date2, flightLine, sourceURL, metaDataURL, imageURL, kmlURL, ref1, ref2, ref3, ref4, swRef1, swRef2, swRef3, swRef4);
+			u.setDataCategories(getUAVSARCategories(u));
+			u.setRelatedProducts(getUAVSARRelatedProducts(u.getId()));
+			uavsar.add(u);
+		}
+		
+		return uavsar;
+	}
+	
+	public List<UAVSAR> getUAVSARRelatedProducts(int uid) throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+		List<UAVSAR> uavsar = new ArrayList<UAVSAR>();
+		String query = "SELECT DISTINCT u.* FROM uavsar_pri AS u, (SELECT id, point2_lat, point3_lat, point4_lon, point1_lon FROM uavsar_pri WHERE id=?) AS p WHERE ";
+		query += "u.id != p.id AND (";
+		query += "(u.swath_point1_lat < p.point2_lat AND u.swath_point1_lat > p.point3_lat AND u.swath_point1_lon < p.point4_lon AND u.swath_point1_lon > p.point1_lon) OR ";
+		query += "(u.swath_point2_lat < p.point2_lat AND u.swath_point2_lat > p.point3_lat AND u.swath_point2_lon < p.point4_lon AND u.swath_point2_lon > p.point1_lon) OR ";
+		query += "(u.swath_point3_lat < p.point2_lat AND u.swath_point3_lat > p.point3_lat AND u.swath_point3_lon < p.point4_lon AND u.swath_point3_lon > p.point1_lon) OR ";
+		query += "(u.swath_point4_lat < p.point2_lat AND u.swath_point4_lat > p.point3_lat AND u.swath_point4_lon < p.point4_lon AND u.swath_point4_lon > p.point1_lon)) ";
+		query += "ORDER BY u.title, u.id";
+		PreparedStatement statement = dbConnection.getPreparedStatement(query);
+		statement.setInt(1, uid);
 		ResultSet rs = statement.executeQuery();
 		
 		while(rs.next()) {

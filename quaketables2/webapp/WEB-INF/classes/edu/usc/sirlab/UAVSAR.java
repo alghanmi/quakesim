@@ -22,9 +22,11 @@ public class UAVSAR implements Serializable {
 	private String flightLine;
 	private boolean isCascaded;
 	private List<UAVSAR> cascadeList;
+	private List<UAVSAR> relatedProducts;
 	
 	private final SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa");
 	private final SimpleDateFormat shortFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat middleFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm aaa");
 	private final DecimalFormat df = new DecimalFormat("#.###");
 	
 	private static final String KML_GENERATOR_URL = "http://quaketables.quakesim.org/kml?uid=";
@@ -57,6 +59,7 @@ public class UAVSAR implements Serializable {
 		dataCategories = new ArrayList<UAVSARCategory>();
 		this.isCascaded = false;
 		this.cascadeList = null;
+		this.relatedProducts = null;
 	}
 	
 	public UAVSAR(int id, String title, String description, Date date1,
@@ -248,6 +251,8 @@ public class UAVSAR implements Serializable {
 			cascadeList.add(u);
 	}
 	
+	
+	
 	/*
 	public List<String[]> getHTMLParameters() {
 		List<String[]> param = new ArrayList<String[]>();
@@ -281,6 +286,14 @@ public class UAVSAR implements Serializable {
 		return param;
 	}*/
 	
+	public List<UAVSAR> getRelatedProducts() {
+		return relatedProducts;
+	}
+
+	public void setRelatedProducts(List<UAVSAR> relatedProducts) {
+		this.relatedProducts = relatedProducts;
+	}
+
 	public String getKMLFolder() {
 		return getKMLFolder(true);
 	}
@@ -377,6 +390,12 @@ public class UAVSAR implements Serializable {
 				details += "<br>";
 			}
 			details += "<br>";
+		}
+		
+		if(relatedProducts != null && relatedProducts.size() > 0) {
+			details += "<b>Related Products</b>:" + "<br>";
+			for(UAVSAR related : relatedProducts)
+				details += "<a href=\"" + SERVER_UAVSAR_URL + related.getId() +  "\">" + related.getTitle() + "</a>" + " [" + middleFormat.format(related.getDate1()) + ", " + middleFormat.format(related.getDate2()) + "]" + "<br>";
 		}
 		
 		details += "<b>Source</b>: " + "<a href=\"" + getSourceURL() + "\" title=\"JPL UAVSAR Project RPI Project Page\">JPL UAVSAR Project</a>" + "<br>";
