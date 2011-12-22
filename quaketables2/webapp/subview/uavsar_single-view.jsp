@@ -7,6 +7,7 @@
 <%@ page import="java.util.*"%>
 <%! DatabaseQuery dbQuery; %>
 <%! SimpleDateFormat longFormat = new SimpleDateFormat("MMMMM dd, yyyy @ hh:mm:ss aaa"); %>
+<%! SimpleDateFormat middleFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm aaa"); %>
 <%! DecimalFormat df = new DecimalFormat("#.###"); %>
 <%! //TODO: FIX URL Pattern
 	String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/"; %>
@@ -68,8 +69,22 @@
         	  <br><%
           }
           %>
-          
           <br>
+          <%
+          List<UAVSAR> relatedProducts = uavsar.getRelatedProducts();
+          if(relatedProducts != null && relatedProducts.size() > 0) {
+       	  %>
+       	  	<h3>Related RPI Products</h3>
+       	  	<ul>
+       	  	<%
+       	  		for(UAVSAR rp : relatedProducts) {
+       	  			%><li><a href="uavsar.jsp?uid=<%= rp.getId()%>"><%= rp.getTitle()%></a> [<%= middleFormat.format(rp.getDate1())%> &#150; <%= middleFormat.format(rp.getDate2())%>]</li><%
+       	  		}
+       	  	%>
+       	  	</ul>
+       	  <%
+          }
+          %>
           <br>
           <%-- 
           <p><a href="<%= uavsar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="<%= UAVSAR_BASE + uavsar.getImageURL()%>" /></a></p>

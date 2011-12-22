@@ -395,7 +395,9 @@ public class UAVSAR implements Serializable {
 		if(relatedProducts != null && relatedProducts.size() > 0) {
 			details += "<b>Related Products</b>:" + "<br>";
 			for(UAVSAR related : relatedProducts)
-				details += "<a href=\"" + SERVER_UAVSAR_URL + related.getId() +  "\">" + related.getTitle() + "</a>" + " [" + middleFormat.format(related.getDate1()) + ", " + middleFormat.format(related.getDate2()) + "]" + "<br>";
+				details += "&nbsp;&nbsp;&nbsp;&nbsp;&#9679;<a href=\"" + SERVER_UAVSAR_URL + related.getId() +  "\">" + related.getTitle() + "</a>" + " [" + shortFormat.format(related.getDate1()) + ", " + shortFormat.format(related.getDate2()) + "]" + "<br>";
+			
+			details +="<br><br>";
 		}
 		
 		details += "<b>Source</b>: " + "<a href=\"" + getSourceURL() + "\" title=\"JPL UAVSAR Project RPI Project Page\">JPL UAVSAR Project</a>" + "<br>";
