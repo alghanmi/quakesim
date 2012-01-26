@@ -10,7 +10,9 @@
 <%! SimpleDateFormat middleFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm aaa"); %>
 <%! DecimalFormat df = new DecimalFormat("#.###"); %>
 <%! //TODO: FIX URL Pattern
-	String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/"; %>
+	//String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
+	String UAVSAR_BASE = "";
+%>
 <%
 	dbQuery = new DatabaseQuery();
 %>

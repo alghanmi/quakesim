@@ -5,7 +5,8 @@
 <%@ page import="java.net.*"%>
 <%@ page import="java.util.*"%>
 <%! DatabaseQuery dbQuery;
-	final String GMAP_URL = "http://quaketables.quakesim.org/kml?";
+	//final String GMAP_URL = "http://quaketables.quakesim.org/kml?";
+	final String GMAP_URL = "http://quakesim.usc.edu/quaketables/kml?";
 %>
 <%
 	dbQuery = new DatabaseQuery();

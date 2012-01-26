@@ -29,8 +29,10 @@ public class UAVSAR implements Serializable {
 	private final SimpleDateFormat middleFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm aaa");
 	private final DecimalFormat df = new DecimalFormat("#.###");
 	
-	private static final String KML_GENERATOR_URL = "http://quaketables.quakesim.org/kml?uid=";
-	private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
+	//private static final String KML_GENERATOR_URL = "http://quaketables.quakesim.org/kml?uid=";
+	//private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
+	private static final String KML_GENERATOR_URL = "http://quakesim.usc.edu/quaketables/kml?uid=";
+	private static final String SERVER_UAVSAR_URL = "http://quakesim.usc.edu/quaketables/uavsar.jsp?uid=";
 	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
 	
 	public UAVSAR(int id, String title, String description, Date date1,

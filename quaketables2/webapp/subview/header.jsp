@@ -4,7 +4,8 @@
 <%@ page import = "edu.usc.sirlab.db.*" %>
 <%@ page import = "edu.usc.sirlab.tools.*" %>
 <%! DatabaseQuery dbQuery;
-	final String GMAP_URL = "http://quaketables.quakesim.org/kml?";
+	//final String GMAP_URL = "http://quaketables.quakesim.org/kml?";
+	final String GMAP_URL = "http://quakesim.usc.edu/quaketables/kml?";
 %>
 <%
 	dbQuery = new DatabaseQuery();
@@ -38,32 +39,21 @@
 	mapURL = GMAP_URL + request.getParameter("gmap");
 	points = kmljs.getPoints(request.getParameter("gmap"));	  
   %>
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAUkTff_jwi_yqiWcjRg9NxhTsULoSST2lX021Mx9b7Pv4zwdIFRQ6Slf2n4KaDbwaTDpq_CPz1cqkZw"
-          type="text/javascript"></script>
-  <script src="scripts/gmapscripts.js" type="text/javascript"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
   <script type="text/javascript">
-      var map;
-      var geoXml;
-      function initialize() {
-        if (GBrowserIsCompatible()) {
-        	map = new GMap2(document.getElementById("map_canvas"));
-        	geoXml = new GGeoXml("<%= mapURL%>");   
-        	map.setCenter(new GLatLng(34.019, -118.287));
+	var map;
+	var geoXml;
+	function initialize() {
+		var config = {
+			zoom: 10,
+			center: new google.maps.LatLng(34.019, -118.287),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map_canvas"), config);
 
-        	var points = new Array();
-        	<%
-        		for(GeoPoint p : points) {
-        		%>
-        		var point = new GLatLng(<%= p.getLat()%>, <%= p.getLon()%>);
-        		points.push( point );
-        		<%
-        		}
-        	%>
-        	map.addOverlay(geoXml);
-        	map.setUIToDefault();
-        	fitMap(map, points);
-        }
-    } 
+		var kml = new google.maps.KmlLayer('<%= mapURL%>');
+		kml.setMap(map);
+	} 
   </script>
   <%} %> 
 </head>

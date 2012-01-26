@@ -13,7 +13,8 @@ public class Interferogram implements Serializable {
 	private Date startDate, endDate;
 	private String dataURL, metaDataURL, imageURL, thumbnailURL;
 	
-	private static final String SERVER_INSAR_URL = "http://quaketables.quakesim.org/insar.jsp?iid=";
+	//private static final String SERVER_INSAR_URL = "http://quaketables.quakesim.org/insar.jsp?iid=";
+	private static final String SERVER_INSAR_URL = "http://quakesim.usc.edu/quaketables/insar.jsp?iid=";
 	private static final String INSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/insar-data/";
 	
 	public Interferogram(int id, String title, String description,

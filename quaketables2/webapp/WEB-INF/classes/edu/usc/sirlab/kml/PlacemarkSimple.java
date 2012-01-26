@@ -17,7 +17,8 @@ public class PlacemarkSimple {
 	
 	private static final SimpleDateFormat timespanFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	
-	public static final String EXTERNAL_STYLE_URL = "http://quaketables.quakesim.org/kml/styles.kml";
+	//public static final String EXTERNAL_STYLE_URL = "http://quaketables.quakesim.org/kml/styles.kml";
+	public static final String EXTERNAL_STYLE_URL = "http://quakesim.usc.edu/quaketables/kml/styles.kml";
 	public static final int TYPE_POINT = 0, TYPE_POLYGON = 1;
 	
 	
