@@ -33,7 +33,8 @@ public class UAVSAR implements Serializable {
 	//private static final String SERVER_UAVSAR_URL = "http://quaketables.quakesim.org/uavsar.jsp?uid=";
 	private static final String KML_GENERATOR_URL = "http://quakesim.usc.edu/quaketables/kml?uid=";
 	private static final String SERVER_UAVSAR_URL = "http://quakesim.usc.edu/quaketables/uavsar.jsp?uid=";
-	private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
+	//private static final String UAVSAR_REPO_URL = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
+	private static final String UAVSAR_REPO_URL = "http://quakesim.usc.edu/uavsar-data/";
 	
 	public UAVSAR(int id, String title, String description, Date date1,
 			Date date2, String flightLine, String sourceURL, String metaDataURL, String imageURL,
@@ -383,11 +384,14 @@ public class UAVSAR implements Serializable {
 			for(UAVSARDataItem i : items) {
 				details += "<b>" + i.getName() + "</b>: ";
 				if(i.getUrl() != null)
-					details += "<a href=\"" + UAVSAR_REPO_URL + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
+					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
+					details += "<a href=\"" + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
 				if(i.getVisualizationURL() != null)
-					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
+					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
+					details += "<a href=\"" + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
 				if(i.getVisualizationPreviewURL() != null)
-					details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
+					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
+					details += "<a href=\"" + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
 				
 				details += "<br>";
 			}

@@ -11,7 +11,7 @@
 <%! DecimalFormat df = new DecimalFormat("#.###"); %>
 <%! //TODO: FIX URL Pattern
 	//String UAVSAR_BASE = "http://gf19.ucs.indiana.edu:9898/uavsar-data/";
-	String UAVSAR_BASE = "";
+	String UAVSAR_BASE = "http://quakesim.usc.edu/uavsar-data/";
 %>
 <%
 	dbQuery = new DatabaseQuery();
@@ -62,9 +62,9 @@
         	  for(UAVSARDataItem i : items) {
         		  %><li>
         		  	<b><%= i.getName()%></b>: 
-        		  	<% if(i.getUrl() != null) {%><a href="<%= UAVSAR_BASE + i.getUrl()%>" title="Download Data File">[Data]</a><%} %>
-        		  	<% if(i.getVisualizationURL() != null) {%><a href="<%= UAVSAR_BASE + i.getVisualizationURL()%>" title="GoogleEarth KMZ File">[KMZ (high res.)]</a><%} %> 
-        		  	<% if(i.getVisualizationPreviewURL() != null) {%><a href="<%= UAVSAR_BASE + i.getVisualizationPreviewURL()%>" title="Low Resolution KML File" target="_blank">[KML (low res.)]</a><%} %>
+        		  	<% if(i.getUrl() != null) {%><a href="<%= i.getUrl()%>" title="Download Data File">[Data]</a><%} %>
+        		  	<% if(i.getVisualizationURL() != null) {%><a href="<%= i.getVisualizationURL()%>" title="GoogleEarth KMZ File">[KMZ (high res.)]</a><%} %> 
+        		  	<% if(i.getVisualizationPreviewURL() != null) {%><a href="<%= i.getVisualizationPreviewURL()%>" title="Low Resolution KML File" target="_blank">[KML (low res.)]</a><%} %>
         		  </li><%
         	  }
         	  %></ul>
