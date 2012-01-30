@@ -35,9 +35,14 @@
   <%if(request.getParameter("gmap") != null) {
 	//TODO: Make it generic
 	String mapURL;
-	List<GeoPoint> points;
-	mapURL = GMAP_URL + request.getParameter("gmap");
-	points = kmljs.getPoints(request.getParameter("gmap"));	  
+  	String requestMapURL = request.getParameter("gmap");
+  	if(requestMapURL.startsWith("http://") || requestMapURL.startsWith("https://"))
+  		mapURL = requestMapURL;
+  	else
+  		mapURL = GMAP_URL + request.getParameter("gmap");
+  	
+	//List<GeoPoint> points;
+	//points = kmljs.getPoints(request.getParameter("gmap"));	  
   %>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
   <script type="text/javascript">
