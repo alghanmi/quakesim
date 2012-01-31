@@ -39,10 +39,13 @@
         <!-- CONTENT CELL -->                
         <div class="corner-content-1col-top"></div>                        
         <div class="content-1col-nobox">
-          <h1><%= uavsar.getTitle()%></h1>
-          <h5>Product Information</h5>
-          <p><a href="kml?uid=<%= uavsar.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a><ul>
-          	<li><b>Site Description</b>: <%= uavsar.getDescription()%></li>
+          <h1><%= uavsar.getDescription()%></h1>
+	  <br>
+          <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
+	  <br><br>
+	  <h5>Product Information</h5>
+          <p><a href="kml?uid=<%= uavsar.getId() %>" title="View using Google Earth"><img class="rightnb" src="img/google-earth.jpg" alt="Google Earth Icon" title="View using Google Earth" /></a></p><ul>
+          	<%--<li><b>Site Description</b>: <%= uavsar.getDescription()%></li>--%>
           	<li><b>Flight Line</b>: <%= uavsar.getFlightLine()%></li>
           	<li><b>Time of Acquisition for Pass 1</b>: <%= longFormat.format(uavsar.getDate1())%> UTC</li>
           	<li><b>Time of Acquisition for Pass 2</b>: <%= longFormat.format(uavsar.getDate2())%> UTC</li>
@@ -92,9 +95,6 @@
           <p><a href="<%= uavsar.getImageURL()%>"><img class="center" width="600" alt="Interferogram Thumbnail" src="<%= UAVSAR_BASE + uavsar.getImageURL()%>" /></a></p>
           --%>
           <br>
-          
-          <div id="map_canvas" class="map" style="width: 640px; height: 480px;"></div>
-          <br></br>
           
         </div> 
         <div class="corner-content-1col-bottom"></div>

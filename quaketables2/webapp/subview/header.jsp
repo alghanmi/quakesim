@@ -52,7 +52,7 @@
 		var config = {
 			zoom: 10,
 			center: new google.maps.LatLng(34.019, -118.287),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 		map = new google.maps.Map(document.getElementById("map_canvas"), config);
 
