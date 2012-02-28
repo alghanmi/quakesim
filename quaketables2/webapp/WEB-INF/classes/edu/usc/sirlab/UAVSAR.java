@@ -381,17 +381,35 @@ public class UAVSAR implements Serializable {
 		for(UAVSARCategory cat : categories) {
 			details += "<b>" + cat.getName() + "</b>" + "<br>";
 			List<UAVSARDataItem> items =  cat.getDataItems();
-			for(UAVSARDataItem i : items) {
+			for(UAVSARDataItem i : items) {				
 				details += "<b>" + i.getName() + "</b>: ";
-				if(i.getUrl() != null)
+				
+				String dataURL = null, vizURL = null, vizPrevURL = null;
+				if(i.getUrl() != null) {
+					dataURL = i.getUrl();
+					if(!dataURL.startsWith("http"))
+					dataURL = UAVSAR_REPO_URL + dataURL;
+				}
+				if(i.getVisualizationURL() != null) {
+					vizURL = i.getVisualizationURL();
+					if(!vizURL.startsWith("http"))
+					vizURL = UAVSAR_REPO_URL + vizURL;
+				}
+				if(i.getVisualizationPreviewURL() != null) {
+					vizPrevURL = i.getVisualizationPreviewURL();
+					if(!vizPrevURL.startsWith("http"))
+					vizPrevURL = UAVSAR_REPO_URL + vizPrevURL;
+				}
+      		  
+				if(dataURL != null)
 					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
-					details += "<a href=\"" + i.getUrl() + "\" title=\"Download Data File\">[Data]</a> ";
-				if(i.getVisualizationURL() != null)
+					details += "<a href=\"" + dataURL + "\" title=\"Download Data File\">[Data]</a> ";
+				if(vizURL != null)
 					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
-					details += "<a href=\"" + i.getVisualizationURL() + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
-				if(i.getVisualizationPreviewURL() != null)
+					details += "<a href=\"" + vizURL + "\" title=\"GoogleEarth KMZ File\">[KMZ]</a> ";
+				if(vizPrevURL != null)
 					//details += "<a href=\"" + UAVSAR_REPO_URL + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
-					details += "<a href=\"" + i.getVisualizationPreviewURL() + "\" title=\"Low Resolution KML File\">[KML]</a>";
+					details += "<a href=\"" + vizPrevURL + "\" title=\"Low Resolution KML File\">[KML]</a>";
 				
 				details += "<br>";
 			}

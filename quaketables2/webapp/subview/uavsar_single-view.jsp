@@ -63,11 +63,31 @@
         	  <%
         	  List<UAVSARDataItem> items =  cat.getDataItems();
         	  for(UAVSARDataItem i : items) {
+        		  String dataURL = null, vizURL = null, vizPrevURL = null;
+        		  
+        		  if(i.getUrl() != null) {
+        			  dataURL = i.getUrl();
+        			  if(!dataURL.startsWith("http"))
+        				  dataURL = UAVSAR_BASE + dataURL;
+        		  }
+        		  
+        		  if(i.getVisualizationURL() != null) {
+        			  vizURL = i.getVisualizationURL();
+        			  if(!vizURL.startsWith("http"))
+        				  vizURL = UAVSAR_BASE + vizURL;
+        		  }
+        		  
+        		  if(i.getVisualizationPreviewURL() != null) {
+        			  vizPrevURL = i.getVisualizationPreviewURL();
+        			  if(!vizPrevURL.startsWith("http"))
+        				  vizPrevURL = UAVSAR_BASE + vizPrevURL;
+        		  }
+        		  
         		  %><li>
         		  	<b><%= i.getName()%></b>: 
-        		  	<% if(i.getUrl() != null) {%><a href="<%= i.getUrl()%>" title="Download Data File">[Data]</a><%} %>
-        		  	<% if(i.getVisualizationURL() != null) {%><a href="<%= i.getVisualizationURL()%>" title="GoogleEarth KMZ File">[KMZ (high res.)]</a><%} %> 
-        		  	<% if(i.getVisualizationPreviewURL() != null) {%><a href="<%= i.getVisualizationPreviewURL()%>" title="Low Resolution KML File" target="_blank">[KML (low res.)]</a><%} %>
+        		  	<% if(dataURL != null) {%><a href="<%= dataURL%>" title="Download Data File">[Data]</a><%} %>
+        		  	<% if(vizURL != null) {%><a href="<%= vizURL%>" title="GoogleEarth KMZ File">[KMZ (high res.)]</a><%} %> 
+        		  	<% if(vizPrevURL != null) {%><a href="<%= vizPrevURL%>" title="Low Resolution KML File" target="_blank">[KML (low res.)]</a><%} %>
         		  </li><%
         	  }
         	  %></ul>
